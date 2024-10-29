@@ -1,0 +1,197 @@
+<div class="row gap-y-2 shadow-md relative align-items-center h-16" style="height: 9vh;">
+  <div class="col-sm-2 py-2">
+    <img role="button" class="col-9 logo-header" style="max-width: 200px;" routerLink="../../landing"
+      src="../../../../assets/Metadata.jpeg" alt="">
+  </div>
+</div>
+
+<div class="row">
+  <form [formGroup]="definitionFormGroup" class="p-3">
+    <div class="d-flex justify-content-between">
+      <h2 class="text-xl px-2 font-extrabold inline-block">
+        Business Term
+      </h2>
+    </div>
+
+    <div class="row row-gap-3">
+      <div class="col-md-3 relative d-flex">
+        <mat-form-field class="example-full-width field  col-11">
+          <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black required-label">
+            Business Term ID</label>
+          <input readonly type="text" id="customerId" name="customerId" class="col-12" matInput
+            formControlName="business_term_id" [matAutocomplete]="autoClient">
+          <mat-autocomplete #autoClient="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptionsBTDesc | async " [value]="option.value">
+              {{option.value}}
+            </mat-option>
+          </mat-autocomplete>
+
+          <small class="error_text"
+            *ngIf="(FF['business_term_id'].errors?.['required'] && !isFormValid ) || (FF['business_term_id'].invalid && !isFormValid )">
+            *Required field
+          </small>
+        </mat-form-field>
+<!-- 
+        <button type="button" class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+          +
+        </button> -->
+      </div>
+
+
+      <div class="col-md-3 relative d-flex">
+        <mat-form-field class="example-full-width field col-11">
+          <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black ">
+            Business Term</label>
+          <input type="text" id="businessTerm" name="businessTerm" class="col-12" matInput
+            formControlName="business_term" [matAutocomplete]="autoBTerm" (input)="onBusinessTermInput($event)">
+          <mat-autocomplete #autoBTerm="matAutocomplete" (optionSelected)="onBusinessTermSelected($event)">
+            <mat-option *ngFor="let option of filteredOptionsBTerm | async" [value]="option.business_term">
+              {{ option.business_term }}
+            </mat-option>
+          </mat-autocomplete>
+
+          <small class="error_text"
+            *ngIf="(FF['business_term'].errors?.['required'] && !isFormValid) || (FF['business_term'].invalid && !isFormValid)">
+            *Required field
+          </small>
+        </mat-form-field>
+
+        <button type="button" class="bg-danger h-fit absolute right-0 bottom-0 top-4 my-auto add-btn ">
+          +
+        </button>
+      </div>
+
+
+      <div class="col-md-6 relative d-flex">
+
+        <mat-form-field class="example-full-width field col-11">
+          <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black ">
+            Business Term Description</label>
+          <input readonly type="text" id="businessTermDesc" name="businessTermDesc" class="col-12" matInput
+            formControlName="business_term_description" [matAutocomplete]="autoBTDesc">
+          <mat-autocomplete #autoBTDesc="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptionsBTDesc | async" [value]="option.value">
+              {{option.value}}
+            </mat-option>
+          </mat-autocomplete>
+          <small class="error_text"
+            *ngIf="(FF['business_term_description'].errors?.['required'] && !isFormValid) || (FF['business_term_description'].invalid && !isFormValid)">
+            *Required field
+          </small>
+        </mat-form-field>
+
+        <button type="button" class="bg-danger h-fit absolute right-4 bottom-0 top-4 my-auto add-btn ">
+          +
+        </button>
+      </div>
+
+
+      <div class="col-md-3 relative d-flex">
+        <mat-form-field class="example-full-width field col-11">
+          <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black">
+            Version</label>
+          <input type="input" id="version" name="version" class="col-12" matInput formControlName="version">
+          <small class="error_text"
+            *ngIf="(FF['version'].errors?.['required'] && !isFormValid) || (FF['version'].invalid && !isFormValid)">
+            *Required field
+          </small>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-3 relative d-flex">
+        <mat-form-field class="example-full-width field col-11">
+          <label matTooltip="Date when the project was created" for="date_created" class="font-medium text-black">
+            Date Created</label>
+            <input matInput [matDatepicker]="picker" formControlName="date_created">
+            <mat-datepicker-toggle class="absolute right-2 top-3 transform -translate-y-1/2" matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          <small class="error_text"
+            *ngIf="(FF['date_created'].errors?.['required'] && !isFormValid) || (FF['date_created'].invalid && !isFormValid)">
+            *Required field
+          </small>
+        </mat-form-field>
+      </div>
+ 
+      <!-- 
+      <input matInput [matDatepicker]="picker" formControlName="date_created" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker> 
+            -->
+
+      <div class="col-md-3 relative d-flex">
+        <mat-form-field class="example-full-width field col-11">
+          <label matTooltip="Is the business term active?" for="active" class="font-medium text-black">
+            Active</label>
+          <mat-select formControlName="active">
+            <mat-option *ngFor="let item of actives" [value]="item.key">{{item.value}}</mat-option>
+          </mat-select>
+          <small class="error_text"
+            *ngIf="(FF['active'].errors?.['required'] && !isFormValid) || (FF['active'].invalid && !isFormValid)">
+            *Required field
+          </small>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-2 mt-3" style="margin-left: 6.5rem;">
+        <div class="field py-2">
+          <button (click)="onSubmit()" type="submit" class="col-12 font-medium bg-danger text-white py-1.5 rounded-lg">
+            Save
+          </button>
+        </div>
+        
+      </div>
+      <div class="col-md-2 mt-3" *ngIf="selectedRow" style="margin-left: 6.5rem;">
+        <div class="field py-2">
+          <button (click)="onUpdate()" type="button" class="col-12 font-medium bg-primary text-white py-1.5 rounded-lg">
+            Update
+          </button>
+        </div>
+        </div>
+    </div>
+  </form>
+</div>
+
+<!-- Table for business Term -->
+<div class="px-3">
+  <div class="row mt-2 px-2">
+    <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+      style="border-radius: 6px; max-height: 255px;">
+      <table mat-table [dataSource]="dataSource" id="report">
+        <ng-container *ngFor="let column of displayedColumn.columnsTranslates; let j = index" [matColumnDef]="column">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+              {{column}}
+            </div>
+          </th>
+
+          <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+            <span *ngIf="column != '#'">
+              {{element[displayedColumn.columns[j].replace(' ', '')]}}
+            </span>
+            <span *ngIf="column =='#'">
+              <button type="button" (click)="handleDelete(element.id)"
+                class="rounded font-semibold col-12 py-2 text-danger ">
+                <i class="fa-regular fa-trash"></i>
+              </button>
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumn.columnsTranslates; sticky: true"></tr>
+        <tr *matNoDataRow>
+          <th colspan="9" class="text-center">
+            <span>No rows found</span>
+          </th>
+        </tr>
+        <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumn.columnsTranslates;" class="route"
+          [attr.data-index]="i" [ngClass]="{'selected-all': isActive(i)}" (dblclick)="highlight(i, row.Id, row);"
+          (dblclick)="onRowSelect(row)">
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator class="mat-paginator-sticky" #commonPagDtOwner [pageSizeOptions]="[10, 15, 20]" [length]="length"
+      [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

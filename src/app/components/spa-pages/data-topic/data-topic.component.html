@@ -1,0 +1,191 @@
+<div class="font-semibold row mt-2">
+  <div class="col-sm-12">
+    {{menuTitle}}
+  </div>
+</div>
+
+<div class="mt-3 col-lg-12" style="padding: 0; height: 88%;">
+  <form [formGroup]="formGroup">
+    <div class="row align-items-center">
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Data_Topic_Name" title="Data topic name" data-title="Data topic name"></label>
+          <input formControlName="Data_Topic_Name" autocomplete="off" type="text" id="Data_Topic_Name"
+            name="Data_Topic_Name" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Operational_Data_Topic_ID" title="Operational Data Topic ID"
+            data-title="Operational Data Topic ID"></label>
+          <input formControlName="Operational_Data_Topic_ID" autocomplete="off" type="number"
+            id="Operational_Data_Topic_ID" name="Operational_Data_Topic_ID" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Operational_Data_Topic_Name" title="Operational Data Topic Name"
+            data-title="Operational Data Topic Name"></label>
+          <input formControlName="Operational_Data_Topic_Name" autocomplete="off" type="text"
+            id="Operational_Data_Topic_Name" name="Operational_Data_Topic_Name" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Operational_Data_Topic_Description" title="Operational Data Topic Description"
+            data-title="Operational Data Topic Description"></label>
+          <textarea formControlName="Operational_Data_Topic_Description" name="Operational_Data_Topic_Description"
+            id="Operational_Data_Topic_Description" cols="30" rows="10"></textarea>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row align-items-center">
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Artefact_Identifier" title="Artefact Identifier" data-title="Artefact Identifier"></label>
+          <input formControlName="Artefact_Identifier" autocomplete="off" type="text" id="Artefact_Identifier"
+            name="Artefact_Identifier" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Artefact_Type" title="Artefact Type" data-title="Artefact Type"></label>
+          <input formControlName="Artefact_Type" autocomplete="off" type="text" id="Artefact_Type"
+            name="Artefact_Type" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Business_Unit" title="Business Unit" data-title="Business Unit"></label>
+          <input formControlName="Business_Unit" autocomplete="off" type="text" id="Business_Unit"
+            name="Business_Unit" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Business_Owner" title="Business Owner" data-title="Business Owner"></label>
+          <input formControlName="Business_Owner" name="Business_Owner" id="Business_Owner" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row align-items-center">
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Artefact_Country" title="Artefact Country" data-title="Artefact Country"></label>
+          <input formControlName="Artefact_Country" autocomplete="off" type="text" id="Artefact_Country"
+            name="Artefact_Country" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Source_System" title="Source System" data-title="Source System"></label>
+          <input formControlName="Source_System" autocomplete="off" type="text" id="Source_System"
+            name="Source_System" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Source_Owner" title="Source Owner" data-title="Source Owner"></label>
+          <input formControlName="Source_Owner" autocomplete="off" type="text" id="Source_Owner" name="Source_Owner" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Related_Artifact_Number" title="Related Artifact Number"
+            data-title="Related Artifact Number"></label>
+          <input formControlName="Related_Artifact_Number" name="Related_Artifact_Number"
+            id="Related_Artifact_Number" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row align-items-center">
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Artefact_Relationship_Type" title="Artefact Relationship Type"
+            data-title="Artefact Relationship Type"></label>
+          <input formControlName="Artefact_Relationship_Type" autocomplete="off" type="text"
+            id="Artefact_Relationship_Type" name="Artefact_Relationship_Type" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Operational_Data_Topic_Category" title="Operational Data Topic Category"
+            data-title="Operational Data Topic Category"></label>
+          <input formControlName="Operational_Data_Topic_Category" autocomplete="off" type="text"
+            id="Operational_Data_Topic_Category" name="Operational_Data_Topic_Category" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Status" title="Status" data-title="Status"></label>
+          <input formControlName="Status" autocomplete="off" type="text" id="Status" name="Status" />
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Related_Artifact_Number" title="Related Artifact Number"
+            data-title="Related Artifact Number"></label>
+          <input formControlName="Related_Artifact_Number" name="Related_Artifact_Number"
+            id="Related_Artifact_Number" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row align-items-center">
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Creation_Date" title="Creation Date" data-title="Creation Date"></label>
+          <input autocomplete="off" onkeypress='return false' formControlName="Creation_Date" type="date"
+            id="Creation_Date" name="Creation_Date" />
+        </div>
+      </div>
+
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Created_By" title="Created By" data-title="Created By"></label>
+          <input formControlName="Created_By" autocomplete="off" type="text" id="Created_By" name="Created_By" />
+        </div>
+      </div>
+
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Status" title="Status" data-title="Status"></label>
+          <input formControlName="Status" autocomplete="off" type="text" id="Status" name="Status" />
+        </div>
+      </div>
+
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Updated_Date" title="Updated Date" data-title="Updated Date"></label>
+          <input autocomplete="off" onkeypress='return false' formControlName="Updated_Date" type="date"
+            id="Updated_Date" name="Updated_Date" />
+        </div>
+      </div>
+
+      <div class="col-md-3 ">
+        <div class="field">
+          <label for="Updated_By" title="Updated By" data-title="Updated By"></label>
+          <input formControlName="Updated_By" type="text" name="Updated_By" id="Updated_By" />
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+  <div class="mt-4 row align-items-center justify-content-end">
+    <div class="col-md-3">
+      <button class="col-12 font-medium background-primary text-white py-2 rounded-lg" (click)="handleSave()">
+        Save
+      </button>
+    </div>
+
+  </div>
+
+</div>

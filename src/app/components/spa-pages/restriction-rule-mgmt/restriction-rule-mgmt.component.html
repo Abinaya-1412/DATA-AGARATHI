@@ -1,0 +1,81 @@
+<div class="font-semibold row mt-2">
+    <div class="col-sm-12">
+      {{menuTitle}}
+    </div>
+  </div>
+  
+  <div class="mt-3 col-lg-12" style="padding: 0; height: 88%;">
+    <form [formGroup]="formGroup">
+      <div class="row align-items-center">
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Country_Code" title="Country Code" data-title="Country Code"></label>
+            <input formControlName="Country_Code" autocomplete="off" type="number" id="Country_Code"
+              name="Country_Code" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Country_Name" title="Country Name"
+              data-title="Country Name"></label>
+            <input formControlName="Country_Name" autocomplete="off" type="text"
+              id="Country_Name" name="Country_Name" />
+          </div>
+        </div>
+
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Restriction_Type" title="Restriction Type"
+              data-title="Restriction Type"></label>
+            <input formControlName="Restriction_Type" autocomplete="off" type="text"
+              id="Restriction_Type" name="Restriction_Type" />
+          </div>
+        </div>
+
+        <div class="col-md-3 ">
+            <div class="field">
+              <label for="Restriction_Data_Category" title="Restriction Data Category" data-title="Restriction Data Category"></label>
+              <input formControlName="Restriction_Data_Category" autocomplete="off" type="text" id="Restriction_Data_Category"
+                name="Restriction_Data_Category" />
+            </div>
+          </div>
+      </div>
+  
+  
+      <div class="row align-items-center">
+        
+        <div class="col-md-4 ">
+          <div class="field">
+            <label for="Restriction_Data_Sub_Category" title="Restriction Data Subcategory" data-title="Restriction Data Subcategory"></label>
+            <input formControlName="Restriction_Data_Sub_Category" autocomplete="off" type="text" id="Restriction_Data_Sub_Category"
+              name="Restriction_Data_Sub_Category" />
+          </div>
+        </div>
+        <div class="col-md-4 ">
+          <div class="field">
+            <label for="Rule" title="Rule" data-title="Rule"></label>
+            <input formControlName="Rule" autocomplete="off" type="text" id="Rule"
+              name="Rule" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="field">
+            <label for="Rule_Control_Type" title="Rule Controltype" data-title="Rule Controltype"></label>
+            <input formControlName="Rule_Control_Type" name="Rule_Control_Type" id="Rule_Control_Type" />
+          </div>
+        </div>
+      </div>
+    </form>
+  
+  
+    <div class="mt-4 row align-items-center justify-content-end">
+      <div class="col-md-3">
+        <button class="col-12 font-medium background-primary text-white py-2 rounded-lg" (click)="handleSave()">
+          Save
+        </button>
+      </div>
+  
+    </div>
+  
+  </div>
+  

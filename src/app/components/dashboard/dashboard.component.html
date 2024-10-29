@@ -1,0 +1,46 @@
+<div id="sidebar" class="fixed left-0 top-0 sidebar close-sidebar">
+    <div class="relative">
+      <button class="side-close-btn absolute text-white background-primary" (click)="handleSideOpenClose()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  
+    <ul class="m-0 p-0 mt-5 px-4 list-none navlist-con">
+      <li type="button" (click)="openMenu('Badge')" class="relative my-2 py-1" routerLink="badge" routerLinkActive="active">Badge</li>
+      <li type="button" (click)="openMenu('Data topic')" class="relative my-2 py-1" routerLink="data-topic" routerLinkActive="active">Data topic</li>
+      <li type="button" (click)="openMenu('Data fact sheet')" class="relative my-2 py-1" routerLink="das-factsheet-config" routerLinkActive="active">Data fact sheet</li>
+      <li type="button" (click)="openMenu('Data profile column')" class="relative my-2 py-1" routerLink="data_profile_column" routerLinkActive="active">Data profile column</li>
+      <li type="button" (click)="openMenu('Data profile datatype')" class="relative my-2 py-1" routerLink="data_profile_datatype" routerLinkActive="active">Data profile datatype</li>
+      <li type="button" (click)="openMenu('Data profile pattern')" class="relative my-2 py-1" routerLink="data_profile_pattern" routerLinkActive="active">Data profile pattern</li>
+      <li type="button" (click)="openMenu('Data profile statistics')" class="relative my-2 py-1" routerLink="data_profile_statistics" routerLinkActive="active">Data profile statistics</li>
+      <li type="button" (click)="openMenu('Data profile values')" class="relative my-2 py-1" routerLink="data_profile_values" routerLinkActive="active">Data profile values</li>
+      <li type="button" (click)="openMenu('Factsheet detail')" class="relative my-2 py-1" routerLink="factsheet_detail" routerLinkActive="active">Factsheet detail</li>
+      <li type="button" (click)="openMenu('Factsheet master')" class="relative my-2 py-1" routerLink="factsheet_master" routerLinkActive="active">Factsheet master</li>
+      <li type="button" (click)="openMenu('RC/RL template')" class="relative my-2 py-1" routerLink="rc_rl_template" routerLinkActive="active">RC/RL template</li>
+      <li type="button" (click)="openMenu('Service level badge')" class="relative my-2 py-1" routerLink="service_level_badge" routerLinkActive="active">Service level badge</li>
+      <li type="button" (click)="openMenu('Service level badge 1')" class="relative my-2 py-1" routerLink="service_level_badge1" routerLinkActive="active">Service level badge 1</li>
+      <li type="button" (click)="openMenu('Service level metric')" class="relative my-2 py-1" routerLink="service_level_metric" routerLinkActive="active">Service level metric</li>
+      <li type="button" (click)="openMenu('Service level metric master')" class="relative my-2 py-1" routerLink="service_level_metric_master" routerLinkActive="active">Service level metric master</li>
+      <li type="button" (click)="openMenu('Service level metrics')" class="relative my-2 py-1" routerLink="service_level_metrics" routerLinkActive="active">Service level metrics</li>
+  
+  
+      <li type="button" (click)="openMenu('Restriction rule menagament')" class="relative my-2 py-1" routerLink="/restriction_rule_mgmt" routerLinkActive="active">Restriction rule menagament</li>
+      <li type="button" (click)="openMenu('Holiday Calendar Pmi')" class="relative my-2 py-1" routerLink="/holidaycalendar_pmi" routerLinkActive="active">Holiday Calendar Pmi</li>
+      <li type="button" (click)="openMenu('Operational metadata')" class="relative my-2 py-1" routerLink="/operational_metadata" routerLinkActive="active">Operational metadata</li>
+      <li type="button" (click)="openMenu('Metadata attributes')" class="relative my-2 py-1" routerLink="/metadata_attributes" routerLinkActive="active">Metadata attributes</li>
+      <li type="button" (click)="openMenu('Target mapping')" class="relative my-2 py-1" routerLink="/target_mapping" routerLinkActive="active">Target mapping</li>
+    </ul>
+  </div>
+  
+  <!-- <div class="">
+    <button class="side-close-btn text-white background-primary">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div> -->
+  
+  <div class="px-5 py-4 main"> 
+    <div class="py-3 px-3 bg-white rounded" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  

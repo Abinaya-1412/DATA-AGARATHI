@@ -1,0 +1,54 @@
+.sidebar{
+    transition: 0.6s;
+    width: 40vh;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: 0px 3.57397px 40.2071px rgba(0, 0, 0, 0.08);
+    z-index: 999999;
+}
+
+.color-primary{
+    color: #266AB8;
+}
+
+.background-primary{
+    background-color: #266AB8;
+}
+
+.border-primary{
+    border: 1px solid #266AB8;
+}
+
+.active{
+    color: #266AB8;
+}
+
+.active::before{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: 12px;
+    left: -13px;
+    border-radius: 50%;
+    z-index: 99;
+    background-color: #266AB8;
+}
+
+.side-close-btn{
+    width: 25px;
+    height: 7vh;
+    right: -25px;
+    border-radius: 3px;
+}
+
+.close-sidebar{
+    transform: translate3d(-100%, 0, 0);
+}
+
+.navlist-con{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 90%;
+}

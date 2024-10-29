@@ -1,0 +1,954 @@
+<div class="row gap-y-2 shadow-md relative align-items-center h-16" style="height: 9vh;">
+  <div class="col-sm-2 py-2">
+    <img role="button" class="col-7 logo-header" style="max-width: 200px;" routerLink="../../landing" src="../../../../assets/Metadata.jpeg"
+      alt="">
+  </div>
+</div>
+
+<div class=" overflow-y-auto" style="max-height: 91vh;">
+  <div class="border-b border-dashed bg-white border-gray-400" style="position: sticky; top:0; z-index: 999;">
+    <form [formGroup]="definitionFormGroup" class="pb-2 pt-1 px-3">
+      <div class="d-flex justify-content-between">
+        <h2 class="text-xl px-2 font-extrabold inline-block">
+          Business Object Definition
+        </h2>
+
+        <div class="font-medium">
+          <button type="button" role="button" class="pb-1 px-1 text-danger" (click)="showGrid()">
+            <i class="me-1 fa-regular fa-table-cells"></i> Show grid
+          </button>
+
+          <button type="button" role="button" class="ms-4 pb-1 px-1 text-danger" (click)="addBOS()">
+            <i class="me-1 fa-regular fa-square-plus"></i> Add BOS
+          </button>
+        </div>
+      </div>
+
+      <div class="row pe-2">
+        <div class="col-md-3 relative d-flex">
+          <mat-form-field class="example-full-width field  col-11">
+            <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black "> 
+              Project name
+            </label>
+            <input type="text" id="customerId" name="customerId" class="col-12" matInput formControlName="project_name"
+              [matAutocomplete]="autoClient">
+            <mat-autocomplete #autoClient="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptionsClient | async " [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <button type="button" 
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+            +
+          </button>
+        </div>
+
+        <!-- <div class="col-md-2">
+          <div class="field">
+            <label
+              matTooltip="Unique identifier for Business Objects, should be sequentially generated value which increments itself for each new business objects. Prefix with BOD"
+              for="fullName" class="font-medium text-black required-label">BO id</label>
+            <input readonly formControlName="business_object_id" autocomplete="off" type="text" id="Name" name="Name" />
+          </div>
+        </div> -->
+
+        <div class="col-md-3 d-flex relative">
+          <mat-form-field class="example-full-width field col-11">
+            <label #BONameTooltip="matTooltip"
+              matTooltip="Business Object Name , how an object/entity is addressed in business terms." for="fullName"
+              class="font-medium text-black required-label">BO name</label>
+            <input (keyup)="boNameChange()" onkeypress='return event.charCode != 45' type="text" id="customerId"
+              name="customerId" class="col-12" matInput formControlName="business_object_name"
+              [matAutocomplete]="autoObjName">
+            <mat-autocomplete #autoObjName="matAutocomplete">
+              <mat-option (click)="setDescription()" *ngFor="let option of filteredOptionsObjName | async " [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+
+            <small class="error_text"
+              *ngIf="(FF['business_object_name'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['business_object_name'].invalid && !isBusinessObjectDefinitionFormValid)">
+              *Required field
+            </small>
+          </mat-form-field>
+
+          <button type="button" (click)="addBONameList()"
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+            +
+          </button>
+        </div>
+
+        <div class="col-md-3">
+          <div class="field">
+            <label matTooltip="Brief description about the object" for="fullName"
+              class="font-medium text-black required-label">BO description</label>
+            <textarea name="Description" formControlName="business_object_description" id="Description"></textarea>
+
+            <small class="error_text"
+              *ngIf="(FF['business_object_description'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['business_object_description'].invalid && !isBusinessObjectDefinitionFormValid)">
+              *Required field
+            </small>
+          </div>
+        </div>
+ 
+        <div class="col-md-3 d-flex relative">
+          <mat-form-field class="example-full-width field col-11">
+            <label
+              matTooltip="The granularity of dimensions by which the data is captured within the business object /entity. For example balances are captured by country, by product, by GL Account by Customer Owner."
+              for="fullName" class="font-medium text-black required-label">Scope of Data Domain</label>
+            <input type="text" id="customerId" name="customerId" class="col-12" matInput
+              formControlName="scope_of_data_domain" [matAutocomplete]="autoDomain">
+            <mat-autocomplete #autoDomain="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptionsdataDomain | async " [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+
+            <small class="error_text"
+              *ngIf="(FF['scope_of_data_domain'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['scope_of_data_domain'].invalid && !isBusinessObjectDefinitionFormValid)">
+              *Required field
+            </small>
+          </mat-form-field>
+
+          <button type="button" 
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+            +
+          </button>
+        </div>
+
+        <div class="col-md-3 d-flex relative">
+          <mat-form-field class="example-full-width field col-11">
+            <label matTooltip="" for="fullName" class="font-medium text-black required-label">BO Asset Type </label>
+            <input maxlength="10" type="text" id="customerId" name="customerId" class="col-12" matInput
+              formControlName="business_object_asset_type" [matAutocomplete]="autoasset_type">
+            <mat-autocomplete #autoasset_type="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptionsautoasset_type | async " [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+
+            <small class="error_text"
+              *ngIf="(FF['business_object_asset_type'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['business_object_asset_type'].invalid && !isBusinessObjectDefinitionFormValid)">
+              *Required field
+            </small>
+          </mat-form-field>
+
+          <button type="button" (click)="addListValue('business_object_asset_type')"
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+            +
+          </button>
+        </div>
+
+        <div class="col-md-3 d-flex relative">
+          <mat-form-field class="example-full-width field col-11">
+            <label matTooltip="" for="fullName" class="font-medium text-black required-label">BO Sensitivity
+              Classification </label>
+            <input maxlength="20" type="text" id="customerId" name="customerId" class="col-12" matInput
+              formControlName="business_object_sensitivity_classification"
+              [matAutocomplete]="autosensitivity_classification">
+            <mat-autocomplete #autosensitivity_classification="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptionssensitivity_classification | async "
+                [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+
+            <small class="error_text"
+              *ngIf="(FF['business_object_sensitivity_classification'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['business_object_sensitivity_classification'].invalid && !isBusinessObjectDefinitionFormValid)">
+              *Required field
+            </small>
+          </mat-form-field>
+
+          <button type="button" (click)="addListValue('business_object_sensitivity_classification')"
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+            +
+          </button>
+        </div>
+
+        <div class="col-md-3 d-flex relative">
+          <mat-form-field class="example-full-width field col-11">
+            <label matTooltip="" for="fullName" class="font-medium text-black required-label">BO Sensitivity Reason
+            </label>
+            <input maxlength="20" type="text" id="customerId" name="customerId" class="col-12" matInput
+              formControlName="business_object_sensitivity_reason" [matAutocomplete]="autosensitivity_reason">
+            <mat-autocomplete #autosensitivity_reason="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptionssensitivity_reason| async " [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+
+            <small class="error_text"
+              *ngIf="(FF['business_object_sensitivity_reason'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['business_object_sensitivity_reason'].invalid && !isBusinessObjectDefinitionFormValid)">
+              *Required field
+            </small>
+          </mat-form-field>
+          <button type="button" (click)="addListValue('business_object_sensitivity_reason')"
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+            +
+          </button>
+        </div>
+
+        <div class="col-md-3 d-flex relative">
+          <mat-form-field class="example-full-width field col-11">
+            <label matTooltip="Name of the person who created/updated the record." for="fullName"
+              class="font-medium text-black required-label">Created/Updated By</label>
+            <input type="text" id="customerId" name="customerId" class="col-12" matInput
+              formControlName="created_by" [matAutocomplete]="autocreated_updated_By">
+            <mat-autocomplete #autocreated_updated_By="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptioncreated_by | async " [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+            <small class="error_text"
+              *ngIf="(FF['created_by'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['created_by'].invalid && !isFormValid)">
+              *Required field
+            </small>
+          </mat-form-field>
+          <button type="button" 
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+            +
+          </button>
+        </div>
+
+        <div class="col-md-2">
+          <div class="field">
+            <label matTooltip="Date on which the record was created/updated." for="fullName"
+              class="font-medium text-black required-label">Created/Updated Date</label>
+            <input type="date" id="customerId" name="customerId" class="col-12" formControlName="date_created">
+          </div>
+
+          <small class="error_text"
+            *ngIf="(FF['date_created'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['date_created'].invalid && !isFormValid)">
+            *Required field
+          </small>
+        </div>
+
+        <div class="col-md-3 d-flex relative">
+          <mat-form-field class="example-full-width field col-11">
+            <label matTooltip="Any additional information." for="fullName"
+              class="font-medium text-black ">Remarks</label>
+            <input type="text" id="customerId" name="customerId" class="col-12" matInput formControlName="remarks"
+              [matAutocomplete]="autoremarks">
+            <mat-autocomplete #autoremarks="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptionsremarks | async " [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <button type="button" 
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+            + 
+          </button>
+        </div>
+
+        <div class="col-md-5 row pe-0  align-items-center">
+          <div class="col-md-3 mt-3">
+            <div class="field py-2">
+              <button (click)="handleCreateNewBO()" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+                New
+              </button>
+            </div>
+          </div>
+  
+          <div class="col-md-3 mt-3">
+            <div class="field py-2">
+              <button (click)="handleSave()" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="row border-b border-dashed border-gray-400">
+    <div class="col-md-5 py-3 border-r border-dashed border-gray-400">
+      <div class="row">
+        <h2 class="text-xl font-extrabold">
+          Data owner
+        </h2>
+      </div>
+
+      <form [formGroup]="DataOwnerFormGroup">
+        <div class="row">
+          <div class="col-md-12 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label matTooltip="Owner of the Business Unit which defines the object" for="fullName"
+                class="font-medium text-black required-label ">Business Unit Owner</label>
+              <input type="text" id="business_unit_owner" name="business_unit_owner" class="col-12" matInput
+                formControlName="business_unit_owner" [matAutocomplete]="autounitOwner">
+              <mat-autocomplete #autounitOwner="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsunitOwner | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(OF['business_unit_owner'].errors?.['required'] && !isDataOwnerFormValid) || (OF['business_unit_owner'].invalid && !isDataOwnerFormValid)">
+                *Required field
+              </small>
+            </mat-form-field>
+            <button type="button" 
+              class="bg-danger h-fit absolute right-3 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label matTooltip="Functional Unit of Business Owner" for="fullName"
+                class="font-medium text-black required-label">Business Function</label>
+              <input type="text" id="business_function" name="business_function" class="col-12" matInput
+                formControlName="business_function" [matAutocomplete]="autobussFunc">
+              <mat-autocomplete #autobussFunc="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsbussFunc | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(OF['business_function'].errors?.['required'] && !isDataOwnerFormValid) || (OF['business_function'].invalid && !isDataOwnerFormValid)">
+                *Required field
+              </small>
+            </mat-form-field>
+
+            <button type="button" 
+              class="bg-danger h-fit absolute right-3 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="row pe-2">
+          <div class="col-md-10 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label for="fullName" class="font-medium text-black required-label">Role</label>
+              <input type="text" id="role" name="role" class="col-12" matInput formControlName="role"
+                [matAutocomplete]="autorole">
+              <mat-autocomplete #autorole="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsrole | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(OF['role'].errors?.['required'] && !isDataOwnerFormValid) || (OF['role'].invalid && !isDataOwnerFormValid)">
+                *Required field
+              </small>
+            </mat-form-field>
+
+            <button type="button" 
+              class="bg-danger h-fit absolute right-3 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+
+          <div class="col-md-2 text-end pe-1 pt-4 ">
+            <button type="button" (click)="handleAddOwner()"
+              class="rounded font-semibold col-12 py-1 text-white bg-danger mt-1">
+              {{ highlightRowDataDtOwner ? 'Save' : 'Add' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="px-1">
+          <div class="row mt-2 px-2">
+            <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+              style="border-radius: 6px; max-height: 255px;">
+              <table mat-table [dataSource]="dataSourceDtOwner" id="report">
+                <ng-container *ngFor="let column of displayedColumnsDtOwner.columnsTranslates; let j = index"
+                  [matColumnDef]="column">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+                      {{column}}
+                    </div>
+                  </th>
+
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+                    <span *ngIf="column != '#'">
+                      {{element[displayedColumnsDtOwner.columns[j].replace(' ', '')]}}
+                    </span>
+
+                    <span *ngIf="column =='#'">
+                      <button type="button" (click)="handleDeleteOwner(element.id)"
+                        class="rounded font-semibold col-12 py-2 text-danger ">
+                        <i class="fa-regular fa-trash"></i>
+                      </button>
+                    </span>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsDtOwner.columnsTranslates; sticky: true"></tr>
+                <tr *matNoDataRow>
+                  <th colspan="9" class="text-center">
+                    <span>No rows found</span>
+                  </th>
+                </tr>
+                <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumnsDtOwner.columnsTranslates;"
+                  class="route" [attr.data-index]="i" [ngClass]="{'selected-all': isActive(1, i)}"
+                  (dblclick)="highlight(1,i, row.Id, row);">
+                </tr>
+              </table>
+            </div>
+
+            <mat-paginator class="mat-paginator-sticky" #commonPagDtOwner [pageSizeOptions]="[10, 15, 20]"
+              [length]="lengthDtOwner" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+              (page)="onChangePageDtOwner($event)" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-7 py-3 ">
+      <div class="row">
+        <h2 class="text-xl font-extrabold">
+          Implementation details
+        </h2>
+      </div>
+
+      <form [formGroup]="SourceSystemFormGroup">
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <div class="field">
+              <label for="business_object_id" class="font-medium text-black required-label ">BO ID</label>
+              <mat-form-field class="col-12">
+                <mat-select formControlName="business_object_id">
+                  <mat-option *ngFor="let item of businessObjIds" [value]="item.key">{{item.value}}</mat-option>
+                </mat-select>
+                <small class="error_text"
+                  *ngIf="(SSF['business_object_id'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['business_object_id'].invalid && !isImpDetailsFormGroup)">
+                  *Required field
+                </small>
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <div class="col-md-6 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label matTooltip="Source System from where the business term is coming from." for="fullName"
+                class="font-medium text-black required-label ">Source System</label>
+              <input type="text" id="customerId" name="customerId" class="col-12" matInput
+                formControlName="source_system" [matAutocomplete]="autosource_system">
+              <mat-autocomplete #autosource_system="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionssource_system | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(SSF['source_system'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['source_system'].invalid && !isImpDetailsFormGroup)">
+                *Required field
+              </small>
+            </mat-form-field>
+
+            <button type="button" 
+              class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+
+          <div class="col-md-6 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label matTooltip="Code of the countries from which the data " for="fullName"
+                class="font-medium text-black required-label ">Source Sys. Country Code</label>
+              <input type="text" id="customerId" name="customerId" class="col-12" matInput
+                formControlName="source_system_country_code" [matAutocomplete]="autosource_system_country_code">
+              <mat-autocomplete #autosource_system_country_code="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionssource_system_country_code | async "
+                  [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(SSF['source_system_country_code'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['source_system_country_code'].invalid && !isImpDetailsFormGroup)">
+                *Required field
+              </small>
+            </mat-form-field>
+
+            <button type="button" 
+              class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label matTooltip="Frequency at which the data is required to be refreshed." for="fullName"
+                class="font-medium text-black required-label">Req Frequency of Refresh</label>
+              <input type="text" id="customerId" name="customerId" class="col-12" matInput
+                formControlName="req_frequency_of_refresh" [matAutocomplete]="autoreq_frequency_of_refresh">
+              <mat-autocomplete #autoreq_frequency_of_refresh="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsreq_frequency_of_refresh | async "
+                  [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(SSF['req_frequency_of_refresh'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['req_frequency_of_refresh'].invalid && !isImpDetailsFormGroup)">
+                *Required field
+              </small>
+            </mat-form-field>
+
+            <button type="button" 
+              class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+
+          <div class="col-md-6">
+            <div class="field col-12">
+              <label
+                matTooltip="Flag to indicate whether the Object is active or not. If the Object is currently being used or will be used, it will be 'Y'. If this Object is no longer valid it would be 'N'."
+                for="active" class="font-medium text-black required-label">Active (Y/N)</label>
+              <mat-form-field class="col-12">
+                <mat-select formControlName="active">
+                  <mat-option *ngFor="let item of actives" [value]="item.key">{{item.value}}</mat-option>
+                </mat-select>
+                <small class="error_text"
+                  *ngIf="(SSF['active'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['active'].invalid && !isImpDetailsFormGroup)">
+                  *Required field
+                </small>
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label
+                matTooltip="The view of the data as required by business user. For example end of day snapshot for balances , incremental transactions for income etc."
+                for="fullName" class="font-medium text-black required-label">Data Capture Mode</label>
+              <input type="text" id="customerId" name="customerId" class="col-12" matInput
+                formControlName="data_capture_mode" [matAutocomplete]="autodata_capture_mode">
+              <mat-autocomplete #autodata_capture_mode="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsdata_capture_mode | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(SSF['data_capture_mode'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['data_capture_mode'].invalid && !isImpDetailsFormGroup)">
+                *Required field
+              </small>
+            </mat-form-field>
+
+            <button type="button" 
+              class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+
+          <div class="col-md-6 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label matTooltip="How the records are sourced, Manual,System generated etc./Not for business"
+                for="fullName" class="font-medium text-black required-label">Sourcing Mode</label>
+              <input type="text" id="customerId" name="customerId" class="col-12" matInput
+                formControlName="sourcing_mode" [matAutocomplete]="autosourcing_mode">
+              <mat-autocomplete #autosourcing_mode="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionssourcing_mode | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(SSF['sourcing_mode'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['sourcing_mode'].invalid && !isImpDetailsFormGroup)">
+                *Required field
+              </small>
+            </mat-form-field>
+            <button type="button" 
+              class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="field col-12">
+              <label matTooltip="Flag to identify if History data should be maintained into the system." for="fullName"
+                class="font-medium text-black required-label">Track History</label>
+              <mat-form-field class="col-12">
+                <mat-select formControlName="track_history">
+                  <mat-option *ngFor="let item of actives" [value]="item.key">{{item.value}}</mat-option>
+                </mat-select>
+                <small class="error_text"
+                  *ngIf="(SSF['track_history'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['track_history'].invalid && !isImpDetailsFormGroup)">
+                  *Required field
+                </small>
+              </mat-form-field>
+
+            </div>
+          </div>
+
+          <div class="col-md-6 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label
+                matTooltip="Type of history tracking . How do you maintain history daily balances for each period? Beyond which it will become monthly balance? What events trigger a change for a record to be updated example in customer record what would cause an update of the record and a history record to be created?"
+                for="fullName" class="font-medium text-black required-label">History Type</label>
+              <input type="text" id="customerId" name="customerId" class="col-12" matInput
+                formControlName="history_type" [matAutocomplete]="autohistory_type">
+              <mat-autocomplete #autohistory_type="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionshistory_type | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(SSF['history_type'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['history_type'].invalid && !isImpDetailsFormGroup)">
+                *Required field
+              </small>
+            </mat-form-field>
+            <button type="button" 
+              class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label
+                matTooltip="Details about how to handle any error in the data processing for the particular object. Should an entire file be rejected in the event of some records with errors or just the records with errors?"
+                for="fullName" class="font-medium text-black required-label">Error Treatment</label>
+              <input type="text" id="customerId" name="customerId" class="col-12" matInput
+                formControlName="error_treatment" [matAutocomplete]="autoerror_treatment">
+              <mat-autocomplete #autoerror_treatment="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionserror_treatment | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(SSF['error_treatment'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['error_treatment'].invalid && !isImpDetailsFormGroup)">
+                *Required field
+              </small>
+            </mat-form-field>
+            <button type="button" 
+              class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+
+          <div class="col-md-6 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label matTooltip="Detailed description about how to handle any exception in data if it comes."
+                for="fullName" class="font-medium text-black required-label">Exception Treatment</label>
+              <input type="text" id="customerId" name="customerId" class="col-12" matInput
+                formControlName="exception_treatment" [matAutocomplete]="autoexception_Treatment">
+              <mat-autocomplete #autoexception_Treatment="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsexception_treatment | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(SSF['exception_treatment'].errors?.['required'] && !isImpDetailsFormGroup) || (SSF['exception_treatment'].invalid && !isImpDetailsFormGroup)">
+                *Required field
+              </small>
+            </mat-form-field>
+            <button type="button" 
+              class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="row pb-2 justify-content-end">
+          <div class="col-md-2 text-end pt-3">
+            <button type="button" (click)="handleAddImpDetails()"
+              class="rounded font-semibold col-12 py-1 text-white bg-danger">
+              {{ highlightRowDataSrcSystem ? 'Save' : 'Add' }}
+            </button>
+          </div>
+
+        </div>
+      </form>
+
+      <div class="row mt-2 px-2">
+        <div class="overflow-auto srcSystem-table line-container  border smallRow p-0"
+          style="border-radius: 6px; max-height: 255px;">
+          <table mat-table [dataSource]="dataSourceSrcSystem" id="report">
+            <ng-container *ngFor="let column of displayedColumnsSrcSystem.columnsTranslates; let j = index"
+              [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef>
+                <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+                  {{column}}
+                </div>
+              </th>
+
+              <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+                <span *ngIf="column != '#'">
+                  {{element[displayedColumnsSrcSystem.columns[j].replace(' ', '')]}}
+                </span>
+                <span *ngIf="column == '#'">
+                  <button type="button" (click)="handleDeleteImpDetails(element.id)"
+                    class="rounded font-semibold col-12 py-2 text-danger">
+                    <i class="fa-regular fa-trash"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSrcSystem.columnsTranslates; sticky: true"></tr>
+            <tr *matNoDataRow>
+              <th colspan="9" class="text-center">
+                <span>No rows found</span>
+              </th>
+            </tr>
+            <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumnsSrcSystem.columnsTranslates;"
+              class="route" [attr.data-index]="i" [ngClass]="{'selected-all': isActive(2, i)}"
+              (dblclick)="highlight(2, i, row.Id, row);">
+            </tr>
+          </table>
+        </div>
+        <mat-paginator class="mat-paginator-sticky" #commonPagSrcSystem [pageSizeOptions]="[10, 15, 20]"
+          [length]="lengthSrcSystem" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+          (page)="onChangePageSrcSystem($event)" showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row ">
+    <div class="col-md-6 py-3 border-gray-400 border-r border-dashed">
+      <div class="row p-0">
+        <h2 class="text-xl font-extrabold">
+          Business rules
+        </h2>
+      </div>
+
+      <form [formGroup]="BusinessRulesFormGroup">
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <div class="field">
+              <label for="business_object_id" class="font-medium text-black required-label ">BO ID</label>
+              <mat-form-field class="col-12">
+                <mat-select formControlName="business_object_id">
+                  <mat-option *ngFor="let item of businessObjIds" [value]="item.key">{{item.value}}</mat-option>
+                </mat-select>
+                <small class="error_text"
+                  *ngIf="(BRF['business_object_id'].errors?.['required'] && !isValidBussRule) || (BRF['business_object_id'].invalid && !isValidBussRule)">
+                  *Required field
+                </small>
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row pe-1">
+          <!-- <div class="col-md-6 field mt-2">
+            <label
+              matTooltip="Unique identifier for Business Objects, should be sequentially generated value which increments itself for each new business rule."
+              for="rule_id" class="font-medium text-black required-label">Rule ID</label>
+            <input readonly type="text" formControlName="rule_id" name="rule_id" id="rule_id">
+          </div> -->
+
+          <div class="col-md-12 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label matTooltip="Detailed description about the rules that need to be validated for the attribute."
+                for="rule" class="font-medium text-black required-label">Rule</label>
+              <input type="text" id="rule" name="rule" class="col-12" matInput formControlName="rule"
+                [matAutocomplete]="autorule">
+              <mat-autocomplete #autorule="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsRule | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <small class="error_text"
+                *ngIf="(BRF['rule'].errors?.['required'] && !isValidBussRule) || (BRF['rule'].invalid && !isValidBussRule)">
+                *Required field
+              </small>
+            </mat-form-field>
+            <button type="button" 
+              class="bg-danger h-fit absolute right-4 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+
+        </div>
+
+        <div class="row pb-2 pe-2 justify-content-end">
+          <div class="col-md-2 text-end pt-3">
+            <button type="button" (click)="handleAddBussRule()"
+              class="rounded font-semibold col-12 py-1 text-white bg-danger">
+              {{ highlightRowDataSrcSystem ? 'Save' : 'Add' }}
+            </button>
+          </div>
+
+
+        </div>
+      </form>
+
+      <div class="row mt-2 px-2">
+        <div class="overflow-auto srcSystem-table line-container  border smallRow p-0"
+          style="border-radius: 6px; max-height: 255px;">
+          <table mat-table [dataSource]="dataSourceBussnRule" id="report">
+            <ng-container *ngFor="let column of displayedColumnsBussnRule.columnsTranslates; let j = index"
+              [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef>
+                <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+                  {{column}}
+                </div>
+              </th>
+
+              <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+                <span *ngIf="column != '#'">
+                  {{element[displayedColumnsBussnRule.columns[j].replace(' ', '')]}}
+                </span>
+
+                <span *ngIf="column == '#'">
+                  <button type="button" (click)="handleDeleteBussRule(element.id)"
+                    class="rounded font-semibold col-12 py-2 text-danger">
+                    <i class="fa-regular fa-trash"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsBussnRule.columnsTranslates; sticky: true"></tr>
+            <tr *matNoDataRow>
+              <th colspan="9" class="text-center">
+                <span>No rows found</span>
+              </th>
+            </tr>
+            <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumnsBussnRule.columnsTranslates;"
+              class="route" [attr.data-index]="i" [ngClass]="{'selected-all': isActiveTerm(1, i)}"
+              (dblclick)="highlightTerm(1, i, row.Id, row);">
+            </tr>
+          </table>
+        </div>
+        <mat-paginator class="mat-paginator-sticky" #commonPagBussnRule [pageSizeOptions]="[10, 15, 20]"
+          [length]="lengthBussnRule" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+          (page)="onChangePageBussnRule($event)" showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+
+    <div class="col-md-6 py-3">
+      <div class="row p-0">
+        <h2 class="text-xl font-extrabold">
+          Alternate Business Terms
+        </h2>
+      </div>
+
+      <form [formGroup]="BusinessTermFormGroup">
+        <div class="row pe-1">
+          <!-- <div class="col-md-6 field mt-2">
+            <label for="business_term_id" class="font-medium text-black required-label">Business Term ID</label>
+            <input readonly type="text" formControlName="business_term_id" name="business_term_id"
+              id="business_term_id">
+            <small class="error_text"
+              *ngIf="(BTF['business_term_id'].errors?.['required'] && !isALtTermFormValid) || (BTF['business_term_id'].invalid && !isALtTermFormValid)">
+              *Required field
+            </small>
+          </div> -->
+
+          <div class="col-md-12 d-flex relative">
+            <mat-form-field class="example-full-width field col-11">
+              <label for="business_term" class="font-medium text-black required-label">Business Term</label>
+              <input type="text" id="business_term" name="business_term" class="col-12" matInput
+                formControlName="business_term" [matAutocomplete]="autobusiness_term">
+              <mat-autocomplete #autobusiness_term="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsbusiness_Term | async " [value]="option.value">
+                  {{option.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <small class="error_text"
+                *ngIf="(BTF['business_term'].errors?.['required'] && !isALtTermFormValid) || (BTF['business_term'].invalid && !isALtTermFormValid)">
+                *Required field
+              </small>
+            </mat-form-field>
+
+            <button type="button" 
+              class="bg-danger h-fit absolute right-4 bottom-0 top-3 my-auto add-btn ">
+              +
+            </button>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="field">
+              <label for="business_term_description" class="font-medium text-black required-label"> Business Term
+                description</label>
+              <textarea name="business_term_description" formControlName="business_term_description"
+                id="business_term_description"></textarea>
+              <small class="error_text"
+                *ngIf="(BTF['business_term_description'].errors?.['required'] && !isALtTermFormValid) || (BTF['business_term_description'].invalid && !isALtTermFormValid)">
+                *Required field
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row pb-2 pe-2 justify-content-end">
+          <div class="col-md-2 text-end pt-3">
+            <button type="button" (click)="handleAddAltTerm()"
+              class="rounded font-semibold col-12 py-1 text-white bg-danger">
+              {{ highlightRowDataAltBusiness ? 'Save' : 'Add' }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="row mt-2 px-2">
+        <div class="overflow-auto srcSystem-table line-container  border smallRow p-0"
+          style="border-radius: 6px; max-height: 255px;">
+          <table mat-table [dataSource]="dataSourceAltBusiness" id="report">
+            <ng-container *ngFor="let column of displayedColumnsAltBusiness.columnsTranslates; let j = index"
+              [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef>
+                <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+                  {{column}}
+                </div>
+              </th>
+
+              <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+                <span *ngIf="column != '#'">
+                  {{element[displayedColumnsAltBusiness.columns[j].replace(' ', '')]}}
+                </span>
+
+                <span *ngIf="column == '#'">
+                  <button type="button" (click)="handleDeleteAltTerm(element.id)"
+                    class="rounded font-semibold col-12 py-2 text-danger">
+                    <i class="fa-regular fa-trash"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsAltBusiness.columnsTranslates; sticky: true"></tr>
+            <tr *matNoDataRow>
+              <th colspan="9" class="text-center">
+                <span>No rows found</span>
+              </th>
+            </tr>
+            <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumnsAltBusiness.columnsTranslates;"
+              class="route" [attr.data-index]="i" [ngClass]="{'selected-all': isActiveTerm(2, i)}"
+              (dblclick)="highlightTerm(2, i, row.Id, row);">
+            </tr>
+          </table>
+        </div>
+
+        <mat-paginator class="mat-paginator-sticky" #commonPagAltBusiness [pageSizeOptions]="[10, 15, 20]"
+          [length]="lengthAltBusiness" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+          (page)="onChangePageAltBusiness($event)" showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+
+</div>

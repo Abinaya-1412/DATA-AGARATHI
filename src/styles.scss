@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Acme&family=Akaya+Telivigala&family=Anton&family=Comfortaa:wght@300&family=Festive&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quintessential&family=Redressed&family=Righteous&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Shizuru&display=swap');
+
+
+*::selection {
+  background: #646464;
+  color: #fff;
+}
+
+
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: none;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #646464 !important;
+  border-radius: 2px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.row {
+  margin: 0 !important;
+}
+
+
+.mat-mdc-header-cell {
+  text-align: center;
+  background: inherit;
+}
+
+.mdc-data-table__cell {
+  padding: 0 5px;
+}
+
+.smallRow tr.mat-mdc-row,
+.smallRow tr.mat-mdc-footer-row,
+.mat-mdc-header-row {
+  height: 30px !important;
+}
+
+.mat-mdc-header-row {
+  height: 40px !important;
+  background: #266AB8;
+}
+
+.mdc-data-table__cell:not(:last-child),
+.mat-mdc-header-cell:not(:last-child) {
+  border-right: 1px solid #dedede;
+  position: relative;
+}
+
+.mat-mdc-footer-row {
+  border-top: 1px solid #dedede;
+}
+
+.main{
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: 0.4s;
+  background-color: #a1bbc236;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+.field label::before {
+  content: attr(title);
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  line-height: 10px;
+  padding: 0px 5px;
+  transition: 300ms all;
+  color: #85848E;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+  background-color: #fff;
+  z-index: 99;
+}
+
+.required-label::after {
+  content: '*';
+  color: red;
+}
+
+input:read-only {
+  background-color: #fafafa !important;
+}
+
+.field {
+  position: relative;
+  margin: 5px 0;
+  
+  input,
+  select,
+  .mat-mdc-select,
+  .mdc-text-field--no-label:not(.mdc-text-field--textarea) .mat-mdc-form-field-input-control.mdc-text-field__input,
+  .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
+    width: 100%;
+    line-height: 40px;
+    height: 35px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    font-size: 15px;
+    color: #222;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+    background: #FFF;
+
+    &:focus {
+      outline: 0;
+      border-color: #266AB8;
+    }
+
+    &:focus+label::before {
+      color: #266AB8;
+      border-color: #266AB8;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    height: 35px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 15px;
+    color: #222;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+    background: #FFF;
+    resize: none;
+
+    &:focus {
+      outline: 0;
+      border-color: #266AB8;
+    }
+
+    &:focus+label::before {
+      color: #136481;
+      border-color: #266AB8;
+    }
+
+  }
+}
+
+.background-primary{
+  background-color: #266AB8;
+}
+
+.color-primary{
+  color: #266AB8;
+}
+
+.headerColumnNames{
+  text-transform: capitalize;
+  background-color: #e0e6ff;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.selected-all>* {
+  background-color: rgba(154, 179, 155, 0.15) !important;
+}
+
+.error_text{
+  color: red;
+}
+
+.dialogHeader {
+  position: sticky !important;
+  padding: 15px;
+  color: #000;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  top: 0;
+  z-index: 3;
+  font-weight: 600;
+  // border-bottom: 1px solid #D9D9D9;
+  background: #E9F5FE;
+}
+
+button:disabled{
+  opacity: 0.8;
+}
+
+
+.bar {
+  margin-top: 5px;
+  background: linear-gradient(to right, rgba(200, 227, 238, 0), #e1193e);
+  height: 3px;
+  width: 88%;
+  float: right;
+}
+

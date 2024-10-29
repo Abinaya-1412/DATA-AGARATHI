@@ -1,0 +1,1007 @@
+<div class="pt-3">
+  <div class="px-3">
+    <div class="row gap-y-2 relative align-items-center h-16">
+      <div class="col-md-2 p-0">
+        <img class="col-9 logo-header" src="../../../assets/Metadata.jpeg" alt="">
+      </div>
+
+      <div class="text-center p-0 col-md-9 link-style">
+        <ul class="social-links flex items-center justify-center m-0 space-x-4">
+          <li class="w-fit mx-2">
+            <span (click)="scroll(home)">
+              Home
+            </span>
+          </li>
+
+          <li class="w-fit mx-2">
+            <span (click)="scroll(about)">
+              About us
+            </span>
+          </li>
+ 
+          <li class="w-fit mx-2">
+            <span (click)="scroll(rwfd)">
+              About Data Agarathi
+            </span>
+          </li>    
+       <!-- Products Dropdown -->
+       <li class="relative link-with-menu w-fit group mx-2">
+        <span class="cursor-pointer dropdown-icon" (click)="toggleDropdown('products')">Products 
+          <i class="fa fa-chevron-down" aria-hidden="true"></i>
+      </span>
+        <ul class="absolute bg-white shadow-lg py-2 rounded hidden productmenu" [class.show]="openDropdown === 'products'">
+        
+          <!-- Business Metadata Product Submenu  -->
+          <li class="relative px-4 py-2 w-fit group link-with-menu">
+            <!-- <span class="dropdown-icon cursor-pointer" (click)="scroll(businessMetadata)">
+              Business Metadata</span>
+            <span (click)="toggleNestedDropdown('bmproducts')">
+              <i class="fa fa-chevron-down" aria-hidden="true"></i> </span> -->
+              <span class="dropdown-icon cursor-pointer" (click)="toggleNestedDropdown('bmproducts')">
+                Business Metadata<i class="fa fa-chevron-down" aria-hidden="true"></i>
+              </span>
+            <ul class="absolute bg-white shadow-lg py-2 rounded hidden bmproducts-menu"
+             [class.show]="openNestedDropdown === 'bmproducts'">
+              <li class="w-fit px-4 py-2 cursor-pointer">
+                <span class="cursor-pointer" (click)="onBusinessTermClick()">
+
+                <span class="text-[#e1193e] no-underline">Business Term</span>
+</span>
+              </li>
+              <li class="w-fit px-4 py-2 cursor-pointer">
+                <span class="cursor-pointer" (click)="onBusinessObjectClick()">
+                   <span class="text-[#e1193e] no-underline">Business Object Definition</span>
+                </span>
+              </li> 
+              <li class="w-fit px-4 py-2 cursor-pointer">
+
+                <span class="cursor-pointer"  (click)="onBusinessStructureClick()">Business Object Structure</span>
+              </li>
+            </ul>
+          </li>
+                    <li class="w-fit px-4 py-2 cursor-pointer" (click)="scroll(operationalMetadata)">
+                      <span class="cursor-pointer">Operational Metadata</span>
+                    </li>
+                    <li class="w-fit px-4 py-2 cursor-pointer" (click)="scroll(technicalMetadata)">
+                      <span class="cursor-pointer">Technical Metadata</span>
+                    </li>
+                    <!-- Configuration Data Submenu-->
+                    <li class="relative px-4 py-2 w-fit group link-with-menu">
+                      <span class="dropdown-icon cursor-pointer" (click)="toggleNestedDropdown('configuration')">
+                        Configuration Data  <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                      </span>
+                      <ul class="absolute bg-white shadow-lg py-2 rounded hidden configuration-menu1" 
+                      [class.show]="openNestedDropdown === 'configuration'">
+                      <li class="w-fit px-4 py-2 cursor-pointer">
+                        <!-- <a (click)="openModal('assetType')" class="cursor-pointer text-[#e1193e] no-underline">Asset Type</a> -->
+                        <a (click)="onConfigureDataClick('assetType')" class="cursor-pointer text-[#e1193e] no-underline">Asset Type</a>
+                      </li>
+                      <li class="w-fit px-4 py-2 cursor-pointer">
+                        <a (click)="onConfigureDataClick('sensitivityClassification')" class="cursor-pointer text-[#e1193e] no-underline">Sensitivity Classification</a>
+                      </li>
+                      <li class="w-fit px-4 py-2 cursor-pointer">
+                        <a (click)="onConfigureDataClick('sensitivityReasonCode')" class="cursor-pointer text-[#e1193e] no-underline">Sensitivity Reason Code</a>
+                      </li>
+                      <li class="w-fit px-4 py-2 cursor-pointer">
+                        <a (click)="onConfigureDataClick('dataOwnerRoles')" class="cursor-pointer text-[#e1193e] no-underline">Data Owner Roles</a>
+                      </li>
+                      </ul></li>
+                  </ul>
+                </li>
+                
+          <li class="w-fit mx-2">
+            <span (click)="scroll(contact)">
+              Contact
+            </span>
+          </li>
+            <!-- Login and Signup -->
+            <li class="flex space-x-2 ml-auto">
+              <button type="button" class="text-black text-base px-4 py-2 font-semibold" (click)="openLoginModal()">LOGIN</button>
+              <button type="button" class="bg-red-700 rounded-lg text-white text-sm px-3 py-2 font-semibold" (click)="openSignupModal()">SIGN UP</button>
+            </li>
+        </ul>
+      </div>
+
+    <div class="col-md-1 p-0 h-16">
+  <div class="text-2xl h-16 tracking-wider font-bold text-sm text-white d-flex align-items-center justify-content-center text-uppercase col-12 link-style">
+    <img width="200" src="../../../assets/Data Prabanjam Logo With tagline.png" alt="Company Logo" style="filter: brightness(1);">
+  </div>
+</div>
+<!-- addmember -->
+      <div class="bar absolute right-0" style="top: -5px;"></div>
+
+    </div>
+  </div>
+
+  <div class="header-con relative" #home>
+    <div class="body absolute" style="width: 100%; height: 100%;" id="particles-js"></div>
+    <!-- <div class="row align-items-center justify-content-center">
+      <p class="font-bold text-2xl">
+        Test
+      </p>
+    </div> -->
+    <!-- <img src="../../../assets/datas.png" class="mx-auto" style="width: 100%; height: 100%;" alt=""> -->
+  </div>
+
+  <div class=" mt-5 pt-5" #about>
+    <div class="row align-items-center">
+      <div class="col-md-5">
+        <img class="col-9 mx-auto" src="../../../assets/data-science.png" alt="">
+      </div>
+
+      <div class="col-md-7 px-5">
+        <!-- <p class="about mb-1 text-xs text-danger font-bold tracking-wider ">
+          INFORMATION ABOUT US
+        </p> -->
+
+        <h2 class="text-4xl font-extrabold text-uppercase">
+          About
+          <span class=" text-danger">
+            Us
+          </span>
+          <!-- Project -->
+        </h2>
+
+        <p class="context-about mt-4 text-gray-600 text-lg ">
+          <span class="text-xl font-medium">Data Prabanjam</span> is a startup. Founded by three veterans in the Data
+          Domain with over 60-man years of
+          experience, collectively. Between them they have experience in all facets of data management, starting two
+          decades ago with MIS, DSS and ESS. Progressed through the Data Warehouse, Data Marts, Business intelligence
+          era, got their hands dirty in the BIGDATA world. Last 10 years, a lot of focus has been on creating Data
+          Products that have the characteristics of any off-the-shelf product. Well packaged, with clear instructions
+          (Metadata), QA certified (Data quality measured) and ready to be used.
+          <br>
+          Data Prabanjam’s goals are twofold. Provide Data Consulting Services and develop products that help with Data
+          Analytics. Our potential customers will be other large service providers, financial institutions, retail
+          chains, telcos and health care companies. Basically, Data Prabanjam offers its products and services to any
+          organization that wants to be data driven.
+
+        </p>
+      </div>
+    </div>
+
+    <div class="row mt-3 align-items-center">
+      <div class="col-md-7 ps-5">
+        <p class="context-about ps-3 mt-2 text-gray-600 text-lg">
+          We have an architecture driven methodology for building up a Data Management platform that is resilient and
+          will guarantee results in quick time. The products we plan to develop will help organisations achieve their
+          Data Driven goals. There are number of areas of a Data Platform that industry addresses well. But there are
+          areas that are not addressed well to the extent they are non-existent. We focus on such areas. Examples are
+          Active Metadata Management, Data Shopping & Delivery and Semantic Layer to name a few.
+          <br>
+          <br>
+
+          Data Prabanjam founders say “Our USP is to save organizations time and money by reducing the number of
+          iterations needed to put data to use. Most organizations need at least 3 iterations during which they create a
+          product and correct it or improve it before it becomes useful. What we can do is reduce those number of
+          iterations. We can do that because any data issue that an organisation faces, we have probably dealt with it
+          at least 3 or 4 times. Our experience is our USP”.
+
+
+        </p>
+      </div>
+
+      <div class="col-md-5 px-5">
+        <img class="col-8 mx-auto" src="../../../assets/analytics.png" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class=" mt-5" #rwfd>
+    <div class="row align-items-center">
+      <div class="col-md-5">
+        <img class="col-9 mx-auto" src="../../../assets/dictionary.png" alt="">
+      </div>
+
+      <div class="col-md-7 px-5">
+        <!-- <p class="about mb-1 text-xs text-danger text-uppercase font-bold tracking-wider ">
+          INFORMATION ABOUT Data Agarathi
+        </p> -->
+
+        <h2 class="text-4xl font-extrabold text-uppercase">
+          Agarathi is a
+          <span class=" text-danger">
+            Tamil
+          </span>
+          word
+        </h2>
+
+        <div class="context-about mt-4 text-gray-600 text-lg ">
+          “Data Agarathi” is a product that is radically different to most Metadata tools in the market. It is based on
+          following fundamental principles:
+          <br>
+          <div class="px-3 mt-2">
+            • All data in an organization needs to be described. Selectively describing some of the data based on
+            business importance, regulatory needs or any other criteria results in wasted money and effort because
+            business needs can’t be confined to criteria known at any point in time.
+            <br>
+            <br>
+            • We preach and adapt an Active Metadata approach where Data is described when the data is created in the
+            first place. Just like a car can’t be produced without specifications of every component it is going to use.
+            A car is not first manufactured and then its specifications documented. Similarly, a piece of data, which is
+            an asset, must be created to a specification.
+            <br>
+            <br>
+            • A Data product cannot be fully utilized without having all three types of Metadata integrated. Our product
+            integrates Business, Technical and Operational Metadata.
+          </div>
+
+          <br>
+          Agarathi provides the tooling necessary to capture, integrate, maintain and publish Metadata. Unlike
+          traditional notion of Metadata being a post event documentation, we advocate controlling processes with
+          Metadata by adapting “Active Metadata” approach.
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class=" mt-5 pt-4" #businessMetadata>
+    <div class="row align-items-center">
+
+      <div class="col-md-7 px-5">
+        <!-- <p class="about mb-1 text-xs text-danger text-uppercase font-bold tracking-wider ">
+          Read about
+        </p> -->
+
+        <h2 class="text-4xl font-extrabold text-uppercase">
+          Business
+          <span class=" text-danger">
+            Metadata
+          </span>
+        </h2>
+
+        <div class="context-about mt-4 text-gray-600 text-lg ">
+          All data assets that are defined, created and consumed directly by business are within the scope of Business
+          Metadata. The assets can be atomic attributes are grouped together to create a “Data Product”, which is also
+          an
+          asset. We call this Data Product a Business Object.
+
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <img class="col-11 mx-auto" src="../../../assets/busMetadata.png" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class=" mt-5 pt-4" #operationalMetadata>
+    <div class="row align-items-center">
+      <div class="col-md-5 ps-5">
+        <img class="col-12 mx-auto" src="../../../assets/oprMetadata.png" alt="">
+      </div>
+
+      <div class="col-md-7 px-5">
+        <!-- <p class="about mb-1 text-xs text-danger text-uppercase font-bold tracking-wider ">
+          Read about
+        </p> -->
+
+        <h2 class="text-4xl font-extrabold text-uppercase">
+          Operational
+          <span class=" text-danger">
+            Metadata
+          </span>
+        </h2>
+
+        <div class="context-about mt-4 text-gray-600 text-lg ">
+          Operational data can be described as data that is needed to initiate, control and complete Data Management
+          processes. Metadata describing Operational data is Operational Metadata. Most Metadata management tools in the
+          market do not have the capability to harvest, integrate and store operational metadata.
+          <br>
+          <br>
+          There are two kinds of
+          Operational Metadata. There are those that are input to the processes or their control mechanisms. For
+          example, Job Scheduling Metadata is an input to the data ingestion and computation processes. Whereas Logs
+          produced by the Ingestion and Computation jobs can be treated as Operational Metadata.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class=" mt-5 pt-4" #technicalMetadata>
+    <div class="row align-items-center">
+
+      <div class="col-md-7 px-5">
+        <!-- <p class="about mb-1 text-center text-xs text-danger text-uppercase font-bold tracking-wider ">
+            Read about
+          </p> -->
+
+        <h2 class="text-4xl font-extrabold text-uppercase">
+          Technical
+          <span class=" text-danger">
+            Metadata
+          </span>
+        </h2>
+
+        <div class="context-about mt-4 text-gray-600 text-lg ">
+
+          Traditionally, this metadata is better managed in most organisations. Database Schema, File specifications,
+          Message Pay Load definitions, API documentation are some of the examples of Technical Metadata. One key
+          differentiator that Data Agarathi provides is the integration between Business Metadata and Technical
+          Metadata.
+          This enables technical events to be seen with a business lense. For example, instead of “JOB ID XXCCVV-001”
+          completed successfully, we can now say “Customer Master data has been loaded successfully”.
+
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <img class="col-7 mx-auto" src="../../../assets/techMet.png" alt="">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="mt-5 pt-3" #contact>
+  <div class="px-5">
+    <a class="context-about mt-4 text-decoration-none text-gray-600 text-lg " href="../../../assets/dictionary.png"
+      download>
+      Download <span class="font-semibold text-blue-500">Data Agarathi</span> fact sheet
+    </a>
+  </div>
+  <div class="row mt-4 p-4 align-items-center">
+
+    <div class="row mt-4 align-items-center">
+      <div class="col-md-4">
+        <h2>
+          Get in touch:
+        </h2>
+
+        <ul class="m-0 ms-2 mt-4 font-medium p-0">
+          <li class="mt-2">
+            <a target="_blank" class="text-black text-decoration-none" href="https://wa.me/6580426037">
+              <!-- <i class="me-2 text-danger fa-solid fa-phone"></i> -->
+              <i class="me-2 text-danger fa-brands fa-whatsapp"></i>
+              +65 80426037
+            </a>
+          </li>
+          <li class="mt-2">
+            <a target="_blank" class="text-black text-decoration-none" href="mailto:Info@dataprabanjam.sg">
+              <i class="me-2 text-danger fa-solid fa-envelope"></i>
+              <!-- Info@dataprabanjam.sg -->
+            </a>
+          </li>
+          <li class="mt-2">
+            <i class="me-2 text-danger fa-sharp fa-solid fa-globe"></i>
+            <a (click)="goToLink('http://www.dataprabanjam.sg')" class="cursor-pointer text-decoration-none text-black">
+              www.dataprabanjam.sg</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-8">
+        <div class="row">
+          <p class="about mb-1 text-uppercase text-xs text-danger font-bold tracking-wider ">
+            Share your thoughts
+          </p>
+
+          <h2 class="text-4xl text-uppercase font-extrabold">
+            Contact us
+          </h2>
+        </div>
+
+        <form [formGroup]="formGroup" class="mt-4">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="field">
+                <label for="Name" title="Name" data-title="Name"></label>
+                <input formControlName="name" autocomplete="off" type="text" id="Name" name="Name" />
+              </div>
+            </div>
+            <div class="col-md-4 ">
+              <div class="field">
+                <label for="Surname" title="Surname" data-title="Surname"></label>
+                <input formControlName="surname" autocomplete="off" type="text" id="Surname" name="Surname" />
+              </div>
+            </div>
+            <div class="col-md-4 ">
+              <div class="field">
+                <label for="E-mail" title="E-mail" data-title="E-mail"></label>
+                <input formControlName="email" autocomplete="off" type="text" id="email" name="email" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <div class="field">
+                <label for="Description" title="Description" data-title="Description"></label>
+                <textarea name="Description" style="height: 13vh;" formControlName="description"
+                  id="Description"></textarea>
+              </div>
+            </div>
+
+          </div>
+        </form>
+
+        <div class="row mt-3 justify-content-end">
+          <div class="col-3">
+            <button class="col-12 font-medium bg-danger text-white py-2 rounded-lg">
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="mt-5 ">
+  <footer class="border-t py-3 bg-black text-white  font-medium text-center">
+    Copyright ©2022 All rights reserved | <span class="text-danger">Data Prabanjam</span>
+  </footer>
+</div>
+
+
+<!-- Login/Signup Modal -->
+<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50" [ngClass]="{'hidden': !isModalActive}">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+    <button class="absolute top-3 right-4 text-gray-500 hover:text-gray-700" (click)="closeModal(signUpForm)">
+      <i class="fa-solid fa-xmark hover:text-red-700"></i>
+    </button>
+    
+    <!-- Sign-Up Form -->
+    <div class="form-container sign-up" [ngClass]="{'hidden': !isSignUp || isForgetPassword}">
+      <form class="space-y-4" (ngSubmit)="onSignUp(signUpForm)" #signUpForm="ngForm">
+        <h1 class="text-2xl font-bold mb-4">Create Account</h1>
+        <!-- Error message for form submission -->
+        <div *ngIf="signupError" class="text-red-500 mb-2">{{ signupError }}</div>
+        
+        <div>
+          <input
+            type="text"
+            name="username"
+            [(ngModel)]="signUpData.username"
+            #signupUsername="ngModel" 
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black-500"
+            [ngClass]="{'border-red-500': signUpForm.submitted && !signupUsername.valid}"
+            placeholder="Name"
+            required
+          />
+          <!-- Display error message if username is invalid -->
+          <div *ngIf="signUpForm.submitted && !signupUsername.valid" class="text-red-500 text-sm mt-1">
+            Username is required.
+          </div>
+        </div>
+        
+        <!-- Email Field with Validation -->
+        <div>
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="signUpData.email"
+            #signupEmail="ngModel" 
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black-500"
+            [ngClass]="{'border-red-500': signUpForm.submitted && (signupEmail.invalid || signupEmail.errors?.['email'])}"
+            placeholder="Email"
+            required
+          />
+          <!-- Display error message if email is required -->
+          <div *ngIf="signUpForm.submitted && signupEmail.errors?.['required']" class="text-red-500 text-sm mt-1">
+            Email is required.
+          </div>
+          <!-- Display error message if email format is invalid -->
+          <div *ngIf="signUpForm.submitted && signupEmail.errors?.['email']" class="text-red-500 text-sm mt-1">
+            Invalid email format.
+          </div>
+          <!-- Display backend error message if email format is invalid -->
+          <div *ngIf="signUpForm.submitted && emailErrorMessage" class="text-red-500 text-sm mt-1">
+            {{ emailErrorMessage }}
+          </div>
+        </div>
+        
+        <!-- Password Field with Validation -->
+        <div>
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="signUpData.password"
+            #signupPassword="ngModel" 
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black-500"
+            [ngClass]="{
+              'border-red-500': signUpForm.submitted && (signupPassword.invalid || signupPassword.errors?.['minlength'])
+            }"
+            placeholder="Password"
+            required
+            minlength="6"
+          />
+          <div *ngIf="signUpForm.submitted && signupPassword.errors?.['required']" class="text-red-500 text-sm mt-1">
+            Password is required.
+          </div>
+          <div *ngIf="signUpForm.submitted && signupPassword.errors?.['minlength']" class="text-red-500 text-sm mt-1">
+            Password must be at least 6 characters.
+          </div>
+        </div>
+        
+        <!-- Confirm Password Field with Validation -->
+        <div>
+          <input
+            type="password"
+            name="confirmPassword"
+            [(ngModel)]="signUpData.confirmPassword"
+            #signupConfirmPassword="ngModel"
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black-500"
+            [ngClass]="{
+              'border-red-500': signUpForm.submitted && signupConfirmPassword.invalid || signUpForm.submitted && signUpData.password !== signUpData.confirmPassword
+            }"
+            placeholder="Confirm Password"
+            required
+          />
+          <div *ngIf="signUpForm.submitted && signupConfirmPassword.errors?.['required']" class="text-red-500 text-sm mt-1">
+            Confirm Password is required.
+          </div>
+          <div *ngIf="signUpForm.submitted && signUpData.password !== signUpData.confirmPassword" class="text-red-500 text-sm mt-1">
+            Passwords must match.
+          </div>
+        </div>
+        <div class="text-sm text-gray-500">
+          <span>Already registered? <a class="text-red-500 hover:underline" (click)="toggleSignUp(false)">Login</a></span>
+        </div>
+        
+        <button type="submit" class="w-full py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600">Sign Up</button>
+      </form>
+    </div>
+
+ <!-- Log-In Form -->
+<div class="form-container sign-in" [ngClass]="{'hidden': isSignUp || isForgetPassword}">
+  <form class="space-y-4" (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm">
+    <h1 class="text-2xl font-bold mb-4">Log In</h1>
+    
+    <!-- Error message for form submission -->
+    <div *ngIf="loginError" class="text-red-500 mb-2">{{ loginError }}</div>
+
+    <!-- Email Field with Validation -->
+    <div>
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="loginData.email"
+        #loginEmail="ngModel"
+        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black-500"
+        [ngClass]="{'border-red-500': loginForm.submitted && (loginEmail.invalid || loginEmail.errors?.['email'])}"
+        placeholder="Email"
+        required
+      />
+      <!-- Display error message if email is required -->
+      <div *ngIf="loginForm.submitted && loginEmail.errors?.['required']" class="text-red-500 text-sm mt-1">
+        Email is required.
+      </div>
+      <!-- Display error message if email format is invalid -->
+      <div *ngIf="loginForm.submitted && loginEmail.errors?.['email']" class="text-red-500 text-sm mt-1">
+        Invalid email format.
+      </div>
+    </div>
+    
+    <!-- Password Field with Validation -->
+    <div>
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="loginData.password"
+        #loginPassword="ngModel"
+        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black-500"
+        [ngClass]="{'border-red-500': loginForm.submitted && loginPassword.invalid}"
+        placeholder="Password"
+        required
+      />
+      <!-- Display error message if password is required -->
+      <div *ngIf="loginForm.submitted && loginPassword.errors?.['required']" class="text-red-500 text-sm mt-1">
+        Password is required.
+      </div>
+    </div>
+    
+    <a class="text-red-500 hover:underline text-sm" (click)="showForgetPassword()">Forget Your Password?</a>
+    
+    <button type="submit" class="w-full py-2 bg-red-700 text-white font-bold rounded hover:bg-red-600">Log In</button>
+  </form>
+</div>
+    <!-- Forget Password Form -->
+    <div class="form-container forget-password" [ngClass]="{'hidden': !isForgetPassword}">
+      <form class="space-y-4"  #forgetPasswordForm="ngForm">
+        <h1 class="text-2xl font-bold mb-4">Forgot Password?</h1>
+        <h6 class="text-sm text-gray-500 mb-2">Enter your email and reset it</h6>
+        
+        <div>
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="forgetPasswordData.email"
+            #forgetEmail="ngModel"
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-red-500"
+            [ngClass]="{'border-red-500': forgetPasswordForm.submitted && forgetEmail.invalid}"
+            placeholder="Enter your email"
+            required
+          />
+          <!-- Display error message if email is invalid -->
+          <div *ngIf="forgetPasswordForm.submitted && forgetEmail.invalid" class="text-red-500 text-sm mt-1">
+            Valid email is required.
+          </div>
+        </div>
+        
+        <a class="text-red-500 hover:underline text-sm" (click)="showLogin()">Back to Login</a>
+        
+        <button type="submit" class="w-full py-2 bg-red-700 text-white font-bold rounded hover:bg-red-600">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Optional: Display Success/Error Messages -->
+<div *ngIf="message" [ngClass]="{'text-green-600': messageType === 'success', 'text-red-600': messageType === 'error'}" class="mt-4 text-center">
+  {{ message }}
+</div>
+
+<!-- Modal Container for configuration under option -->
+<div id="modal" class="fixed inset-0 flex items-center justify-center z-50" [ngClass]="{'hidden': !isModalOpen}">
+  <div class="fixed inset-0 bg-black opacity-50"></div>
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full relative max-h-screen overflow-y-auto">
+    <!-- Close Button -->
+    <button class="absolute top-5 right-4 text-gray-500" (click)="closeModal()">
+      <i class="fa-solid fa-xmark hover:text-red-700"></i>
+    </button>
+
+    <!-- Asset Type Modal Content -->
+    <ng-container *ngIf="currentModal === 'assetType'">
+      <h2 class="text-2xl font-bold text-center mb-6">Asset Type</h2>
+  
+      <form [formGroup]="assetTypeForm" (ngSubmit)="onSaveOrUpdateAssetType()">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+      
+          <!-- Asset Type Code with Autocomplete -->
+          <div>
+            <label for="asset_type_code" class="font-medium text-black required-label">Asset Type Code</label>
+            <mat-form-field class="example-full-width field col-11" appearance="fill">
+              <input type="text" matInput id="asset_type_code" formControlName="assetTypeCode"
+                     [matAutocomplete]="auto" >
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredAssetTypes | async" [value]="option.assetTypeCode">
+                  {{ option.assetTypeCode }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            
+          </div>
+      
+          <!-- Asset Type Description -->
+          <div>
+            <label for="asset_type_description" class="font-medium text-black required-label">Asset Type Description</label>
+            <input type="text" id="asset_type_description" formControlName="assetTypeDescription"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg sm:text-sm modaldesc"
+                  >
+          </div>
+          
+        </div>
+      
+        <!-- Save/Update Button -->
+        <div class="flex justify-end">
+          <button type="submit" class="text-white bg-danger px-4 py-2 font-semibold rounded" [disabled]="isLoading">
+            <span *ngIf="!isEditMode">Save</span> 
+            <span *ngIf="isEditMode">Update</span> 
+          </button>
+        </div>
+      </form>
+      <!-- Mat Table for Asset Types -->
+      <!-- Mat Table for Asset Types -->
+<div class="px-1">
+  <div class="row mt-2 px-2">
+    <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+      style="border-radius: 6px; max-height: 255px;">
+      <table mat-table [dataSource]="assetTypesDataSource" matSort>
+
+        <!-- Asset Type Code Column -->
+        <ng-container matColumnDef="assetTypeCode">
+          <th mat-header-cell *matHeaderCellDef class="text-center p-4 font-bold">Asset Type Code</th>
+          <td mat-cell *matCellDef="let element" class="text-center" (click)="selectRow(element, 'assetType')"
+              [ngClass]="{'selected-row': selectedElement === element}">
+            {{ element.assetTypeCode }}
+          </td>
+        </ng-container>
+
+        <!-- Asset Type Description Column -->
+        <ng-container matColumnDef="assetTypeDescription">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center bg-blue-200 p-4 font-bold">Asset Type Description</th>
+          <td mat-cell *matCellDef="let element" class="text-center" (click)="selectRow(element, 'assetType')"
+              [ngClass]="{'selected-row': selectedElement === element}">
+            {{ element.assetTypeDescription }}
+          </td>
+        </ng-container>
+
+        <!-- Delete Button Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="text-center bg-blue-200 p-4 font-bold bg-slate-300">#</th>
+          <td mat-cell *matCellDef="let element"  [ngClass]="{'selected-row': selectedElement === element}">
+            <button (click)="onDeleteAssetType(element.assetTypeCode)" class="rounded font-semibold col-12 py-2 text-danger">
+              <i class="fa-regular fa-trash"></i>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="assetTypeColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: assetTypeColumns;"></tr>
+      </table>
+
+      <!-- Show message when no rows are found -->
+      <div *ngIf="!assetTypesDataSource?.data?.length" class="text-center mt-2">
+        <span>No rows found</span>
+      </div>
+    </div>
+    <mat-paginator #paginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 20]"
+  [showFirstLastButtons]="true"
+  (page)="onPageChange($event)">
+</mat-paginator>
+ </div>
+</div>
+
+
+    </ng-container>
+<!-- Sensitivity Classification Modal -->
+<ng-container *ngIf="currentModal === 'sensitivityClassification'">
+  <h2 class="text-2xl font-bold text-center mb-6">Sensitivity Classification</h2>
+
+  <form [formGroup]="sensitivityClassificationForm" (ngSubmit)="onSaveOrUpdateSensitivityClassification()">
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <!-- Sensitivity Classification Input with Autocomplete -->
+      <div>
+        <label for="sensitivity_classification" class="font-medium text-black required-label">Sensitivity Classification</label>
+        <mat-form-field class="example-full-width field col-11" appearance="fill">
+          <input type="text" matInput id="sensitivity_classification" formControlName="sensitivityClassification"
+                 [matAutocomplete]="autoClassification">
+          <mat-autocomplete #autoClassification="matAutocomplete">
+            <mat-option *ngFor="let option of filteredSensitivityClassifications | async" [value]="option.sensitivityClassification">
+              {{ option.sensitivityClassification }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <!-- Sensitivity Classification Description -->
+      <div>
+        <label for="sensitivity_classification_description" class="font-medium text-black required-label">Sensitivity Classification Description</label>
+        <input type="text" id="sensitivity_classification_description" formControlName="sensitivityClassificationDescription"
+               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg sm:text-sm modaldesc"
+                > 
+      </div>
+    </div>
+
+    <!-- Save/Update Button -->
+    <div class="flex justify-end">
+      <button type="submit" class="text-white bg-danger px-4 py-2 font-semibold rounded" [disabled]="isLoading">
+        <span *ngIf="!isEditMode">Save</span>
+        <span *ngIf="isEditMode">Update</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- Sensitivity Classification Table -->
+  <div class="px-1">
+    <div class="row mt-2 px-2">
+      <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+        style="border-radius: 6px; max-height: 255px;">    <table mat-table [dataSource]="sensitivityClassificationsDataSource" matSort class="mat-elevation-z8 w-full">
+
+      <!-- Sensitivity Classification Column -->
+      <ng-container matColumnDef="sensitivityClassification">
+        <th mat-header-cell *matHeaderCellDef class="text-center p-4 font-bold">Sensitivity Classification</th>
+        <td class="text-center" mat-cell *matCellDef="let element" (click)="selectRow(element, 'sensitivityClassification')" 
+            [ngClass]="{'selected-row': selectedElement === element}">
+          {{ element.sensitivityClassification }}
+        </td>
+      </ng-container>
+      
+
+      <!-- Sensitivity Classification Description Column -->
+      <ng-container matColumnDef="sensitivityClassificationDescription">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center bg-blue-200 p-4 font-bold"> Sensitivity Classification Description </th>
+        <td class="text-center" mat-cell *matCellDef="let element" (click)="selectRow(element, 'sensitivityClassification')"
+            [ngClass]="{'selected-row': selectedElement === element}">
+          {{ element.sensitivityClassificationDescription }}
+        </td>
+      </ng-container>
+      
+
+      <!-- Delete Button Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-center bg-blue-200 p-4 font-bold bg-slate-300">#</th>
+        <td mat-cell *matCellDef="let element" [ngClass]="{'selected-row': selectedElement === element}">
+          <button (click)="onDeleteSensitivityClassification(element.sensitivityClassification)" class="rounded font-semibold col-12 py-2 text-danger">
+            <i class="fa-regular fa-trash"></i>
+          </button>
+        </td>
+      </ng-container>
+
+                <!-- Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="sensitivityClassificationColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: sensitivityClassificationColumns;">
+        <th colspan="9" class="text-center">
+          <span>No rows found</span>
+        </th>
+      </tr>
+    </table>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div></div>
+</ng-container>
+
+<!-- Sensitivity Reason Code Modal -->
+<ng-container *ngIf="currentModal === 'sensitivityReasonCode'">
+  <h2  class="text-2xl font-bold text-center mb-6">Sensitivity Reason Code</h2>
+
+  <form [formGroup]="sensitivityReasonCodeForm" (ngSubmit)="onSaveOrUpdateSensitivityReasonCode()">
+    <div class="grid grid-cols-2 gap-4 mb-4">
+
+      <div>
+        <label for="sensitivity_reason_code"  class="font-medium text-black required-label">Sensitivity Reason Code</label>
+        <mat-form-field class="example-full-width field col-11" appearance="fill">
+        <input type="text" matInput id="sensitivity_reason_code" formControlName="sensitivityReasonCode"  [matAutocomplete]="autoReasonCode" >
+        <mat-autocomplete #autoReasonCode="matAutocomplete">
+          <mat-option *ngFor="let option of filteredSensitivityReasonCodes | async"  
+          [value]="option.sensitivityReasonCode">
+          {{ option.sensitivityReasonCode }}
+           </mat-option>
+       </mat-autocomplete>
+    </mat-form-field>
+      </div>
+
+      <div>
+        <label for="sensitivity_reason_description" class="font-medium text-black required-label">Sensitivity Reason Code Description</label>
+        <input type="text" id="sensitivity_reason_description" formControlName="sensitivityReasonCodeDescription"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg sm:text-sm modaldesc">
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <button type="submit" class="text-white bg-danger px-4 py-2 font-semibold rounded" [disabled]="isLoading">
+        <span *ngIf="!isEditMode">Save</span>
+        <span *ngIf="isEditMode">Update</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- Sensitivity Reason Code Table -->
+  <div class="px-1">
+    <div class="row mt-2 px-2">
+      <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+        style="border-radius: 6px; max-height: 255px;">
+    <table mat-table [dataSource]="sensitivityReasonCodesDataSource" matSort class="mat-elevation-z8 w-full">
+
+      <!-- Sensitivity Reason Code Column -->
+      <ng-container matColumnDef="sensitivityReasonCode">
+        <th mat-header-cell *matHeaderCellDef class="text-center p-4 font-bold">Sensitivity Reason Code</th>
+        <td class="text-center" mat-cell *matCellDef="let element" (click)="selectRow(element, 'sensitivityReasonCode')" 
+            [ngClass]="{'selected-row': selectedElement === element}">
+          {{ element.sensitivityReasonCode }}
+        </td>
+      </ng-container>
+      
+
+      <!-- Sensitivity Reason Description Column -->
+      <ng-container matColumnDef="sensitivityReasonCodeDescription">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center bg-blue-200 p-4 font-bold"> Sensitivity Reason Code Description </th>
+        <td class="text-center" mat-cell *matCellDef="let element" (click)="selectRow(element, 'sensitivityReasonCode')"
+            [ngClass]="{'selected-row': selectedElement === element}">
+          {{ element.sensitivityReasonCodeDescription }}
+        </td>
+      </ng-container>
+
+      <!-- Delete Button Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-center bg-blue-200 p-4 font-bold bg-slate-300">#</th>
+        <td mat-cell *matCellDef="let element" [ngClass]="{'selected-row': selectedElement === element}">
+          <button (click)="onDeleteSensitivityReasonCode(element.sensitivityReasonCode)"  class="rounded font-semibold col-12 py-2 text-danger">
+            <i class="fa-regular fa-trash"></i>
+          </button>
+        </td>
+      </ng-container>
+
+          <!-- Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="sensitivityReasonCodeColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: sensitivityReasonCodeColumns;"> <th colspan="9" class="text-center">
+        <span>No rows found</span>
+      </th>
+    </tr>
+    </table>
+  </div>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+</div>
+</ng-container>
+
+<!-- Data Owner Roles Modal -->
+<ng-container *ngIf="currentModal === 'dataOwnerRoles'">
+  <h2 class="text-2xl font-bold text-center mb-6">Data Owner Roles</h2>
+
+  <form [formGroup]="dataOwnerRolesForm" (ngSubmit)="onSaveOrUpdateDataOwnerRoles()">
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      
+      <!-- Data Owner Roles with Autocomplete -->
+      <div>
+        <label for="data_owner_roles" class="font-medium text-black required-label">Data Owner Roles</label>
+        <mat-form-field class="example-full-width field col-11" appearance="fill">
+          <input type="text" matInput id="data_owner_roles" formControlName="dataOwnerRoles" [matAutocomplete]="autoDataOwnerRoles">
+          <mat-autocomplete #autoDataOwnerRoles="matAutocomplete">
+            <mat-option *ngFor="let option of filteredDataOwnerRoles | async" [value]="option.dataOwnerRoles">
+              {{ option.dataOwnerRoles }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <!-- Data Owner Role Description -->
+      <div>
+        <label for="data_owner_role_description" class="font-medium text-black required-label">Data Owner Role Description</label>
+        <input type="text" id="data_owner_role_description" formControlName="dataOwnerRoleDescription"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg sm:text-sm modaldesc">
+      </div>
+    </div>
+
+    <!-- Save/Update Button -->
+    <div class="flex justify-end">
+      <button type="submit" class="text-white bg-danger px-4 py-2 font-semibold rounded" [disabled]="isLoading">
+        <span *ngIf="!isEditMode">Save</span>
+        <span *ngIf="isEditMode">Update</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- Mat Table for Data Owner Roles -->
+  <div class="px-1">
+    <div class="row mt-2 px-2">
+      <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+        style="border-radius: 6px; max-height: 255px;">
+        
+        <table mat-table [dataSource]="dataOwnerRolesDataSource" matSort class="mat-elevation-z8 w-full">
+          
+          <!-- Data Owner Role Column -->
+          <ng-container matColumnDef="dataOwnerRoles">
+            <th mat-header-cell *matHeaderCellDef class="text-center p-4 font-bold">Data Owner Roles</th>
+            <td class="text-center" mat-cell *matCellDef="let element" (click)="selectRow(element, 'dataOwnerRoles')" 
+                [ngClass]="{'selected-row': selectedElement === element}">
+              {{ element.dataOwnerRoles }}
+            </td>
+          </ng-container>
+
+          <!-- Role Description Column -->
+          <ng-container matColumnDef="dataOwnerRoleDescription">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center bg-blue-200 p-4 font-bold">Data Owner Role Description</th>
+            <td class="text-center" mat-cell *matCellDef="let element" (click)="selectRow(element, 'dataOwnerRoles')"
+                [ngClass]="{'selected-row': selectedElement === element}">
+              {{ element.dataOwnerRoleDescription }}
+            </td>
+          </ng-container>
+          
+          <!-- Delete Button Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="text-center bg-blue-200 p-4 font-bold bg-slate-300">#</th>
+            <td mat-cell *matCellDef="let element" [ngClass]="{'selected-row': selectedElement === element}">
+              <button (click)="onDeleteDataOwnerRoles(element.dataOwnerRoles)" 
+                      class="rounded font-semibold col-12 py-2 text-danger">
+                <i class="fa-regular fa-trash"></i>
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- Row Definitions -->
+          <tr mat-header-row *matHeaderRowDef="dataOwnerRolesColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: dataOwnerRolesColumns;">
+            <th colspan="9" class="text-center">
+              <span>No rows found</span>
+            </th>
+          </tr>
+        </table>
+      </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</ng-container>
+
+
+  </div>
+</div>

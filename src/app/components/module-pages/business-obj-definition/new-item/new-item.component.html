@@ -1,0 +1,90 @@
+<div>
+    <header class="dialogHeader " cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+        New
+        <!-- <img type="button" src="../../../../../assets//icons/close-popUp.svg" (click)="onCloseDialog()"> -->
+         <button class="text-danger" (click)="onCloseDialog()">
+          X
+         </button>
+    </header>
+</div>
+ 
+<div class="row pb-3 pt-2 ">
+    <form [formGroup]="formGroup">
+        <div class="row border-b border-dashed">
+            <div class="col-md-6">
+                <div class="field">
+                    <label for="name" class="font-medium text-black required-label">Code or Name</label>
+                    <input autocomplete="off" type="text" formControlName="name" id="name"
+                        name="name" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="field">
+                    <label for="name" class="font-medium text-black required-label">Description</label>
+                    <input autocomplete="off" type="text" formControlName="description" id="name"
+                        name="name" />
+                </div>
+            </div>
+        </div>
+    </form> 
+
+    <div class="d-flex gap-3 mt-3 px-4 justify-content-end ">
+        <button
+            class=" border border-danger text-danger  h-full rounded font-medium d-flex align-items-center justify-content-center gap-x-2 px-4 py-2"
+            type="button" (click)="onCloseDialog()">
+           Close
+        </button>
+
+        <button
+            class=" bg-danger h-full rounded text-white font-medium d-flex align-items-center justify-content-center gap-x-2 px-4 py-2"
+            type="button" (click)="handleSave()">
+            Save
+        </button>
+    </div>
+</div>
+
+<div class="row mt-2 px-3">
+    <div class="overflow-auto srcSystem-table line-container  border smallRow p-0"
+      style="border-radius: 6px; max-height: 255px;">
+      <table mat-table [dataSource]="dataSourceAltBusiness" id="report">
+        <ng-container *ngFor="let column of displayedColumnsAltBusiness.columnsTranslates; let j = index"
+          [matColumnDef]="column">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+              {{column}}
+            </div>
+          </th>
+
+          <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+            <span *ngIf="column != '#'">
+              {{element[displayedColumnsAltBusiness.columns[j].replace(' ', '')]}}
+            </span>
+
+            <span *ngIf="column == '#'">
+              <button type="button" (click)="handleDeleteAlt(element.id)"
+                class="rounded font-semibold col-12 py-2 text-danger">
+                <i class="fa-regular fa-trash"></i>
+              </button>
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsAltBusiness.columnsTranslates; sticky: true"></tr>
+        <tr *matNoDataRow>
+          <th colspan="9" class="text-center">
+            <span>No rows found</span>
+          </th>
+        </tr>
+        <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumnsAltBusiness.columnsTranslates;"
+          class="route" [attr.data-index]="i" [ngClass]="{'selected-all': isActive(i)}"
+          (dblclick)="highlight(2, i, row.Id, row);">
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator class="mat-paginator-sticky" #commonPagAltBusiness [pageSizeOptions]="[10, 15, 20]"
+      [length]="lengthAltBusiness" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+      (page)="onChangePageAltBusiness($event)" showFirstLastButtons>
+    </mat-paginator>
+  </div>

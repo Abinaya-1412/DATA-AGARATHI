@@ -1,0 +1,100 @@
+<div>
+    <header class="dialogHeader " cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+        New
+        <!-- <img type="button" src="../../../../../assets//icons/close-popUp.svg" (click)="onCloseDialog()"> -->
+        <button class="text-danger" (click)="onCloseDialog()">
+            X
+        </button>
+    </header>
+</div>
+
+<div class="row pb-3 pt-2  ">
+
+    <form [formGroup]="BusinessTermFormGroup">
+        <div class="row">
+            <div class="col-md-6 d-flex relative">
+                <mat-form-field class="example-full-width field col-11">
+                    <label for="business_term" class="font-medium text-black required-label">Business Term</label>
+                    <input type="text" id="business_term" name="business_term" class="col-12" matInput
+                        formControlName="business_term" [matAutocomplete]="autobusiness_term">
+                    <mat-autocomplete #autobusiness_term="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptionsbusiness_Term | async " [value]="option.value">
+                            {{option.value}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <small class="error_text"
+                        *ngIf="(BTF['business_term'].errors?.['required'] && !isALtTermFormValid) || (BTF['business_term'].invalid && !isALtTermFormValid)">
+                        *Required field
+                    </small>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <div class="field">
+                  <label for="business_term_description" class="font-medium text-black required-label"> Business Term
+                      description</label>
+                  <textarea name="business_term_description" formControlName="business_term_description"
+                      id="business_term_description"></textarea>
+                  <small class="error_text"
+                      *ngIf="(BTF['business_term_description'].errors?.['required'] && !isALtTermFormValid) || (BTF['business_term_description'].invalid && !isALtTermFormValid)">
+                      *Required field
+                  </small>
+              </div>
+          </div>
+        </div>
+
+        <div class="row pe-2 justify-content-end">
+            <div class="col-md-2 text-end">
+                <button type="button" (click)="handleAddAltTerm()"
+                    class="rounded font-semibold col-12 py-1 text-white bg-danger">
+                    {{ highlightRowDataAltBusiness ? 'Save' : 'Add' }}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row mt-2 px-3">
+    <div class="overflow-auto srcSystem-table line-container  border smallRow p-0"
+      style="border-radius: 6px; max-height: 255px;">
+      <table mat-table [dataSource]="dataSourceAltBusiness" id="report">
+        <ng-container *ngFor="let column of displayedColumnsAltBusiness.columnsTranslates; let j = index"
+          [matColumnDef]="column">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+              {{column}}
+            </div>
+          </th>
+
+          <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+            <span *ngIf="column != '#'">
+              {{element[displayedColumnsAltBusiness.columns[j].replace(' ', '')]}}
+            </span>
+
+            <span *ngIf="column == '#'">
+              <button type="button" (click)="handleDeleteAltTerm(element.id)"
+                class="rounded font-semibold col-12 py-2 text-danger">
+                <i class="fa-regular fa-trash"></i>
+              </button>
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsAltBusiness.columnsTranslates; sticky: true"></tr>
+        <tr *matNoDataRow>
+          <th colspan="9" class="text-center">
+            <span>No rows found</span>
+          </th>
+        </tr>
+        <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumnsAltBusiness.columnsTranslates;"
+          class="route" [attr.data-index]="i" [ngClass]="{'selected-all': isActiveTerm(2, i)}"
+          (dblclick)="highlightTerm(2, i, row.Id, row);">
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator class="mat-paginator-sticky" #commonPagAltBusiness [pageSizeOptions]="[10, 15, 20]"
+      [length]="lengthAltBusiness" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+      (page)="onChangePageAltBusiness($event)" showFirstLastButtons>
+    </mat-paginator>
+  </div>

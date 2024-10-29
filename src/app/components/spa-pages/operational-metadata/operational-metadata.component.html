@@ -1,0 +1,77 @@
+<div class="font-semibold row mt-2">
+    <div class="col-sm-12">
+      {{menuTitle}}
+    </div>
+  </div>
+  
+  <div class="mt-3 col-lg-12" style="padding: 0; height: 88%;">
+    <form [formGroup]="formGroup">
+      <div class="row align-items-center">
+        <div class="col-md-4">
+          <div class="field">
+            <label for="Data_Topic_Name" title="Data topic name" data-title="Data topic name"></label>
+            <input formControlName="Data_Topic_Name" autocomplete="off" type="text" id="Data_Topic_Name"
+              name="Data_Topic_Name" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="field">
+            <label for="Data_Topic_Attribute_Name" title="Data Topic Attribute Name"
+              data-title="Data Topic Attribute Name"></label>
+            <input formControlName="Data_Topic_Attribute_Name" autocomplete="off" type="text"
+              id="Data_Topic_Attribute_Name" name="Data_Topic_Attribute_Name" />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="field">
+            <label for="Data_Lifecycle_Status" title="Data Lifecycle Status"
+              data-title="Data Lifecycle Status"></label>
+            <input formControlName="Data_Lifecycle_Status" autocomplete="off" type="text"
+              id="Data_Lifecycle_Status" name="Data_Lifecycle_Status" />
+          </div>
+        </div>
+        
+      </div>
+  
+  
+      <div class="row align-items-center">
+        <div class="col-md-4 ">
+            <div class="field">
+              <label for="Allowable_Values" title="Allowable Values"
+                data-title="Allowable Values"></label>
+                <input formControlName="Allowable_Values" autocomplete="off" type="text" id="Allowable_Values"
+                name="Allowable_Values" />
+            </div>
+          </div>
+
+        <div class="col-md-4 ">
+          <div class="field">
+            <label for="Remarks" title="Remarks" data-title="Remarks"></label>
+            <input formControlName="Remarks" autocomplete="off" type="text" id="Remarks"
+              name="Remarks" />
+          </div>
+        </div>
+        <div class="col-md-4 ">
+          <div class="field">
+            <label for="Sample_Data" title="Sample Data" data-title="Sample Data"></label>
+            <input formControlName="Sample_Data" autocomplete="off" type="text" id="Sample_Data"
+              name="Sample_Data" />
+          </div>
+        </div>
+        
+      </div>
+    </form>
+  
+  
+    <div class="mt-4 row align-items-center justify-content-end">
+      <div class="col-md-3">
+        <button class="col-12 font-medium background-primary text-white py-2 rounded-lg" (click)="handleSave()">
+          Save
+        </button>
+      </div>
+  
+    </div>
+  
+  </div>
+  

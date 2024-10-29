@@ -1,0 +1,65 @@
+<div>
+    <header class="dialogHeader " cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+        Business object definition
+
+        <button class="text-danger" (click)="onCloseDialog(0)">
+            X
+        </button>
+    </header>
+</div>
+
+<div class="row mt-4 px-4 pb-3">
+    <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+        style="border-radius: 6px; max-height: 400px;">
+        <table mat-table [dataSource]="dataSourceBusinessObjectDefinition" id="report">
+            <ng-container
+                *ngFor="let column of displayedColumnBusinessObjectDefinition.columnsTranslates; let j = index"
+                [matColumnDef]="column">
+                <th mat-header-cell *matHeaderCellDef>
+                    <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+                        {{column}}
+                    </div>
+                </th>
+
+                <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+                    <span *ngIf="column != '#'">
+                        {{element[displayedColumnBusinessObjectDefinition.columns[j].replace(' ', '')]}}
+                    </span>
+
+                    <span *ngIf="column =='#'">
+                        <button type="button" (click)="handleDeleteBusinessObjectDefinition(element.id)"
+                            class="rounded font-semibold col-12 py-2 text-danger ">
+                            <i class="fa-regular fa-trash"></i>
+                        </button>
+                    </span>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="displayedColumnBusinessObjectDefinition.columnsTranslates; sticky: true">
+            </tr>
+            <tr *matNoDataRow>
+                <th colspan="9" class="text-center">
+                    <span>No rows found</span>
+                </th>
+            </tr>
+            <tr mat-row
+                *matRowDef="let row;let i = index; columns: displayedColumnBusinessObjectDefinition.columnsTranslates;"
+                class="route" [attr.data-index]="i" [ngClass]="{'selected-all': isActiveBusinessObjectDefinition(i)}"
+                (dblclick)="highlightBusinessObjectDefinition(i, row.Id, row);">
+            </tr>
+        </table>
+    </div>
+
+    <mat-paginator class="mat-paginator-sticky" #commonPagBusinessObjectDefinition [pageSizeOptions]="[10, 15, 20]"
+        [length]="lengthDtOwner" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
+    </mat-paginator>
+</div>
+
+<div class="row gap-3 mb-3 mt-2 px-4 justify-content-end ">
+    <button
+        class="col-2 bg-danger h-full rounded text-white font-medium d-flex align-items-center justify-content-center gap-x-2 px-4 py-2"
+        type="button" (click)="update()">
+        Update
+    </button>
+</div>

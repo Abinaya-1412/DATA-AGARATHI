@@ -1,0 +1,207 @@
+<div class="font-semibold row mt-2">
+    <div class="col-sm-12">
+      {{menuTitle}}
+    </div>
+  </div>
+  
+  <div class="mt-3 col-lg-12" style="padding: 0; height: 88%;">
+    <form [formGroup]="formGroup">
+      <div class="row align-items-center">
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Exception_cases" title="Exception cases" data-title="Exception cases"></label>
+            <input formControlName="Exception_cases" autocomplete="off" type="text" id="Exception_cases"
+              name="Exception_cases" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Data_Topic_Attribute_Definition" title="Data Topic Attribute Definition"
+              data-title="Data Topic Attribute Definition"></label>
+            <textarea formControlName="Data_Topic_Attribute_Definition" autocomplete="off" rows="20" cols="30"
+              id="Data_Topic_Attribute_Definition" name="Data_Topic_Attribute_Definition"> </textarea>
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Domain_values_allowed" title="Domain values allowed"
+              data-title="Domain values allowed"></label>
+            <input formControlName="Domain_values_allowed" autocomplete="off" type="text"
+              id="Domain_values_allowed" name="Domain_values_allowed" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Product" title="Product"
+              data-title="Product"></label>
+              <input formControlName="Product" autocomplete="off" type="text"
+              id="Product" name="Product" />
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="row align-items-center">
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Sub_Domain" title="Subdomain" data-title="Subdomain"></label>
+            <input formControlName="Sub_Domain" autocomplete="off" type="text" id="Sub_Domain"
+              name="Sub_Domain" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Down_Stream_Process_Owner" title="Down Stream Process Owner" data-title="Down Stream Process Owner"></label>
+            <input formControlName="Down_Stream_Process_Owner" autocomplete="off" type="text" id="Down_Stream_Process_Owner"
+              name="Down_Stream_Process_Owner" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Data_Domain_Owner" title="Data Domain Owner" data-title="Data Domain Owner"></label>
+            <input formControlName="Data_Domain_Owner" autocomplete="off" type="text" id="Data_Domain_Owner"
+              name="Data_Domain_Owner" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Data_Asset_Type" title="Data Asset Type" data-title="Data Asset Type"></label>
+            <input formControlName="Data_Asset_Type" type="text" name="Data_Asset_Type" id="Data_Asset_Type" />
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="row align-items-center">
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Data_Capture_Mode" title="Data Capture Mode" data-title="Data Capture Mode"></label>
+            <input formControlName="Data_Capture_Mode" autocomplete="off" type="text" id="Data_Capture_Mode"
+              name="Data_Capture_Mode" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Source_System" title="Source System" data-title="Source System"></label>
+            <input formControlName="Source_System" autocomplete="off" type="text" id="Source_System"
+              name="Source_System" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Source_System_Country_Code" title="Source System Country Code" data-title="Source System Country Code"></label>
+            <input formControlName="Source_System_Country_Code" autocomplete="off" type="text" id="Source_System_Country_Code" name="Source_System_Country_Code" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Information_Protection_Method" title="Information Protection Method"
+              data-title="Information Protection Method"></label>
+            <input formControlName="Information_Protection_Method" type="text" name="Information_Protection_Method"
+              id="Information_Protection_Method" />
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="row align-items-center">
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Information_Sensitivity_Classification" title="Information Sensitivity Classification"
+              data-title="Information Sensitivity Classification"></label>
+            <input formControlName="Information_Sensitivity_Classification" autocomplete="off" type="text"
+              id="Information_Sensitivity_Classification" name="Information_Sensitivity_Classification" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Information_Sensitivity_Reason_Code" title="Information Sensitivity Reason Code"
+              data-title="Information Sensitivity Reason Code"></label>
+            <input formControlName="Information_Sensitivity_Reason_Code" autocomplete="off" type="text"
+              id="Information_Sensitivity_Reason_Code" name="Information_Sensitivity_Reason_Code" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Status" title="Status" data-title="Status"></label>
+            <input formControlName="Status" autocomplete="off" type="text" id="Status" name="Status" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Data_Types" title="Data Types" data-title="Data Types"></label>
+            <input formControlName="Data_Types" autocomplete="off" type="text" id="Data_Types" name="Data_Types" />
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Is_Business_Key" title="Business Key"
+              data-title="Business Key"></label>
+            <input formControlName="Is_Business_Key" autocomplete="off" type="number"
+              id="Is_Business_Key" name="Is_Business_Key" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Is_Business_Date" title="Business Date"
+              data-title="Business Date"></label>
+            <input formControlName="Is_Business_Date" autocomplete="off" type="date"
+              id="Is_Business_Date" name="Is_Business_Date" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Is_Mandatory" title="Mandatory" data-title="Mandatory"></label>
+            <input formControlName="Is_Mandatory" autocomplete="off" type="text" id="Is_Mandatory" name="Is_Mandatory" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Processing_Rule_Type" title="Processing Rule Type" data-title="Processing Rule Type"></label>
+            <input formControlName="Processing_Rule_Type" autocomplete="off" type="text" id="Processing_Rule_Type" name="Processing_Rule_Type" />
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Active" title="Active"
+              data-title="Active"></label>
+            <input formControlName="Active" autocomplete="off" type="text"
+              id="Active" name="Active" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Track_History" title="Track History"
+              data-title="Track History"></label>
+            <input formControlName="Track_History" autocomplete="off" type="text"
+              id="Track_History" name="Track_History" />
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="field">
+            <label for="Format" title="Format" data-title="Format"></label>
+            <input formControlName="Format" autocomplete="off" type="text" id="Format" name="Format" />
+          </div>
+        </div>
+      </div>
+  
+    </form>
+  
+  
+    <div class="mt-4 row align-items-center justify-content-end">
+      <div class="col-md-3">
+        <button class="col-12 font-medium background-primary text-white py-2 rounded-lg" (click)="handleSave()">
+          Save
+        </button>
+      </div>
+  
+    </div>
+  
+  </div>
+  
