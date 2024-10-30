@@ -12,9 +12,13 @@
         <h2 class="text-xl px-2 font-extrabold inline-block">
           Business Object Definition
         </h2>
-
+ 
         <div class="font-medium">
-          <button type="button" role="button" class="pb-1 px-1 text-danger" (click)="showGrid()">
+          <button type="button" role="button" class="pb-1 px-1 text-danger" (click)="handleFilter()">
+            <i class="me-1 fa-regular fa-filter"></i> Filter
+          </button>
+
+          <button type="button" role="button" class="ms-4 pb-1 px-1 text-danger" (click)="showGrid()">
             <i class="me-1 fa-regular fa-table-cells"></i> Show grid
           </button>
 

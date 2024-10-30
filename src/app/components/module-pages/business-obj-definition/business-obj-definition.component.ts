@@ -17,6 +17,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { NewBONameComponent } from './new-bo-name/new-bo-name.component';
 import { BusinessObjectStructureComponent } from '../business-object-structure/business-object-structure.component';
 import { Router } from '@angular/router';
+import { FilterPopUpComponent } from '../filter-pop-up/filter-pop-up.component';
 
 @Component({
   selector: 'app-business-obj-definition',
@@ -163,8 +164,16 @@ export class BusinessObjDefinitionComponent {
   }
 
   getComboboxData() {
+    this.businessService.getImpDetails().subscribe({
+      next: res => {
+        this.impDetailsData = res.data;
+      },
+      error: err => console.log(err)
+    });
+
     this.businessService.getBusinessRule().subscribe({
       next: res => {
+        this.ruleData = res.data;
         res.data.map((dt: any) => {
           !this.businessRules.some(item => item.value === dt.rule) ? this.businessRules.push({ value: dt.rule }) : '';
         })
@@ -181,6 +190,7 @@ export class BusinessObjDefinitionComponent {
 
     this.businessService.getBusiness_term().subscribe({
       next: res => {
+        this.termData = res.data
         res.data.map((dt: any) => {
           !this.boNames.some(item => item.value === dt.business_term) ? this.boNames.push({ value: dt.business_term, desc: dt.business_term_description }) : '';
           !this.businessTerms.some(item => item.value === dt.business_term) ? this.businessTerms.push({ value: dt.business_term }) : '';
@@ -197,6 +207,7 @@ export class BusinessObjDefinitionComponent {
 
     this.businessService.getBo_owner().subscribe({
       next: res => {
+        this.boOwnerData = res.data;
         res.data.map((dt: any) => {
           !this.businessUnitOwners.some(item => item.value === dt.business_unit_owner) ? this.businessUnitOwners.push({ value: dt.business_unit_owner }) : '';
           !this.businessFunctions.some(item => item.value === dt.business_function) ? this.businessFunctions.push({ value: dt.business_function }) : '';
@@ -650,6 +661,52 @@ export class BusinessObjDefinitionComponent {
   isBOFormValid = true;
   handleSave() {
     this.handleSaveBusinessObjectDefinition();
+  }
+
+  boOwnerData: any
+  impDetailsData: any
+  ruleData: any
+  termData: any
+  filter_dialogRef!: MatDialogRef<FilterPopUpComponent>;
+  handleFilter() {
+    this.filter_dialogRef = this.dialog.open(FilterPopUpComponent,
+      {
+        disableClose: true,
+        width: '80%',
+        height: 'auto',
+        autoFocus: false,
+      });
+
+    this.filter_dialogRef.afterClosed().subscribe({
+      next: res => {
+        console.log(res)
+        this.filterOwnerTable(res, this.boOwnerData)
+        // console.log(this.filterOwnerTable(res, this.impDetailsData))
+        // console.log(this.filterOwnerTable(res, this.ruleData))
+        // console.log(this.filterOwnerTable(res, this.termData))
+      }
+    })
+  }
+
+  filterOwnerTable(filterForm: any, data: any) {
+    let filters: any[] = []
+    Object.keys(filterForm.controls).forEach((key: string) => {
+      if (filterForm.get(key)?.value.length > 0) {
+        filters?.push({
+          columnName: key,
+          value: filterForm.get(key)?.value,
+          order: 0
+        })
+      }
+    });
+
+    console.log(data);
+    let dataArr: any[] = [];
+    dataArr = data.filter((o: any) => filters.every(({ columnName, value }: any) => {
+      if (o[columnName]) o[columnName].toString().toLowerCase().includes(value?.toString().toLowerCase())
+    }));
+    console.log(dataArr);
+    return dataArr;
   }
 
   //TABLE CODES

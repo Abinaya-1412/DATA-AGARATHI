@@ -120,16 +120,10 @@
 .mat-mdc-table .mat-mdc-header-cell {
     min-width: 300px !important;
 }
-::ng-deep .mat-mdc-select-arrow svg {
-    fill: #777777;
-   }
+
 .add-btn {
     width: 25px;
     height: 25px;
     color: #fff;
     border-radius: 50%;
-}  .selected-all {
-    background-color: rgba(0, 123, 255, 0.2); /* Light blue background for selected row */
-    color: #000; /* Optional: change text color for better visibility */
-  }
-  
+}

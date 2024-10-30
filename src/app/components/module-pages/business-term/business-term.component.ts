@@ -25,10 +25,8 @@ export class BusinessTermComponent implements OnInit {
   pageSizeOptions = [10, 15, 20];
   length = 100;
   pageSize = 10;
-  businessTermCounter = 1;
-  currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-  lastGeneratedID: string = 'BOT000'; 
-  selectedRow: any;
+  businessTermCounter = 1; // Counter to generate Business Term ID
+
   constructor(
     private fb: FormBuilder,
     private businessTermService: BusinessTermService
@@ -36,29 +34,48 @@ export class BusinessTermComponent implements OnInit {
     this.definitionFormGroup = this.fb.group({
       business_term_id: ['', Validators.required],
       business_term: ['', Validators.required],
-      business_term_description: ['', Validators.required],
+      business_term_description: ['', Validators.required], // Make description read-only
       version: ['', Validators.required],
-      date_created: [this.currentDate, Validators.required],
+      date_created: ['', Validators.required],
       active: ['', Validators.required],
+      projectFileName: '',
+      projectFilePath: '',
       id: 0
     });
   }
 
   ngOnInit(): void {
-    this.fetchBusinessTermData();
-    this.generateBusinessTermID(); 
-    this.fetchBusinessTerms(); 
-    
+    // this.fetchBusinessTermData();
+    this.generateBusinessTermID(); // Generate the Business Term ID
+    this.fetchBusinessTermData(); // Fetch business terms for dropdown
   }
 
   fetchBusinessTermData() {
-    this.businessTermService.getBo_term().subscribe(response => {
-      this.dataSource.data = response.data;
-    }, (error) => {
-      console.error('Error fetching business terms', error);
+    this.businessTermService.getBo_term().subscribe({
+      next: res => {
+        this.dataSource = new MatTableDataSource<any>(res.data);
+        // this.dataSource.data = this.dataSource.data;
+      },
+      error: err => console.error('Error fetching business terms', err)
     });
   }
+
+  fileLocalUrl = '';
+  file?: File | null = null;
+  uploadFile(event: any) {
+    this.fileLocalUrl = URL.createObjectURL(event.target.files[0])
+    this.file = event.target.files[0];
+    this.FF['projectFileName'].setValue(event.target.files[0].name);
+  }
+
+  getUrl(filePath: string) {
+    return '';
+  }
+
+  lastGeneratedID: string = 'BOT000'; 
   generateBusinessTermID() {
+
+    this.lastGeneratedID = this.dataSource.data.length ? this.dataSource.data[this.dataSource.data.length-1].business_term_id : 'BOT000'
     // Extract the numeric part of the ID from the last generated ID
     const numericID = parseInt(this.lastGeneratedID.replace('BOT', ''), 10) || 0;
   
@@ -69,7 +86,8 @@ export class BusinessTermComponent implements OnInit {
     // Update the form control with the new ID
     this.definitionFormGroup.controls['business_term_id'].setValue(this.lastGeneratedID);
   }
-  
+
+  // Fetch business terms for dropdown
   fetchBusinessTerms() {
     this.businessTermService.getBo_term().subscribe(response => {
       this.filteredOptionsBTerm.next(response.data); 
@@ -128,108 +146,111 @@ export class BusinessTermComponent implements OnInit {
       value: 'No'
     },
   ]
-  // Method to select a row and populate form
-  onRowSelect(row: any): void {
-    this.selectedRow = row;
-    this.definitionFormGroup.patchValue({
-      business_term_id: row.business_term_id,
-      business_term: row.business_term,
-      business_term_description: row.business_term_description,
-      version: row.version,
-      date_created: row.date_created,
-      active: row.active,
-      id: row.id
-    });
-  }
 
-  onUpdate(): void {
-    if (this.definitionFormGroup.valid && this.selectedRow) {
-      this.definitionFormGroup.value.date_created = formatDate(this.definitionFormGroup.value.date_created, 'yyyy-MM-dd', 'en');
-
-      const updatedData = {
-        data: this.definitionFormGroup.value,
-        conditions: {
-          business_term_id: this.selectedRow.business_term_id
-        }
-      };
-  
-      this.businessTermService.updateBo_term(updatedData).subscribe({
-        next: () => {
-          swalSuccess('Business term updated successfully!');
-          this.fetchBusinessTermData(); 
-          this.definitionFormGroup.reset();
-          this.selectedRow = null;
-          // this.generateBusinessTermID();
-
-          this.definitionFormGroup.controls['date_created'].setValue(this.currentDate);
-
-
-        },
-        error: (error) => {
-          console.error('Update failed', error);
-          swalError('Failed to update the business term.');
-        }
-      });
-    }
-  }
-  
   isFormValid = true;
 
   onSubmit() {
     if (this.definitionFormGroup.valid) {
       this.definitionFormGroup.value.date_created = formatDate(this.definitionFormGroup.value.date_created, 'yyyy-MM-dd', 'en');
 
-      this.businessTermService.saveBo_term(this.definitionFormGroup.value).subscribe(
-        {
-          next: res => {
-            console.log(res)
-            this.generateBusinessTermID();
-            swalSuccess("Successfully saved!");
+      this.selectedRow ? this.updateService() : this.saveService();
 
-            this.fetchBusinessTermData();
-
-            // Reset form and generate new Business Term ID
-            this.definitionFormGroup.reset();
-            this.definitionFormGroup.controls['date_created'].setValue(this.currentDate);
-            this.selectedRow = null;
-
-            this.generateBusinessTermID();
-          },
-          error: err =>   swalError("Something went wrong!")
-        }
-      );
     } else {
       this.isFormValid = false;
     }
   }
 
-  handleDelete(business_term_id: number) {
-    this.businessTermService.deleteBo_term(business_term_id).subscribe({
+  saveService() {
+    this.businessTermService.saveBo_term(this.definitionFormGroup.value, this.file).subscribe(
+      {
+        next: res => {
+          console.log(res)
+          this.generateBusinessTermID();
+          swalSuccess("Successfully saved!")
+        },
+        error: err => swalError("Something went wrong!")
+      }
+    );
+  }
+
+  updateService() {
+    const updatedData = {
+      data: this.definitionFormGroup.value,
+      conditions: {
+        business_term_id: this.selectedRow.business_term_id
+      }
+    };
+
+    this.businessTermService.updateBo_term(updatedData).subscribe({
       next: () => {
-        swalSuccess("Business term deleted successfully");
-        // Update the table data by removing the deleted item
-        this.dataSource.data = this.dataSource.data.filter(item => item.business_term_id !== business_term_id);
+        swalSuccess('Business term updated successfully!');
+        this.fetchBusinessTermData();
+        this.definitionFormGroup.reset();
+        this.selectedRow = null;
+        // this.generateBusinessTermID();
+
+        this.definitionFormGroup.controls['date_created'].setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
+
+
       },
-      error: (err) => {
-        swalError("Failed to delete business term");
-        console.error(err);
+      error: (error) => {
+        console.error('Update failed', error);
+        swalError('Failed to update the business term.');
       }
     });
+  }
+
+  handleDelete(id: string) {
+    this.businessTermService.deleteBo_term(Number(id)).subscribe(
+      (response) => {
+        console.log('Business term deleted', response);
+        // this.fetchBusinessTermData();
+      },
+      (error) => {
+        console.error('Error deleting business term', error);
+      }
+    );
   }
 
   onChangePage(event: any) {
     this.pageSize = event.pageSize;
   }
 
+  selectedRow: any;
+  activeRow: any;
+  isActive = (index: number) => { return this.activeRow === index };
+
   highlight(index: number, id: string, row: any) {
-    console.log('Row highlighted:', row);
+    if (!this.isActive(index)) {
+      this.selectedRow = row;
+      this.activeRow = index;
+      this.definitionFormGroup.patchValue({
+        business_term_id: row.business_term_id,
+        business_term: row.business_term,
+        business_term_description: row.business_term_description,
+        version: row.version,
+        date_created: row.date_created,
+        active: row.active,
+        id: row.id
+      });
+    }
+    else {
+      this.activeRow = '';
+      this.selectedRow = '';
+      this.definitionFormGroup.patchValue({
+        business_term_id: '',
+        business_term: '',
+        business_term_description: '',
+        version: '',
+        date_created: '',
+        active: '',
+        id: 0
+      });
+      this.generateBusinessTermID();
+    }
   }
 
-  isActive(index: number): boolean {
-    return false;
-  }
-
-  get FF() : { [key: string]: AbstractControl }{
+  get FF(): { [key: string]: AbstractControl } {
     return this.definitionFormGroup.controls;
   }
 }   

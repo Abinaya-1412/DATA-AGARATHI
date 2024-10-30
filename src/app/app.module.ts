@@ -61,6 +61,7 @@ import { ViewGridComponent } from './components/module-pages/business-obj-defini
 import { NewBONameComponent } from './components/module-pages/business-obj-definition/new-bo-name/new-bo-name.component';
 import { BusinessObjectStructureComponent } from './components/module-pages/business-object-structure/business-object-structure.component';
 import { BusinessTermComponent } from './components/module-pages/business-term/business-term.component';
+import { FilterPopUpComponent } from './components/module-pages/filter-pop-up/filter-pop-up.component';
 
 
 @NgModule({
@@ -93,7 +94,9 @@ import { BusinessTermComponent } from './components/module-pages/business-term/b
     BusinessObjDefinitionComponent,
     NewBONameComponent,
     BusinessObjectStructureComponent,
-    BusinessTermComponent
+    BusinessTermComponent,
+    FilterPopUpComponent,
+
   ],
   imports: [
     BrowserModule,

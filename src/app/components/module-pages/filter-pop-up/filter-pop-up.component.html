@@ -1,0 +1,44 @@
+<div>
+    <header class="dialogHeader " cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+        Filter
+
+        <button class="text-danger" (click)="onCloseDialog()">
+            X
+        </button>
+    </header>
+</div>
+
+<div class="row pb-3 pt-2">
+    <div class="row gap-y-2">
+        <div class="col-md-12">
+            <div class="field">
+                <label for="search" class="font-medium text-black">
+                    Search
+                </label>
+                <input type="text" [(ngModel)]="search" name="search" id="search">
+            </div>
+        </div>
+    </div>
+
+    <form [formGroup]="formGroup">
+        <div class="row gap-y-2">
+            <div class="col-md-4" *ngFor="let item of filterModel">
+                <div class="field">
+                    <label for="business_term_description" class="font-medium text-black">
+                        {{item.name}}
+                    </label>
+                    <input type="text" name="filter" [formControlName]="item.value" id="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3 justify-content-end">
+            <div class="col-md-2 text-end">
+                <button type="button" (click)="applyFilter()"
+                    class="rounded font-semibold col-12 py-1 text-white bg-danger">
+                    Apply filter
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

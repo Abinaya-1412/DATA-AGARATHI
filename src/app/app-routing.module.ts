@@ -38,7 +38,8 @@ const routes: Routes = [
       { path: 'business', component: BusinessObjDefinitionComponent },
       { path: 'structure', component: BusinessObjectStructureComponent },
       { path: 'businessTerm', component: BusinessTermComponent }
-    ],canActivate: [AuthGuard] 
+    ],
+    // canActivate: [AuthGuard] 
   },
  
 
