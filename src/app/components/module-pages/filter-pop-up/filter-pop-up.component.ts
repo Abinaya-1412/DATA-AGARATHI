@@ -55,6 +55,17 @@ export class FilterPopUpComponent {
       this.formGroup.addControl(dt.value, new FormControl(''));
     })
   }
+  
+  actives: any[] = [
+    {
+      key: 1,
+      value: 'Yes'
+    },
+    {
+      key: 0,
+      value: 'No'
+    },
+  ];
 
   search = '';
   ngOnInit() { }

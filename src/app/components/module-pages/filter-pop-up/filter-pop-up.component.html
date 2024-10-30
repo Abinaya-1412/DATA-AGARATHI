@@ -23,12 +23,26 @@
     <form [formGroup]="formGroup">
         <div class="row gap-y-2">
             <div class="col-md-4" *ngFor="let item of filterModel">
-                <div class="field">
+                <div class="field" *ngIf="item.name != 'Active' && item.name != 'Track History'; else selectYN">
                     <label for="business_term_description" class="font-medium text-black">
                         {{item.name}}
                     </label>
                     <input type="text" name="filter" [formControlName]="item.value" id="">
                 </div>
+
+                <ng-template #selectYN>
+                    <div class="field col-12">
+                        <label
+                            matTooltip="Flag to indicate whether the Object is active or not. If the Object is currently being used or will be used, it will be 'Y'. If this Object is no longer valid it would be 'N'."
+                            for="active" class="font-medium text-black required-label">Active (Y/N)</label>
+                        <mat-form-field class="col-12">
+                            <mat-select formControlName="active">
+                                <mat-option *ngFor="let item of actives" [value]="item.key">{{item.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </ng-template>
+
             </div>
         </div>
 

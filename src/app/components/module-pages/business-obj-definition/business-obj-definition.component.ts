@@ -668,6 +668,7 @@ export class BusinessObjDefinitionComponent {
   ruleData: any
   termData: any
   filter_dialogRef!: MatDialogRef<FilterPopUpComponent>;
+
   handleFilter() {
     this.filter_dialogRef = this.dialog.open(FilterPopUpComponent,
       {
@@ -679,33 +680,44 @@ export class BusinessObjDefinitionComponent {
 
     this.filter_dialogRef.afterClosed().subscribe({
       next: res => {
-        console.log(res)
-        this.filterOwnerTable(res, this.boOwnerData)
-        // console.log(this.filterOwnerTable(res, this.impDetailsData))
-        // console.log(this.filterOwnerTable(res, this.ruleData))
-        // console.log(this.filterOwnerTable(res, this.termData))
+        this.getFilterValues(res);
+        // this.dataSourceDtOwner = new MatTableDataSource<any>(this.filterTable(this.boOwnerData));
+        // this.dataSourceSrcSystem = new MatTableDataSource<any>();
+        this.filterTable(this.boOwnerData);
+        this.filterTable(this.impDetailsData);
+        // this.dataSourceBussnRule = new MatTableDataSource<any>(this.filterTable(this.ruleData));
+        // this.dataSourceAltBusiness = new MatTableDataSource<any>(this.filterTable(this.termData));
       }
     })
   }
 
-  filterOwnerTable(filterForm: any, data: any) {
-    let filters: any[] = []
+  filters: any[] = [];
+  getFilterValues(filterForm: any) {
+    console.log(filterForm.value)
     Object.keys(filterForm.controls).forEach((key: string) => {
-      if (filterForm.get(key)?.value.length > 0) {
-        filters?.push({
+      if (String(filterForm.get(key)?.value).length > 0) {
+        this.filters?.push({
           columnName: key,
           value: filterForm.get(key)?.value,
-          order: 0
-        })
+        });
       }
     });
 
-    console.log(data);
+    return this.filters
+  }
+
+  filterTable(data: any) {
     let dataArr: any[] = [];
-    dataArr = data.filter((o: any) => filters.every(({ columnName, value }: any) => {
-      if (o[columnName]) o[columnName].toString().toLowerCase().includes(value?.toString().toLowerCase())
-    }));
-    console.log(dataArr);
+    console.log(this.filters)
+    console.log(data)
+    data.map((o: any) => this.filters.map(({ columnName, value }: any) => {
+      if (o[columnName] && o[columnName].toString().toLowerCase().includes(value?.toString().toLowerCase()))
+        dataArr.push(o)
+    }))
+
+    // dataArr = data.filter((o: any) => this.filters.every(({ columnName, value }: any) => o[columnName]?.toString().toLowerCase().includes(value?.toString().toLowerCase())));
+    // console.log(dataArr);
+    
     return dataArr;
   }
 
