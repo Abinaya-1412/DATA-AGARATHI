@@ -182,7 +182,6 @@ export class BusinessObjDefinitionComponent {
 
         let last_rule_id = (rule_id.length == 1 ? this.FF['business_object_id'].value + 'BR000' : (rule_id.length == 2 ? this.FF['business_object_id'].value + 'BR00' : (rule_id.length == 3 ? this.FF['business_object_id'].value + 'BR0' : ''))) + rule_id
         let BOD_last_value = res.data.length ? last_rule_id : this.FF['business_object_id'].value + 'BR' + "0001";
-        console.log()
         this.BRF['rule_id'].setValue(BOD_last_value);
       },
       error: err => console.log(err)
@@ -680,54 +679,62 @@ export class BusinessObjDefinitionComponent {
 
     this.filter_dialogRef.afterClosed().subscribe({
       next: res => {
-        this.getFilterValues(res);
-        // this.dataSourceDtOwner = new MatTableDataSource<any>(this.filterTable(this.boOwnerData));
-        // this.dataSourceSrcSystem = new MatTableDataSource<any>();
-        this.filterTable(this.boOwnerData);
-        this.filterTable(this.impDetailsData);
-        // this.dataSourceBussnRule = new MatTableDataSource<any>(this.filterTable(this.ruleData));
-        // this.dataSourceAltBusiness = new MatTableDataSource<any>(this.filterTable(this.termData));
+        if (res) {
+          this.dataSourceDtOwner = new MatTableDataSource<any>(this.applyFilters(this.boOwnerData, res));
+          this.dataSourceSrcSystem = new MatTableDataSource<any>(this.applyFilters(this.impDetailsData, res));
+          this.dataSourceBussnRule = new MatTableDataSource<any>(this.applyFilters(this.ruleData, res));
+          this.dataSourceAltBusiness = new MatTableDataSource<any>(this.applyFilters(this.termData, res));
+        }
       }
     })
   }
 
   filters: any[] = [];
-  getFilterValues(filterForm: any) {
-    console.log(filterForm.value)
+  applyFilters(data: any[], filterData: any) {
+    this.filters = this.getFilterValues(filterData, data);
+    return data.filter((item) => {
+      if (!this.filters || this.filters.length == 0) {
+        return
+      }
+      return this.filters?.every((filter) => {
+        if (item.hasOwnProperty(filter.columnName)) {
+          return (
+            (item as any)[filter.columnName]?.toString().toLowerCase() ===
+            filter.value?.toString().toLowerCase()
+          );
+        }
+        return false;
+      });
+    });
+  }
+
+  getFilterValues(filterForm: any, data: any[]) {
+    this.filters = [];
+    let filterArr: any[] = [];
     Object.keys(filterForm.controls).forEach((key: string) => {
       if (String(filterForm.get(key)?.value).length > 0) {
-        this.filters?.push({
+        filterArr?.push({
           columnName: key,
           value: filterForm.get(key)?.value,
         });
       }
     });
 
+    filterArr.map((dt: any) => {
+      data.every((filter) => {
+        if (filter.hasOwnProperty(dt.columnName)) {
+          this.filters.push(dt);
+        }
+      });
+    })
+
     return this.filters
   }
 
-  filterTable(data: any) {
-    let dataArr: any[] = [];
-    console.log(this.filters)
-    console.log(data)
-    data.map((o: any) => this.filters.map(({ columnName, value }: any) => {
-      if (o[columnName] && o[columnName].toString().toLowerCase().includes(value?.toString().toLowerCase()))
-        dataArr.push(o)
-    }))
-
-    // dataArr = data.filter((o: any) => this.filters.every(({ columnName, value }: any) => o[columnName]?.toString().toLowerCase().includes(value?.toString().toLowerCase())));
-    // console.log(dataArr);
-    
-    return dataArr;
-  }
-
-  //TABLE CODES
   dataSourceBusinessOwner: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-
   dataSourceDtOwner: MatTableDataSource<any> = new MatTableDataSource<any>([]);
 
   dataSourceSrcSystem: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-
   dataSourceBussnRule: MatTableDataSource<any> = new MatTableDataSource<any>([]);
 
   dataSourceAltBusiness: MatTableDataSource<any> = new MatTableDataSource<any>([]);
@@ -939,18 +946,8 @@ export class BusinessObjDefinitionComponent {
 
       ) : (
         this.saveDataOwner(),
-        // this.dataSourceDtOwner.data.push(this.DataOwnerFormGroup.value),
         this.dataSourceDtOwner.paginator = this.commonPaginator
       )
-
-      // this.highlightRowDataDtOwner ? (
-      //   this.dataSourceDtOwner.data[this.activeRowDtOwner] = this.DataOwnerFormGroup.value,
-      //   this.dataSourceDtOwner.data = this.dataSourceDtOwner.data
-      // ) : (
-      //   this.dataSourceDtOwner.data.push(this.DataOwnerFormGroup.value),
-      //   this.dataSourceDtOwner.data = this.dataSourceDtOwner.data
-      // )
-
       this.UpdateDataDtOwner = '';
       this.generateDtOwnerForm();
       this.activeRowDtOwner = -1;
@@ -1013,7 +1010,6 @@ export class BusinessObjDefinitionComponent {
     if (this.SourceSystemFormGroup.valid) {
       this.isImpDetailsFormGroup = true;
       this.highlightRowDataSrcSystem ? (
-        // this.dataSourceSrcSystem.data[this.activeRowSrcSystem] = this.SourceSystemFormGroup.value,
         this.businessService.updateImpDetails(this.highlightRowDataSrcSystem.id, this.DataOwnerFormGroup.value).subscribe({
           next: res => {
             swalSuccess('Updated successfully!');
@@ -1026,14 +1022,6 @@ export class BusinessObjDefinitionComponent {
         this.saveImpDetails(),
         this.dataSourceSrcSystem.data = this.dataSourceSrcSystem.data
       )
-
-      // this.highlightRowDataSrcSystem ? (
-      //   this.dataSourceSrcSystem.data[this.activeRowSrcSystem] = this.SourceSystemFormGroup.value,
-      //   this.dataSourceSrcSystem.data = this.dataSourceSrcSystem.data
-      // ) : (
-      //   this.dataSourceSrcSystem.data.push(this.SourceSystemFormGroup.value),
-      //   this.dataSourceSrcSystem.data = this.dataSourceSrcSystem.data
-      // )
 
       this.UpdateDataSrsSystem = '';
       this.generateSourceSystemFormGroup();
@@ -1118,15 +1106,6 @@ export class BusinessObjDefinitionComponent {
         this.saveBusinessRule(),
         this.dataSourceBussnRule.paginator = this.commonPaginatorBussnRule
       )
-
-      // this.highlightRowDataBussnRule ? (
-      //   this.dataSourceBussnRule.data[this.activeRowBussnRule] = this.BusinessRulesFormGroup.value,
-      //   this.dataSourceBussnRule.paginator = this.commonPaginatorBussnRule
-      // ) : (
-      //   this.dataSourceBussnRule.data.push(this.BusinessRulesFormGroup.value),
-      //   this.dataSourceBussnRule.paginator = this.commonPaginatorBussnRule
-      // )
-
       this.UpdateDataBussnRule = '';
       this.generateBusinessRulesFormGroup();
       this.activeRowBussnRule = -1;
@@ -1188,17 +1167,9 @@ export class BusinessObjDefinitionComponent {
         }),
         this.dataSourceAltBusiness.paginator = this.commonPaginatorAltBusiness
       ) : (
-        // this.dataSourceAltBusiness.data.push(this.BusinessTermFormGroup.value),
         this.saveAltTerm(),
         this.dataSourceAltBusiness.paginator = this.commonPaginatorAltBusiness
       )
-      // this.highlightRowDataAltBusiness ? (
-      //   this.dataSourceAltBusiness.data[this.activeRowAltBusiness] = this.BusinessTermFormGroup.value,
-      //   this.dataSourceAltBusiness.paginator = this.commonPaginatorAltBusiness
-      // ) : (
-      //   this.dataSourceAltBusiness.data.push(this.BusinessTermFormGroup.value),
-      //   this.dataSourceAltBusiness.paginator = this.commonPaginatorAltBusiness
-      // )
 
       this.UpdateDataAlternateTerm = '';
       this.generateBusinessTermFormGroup();
@@ -1210,7 +1181,6 @@ export class BusinessObjDefinitionComponent {
   }
 
   saveAltTerm() {
-    // this.BTF['business_object_id'].setValue(this.FF['business_object_id'].value);
     this.businessService.saveBusiness_term(this.BusinessTermFormGroup.value).subscribe({
       next: res => {
         swalSuccess("Saved successfully.");
