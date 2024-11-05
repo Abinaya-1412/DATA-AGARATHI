@@ -30,7 +30,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { BusinessTermComponent } from './components/module-pages/business-term/business-term.component';
 
 const routes: Routes = [ 
-  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+  { path: '', redirectTo: 'pages/business', pathMatch: 'full' },
   { path: 'landing', component: LandingComponent },
   
   {

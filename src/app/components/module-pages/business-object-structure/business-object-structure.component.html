@@ -9,9 +9,16 @@
 <div class="row">
   <form [formGroup]="definitionFormGroup" class="p-3">
     <div class="d-flex justify-content-between">
-      <h2 class="text-xl px-2 font-extrabold inline-block">
+      <h2 class="col-md-4 text-xl px-2 font-extrabold inline-block">
         Business Object Structure
       </h2>
+
+      <div class="col-md-2 text-end">
+        <button type="button" role="button" class="pb-1 px-3 text-danger" (click)="handleFilter()">
+          <i class="me-1 fa-regular fa-filter"></i> Filter
+        </button>
+      </div>
+
     </div>
 
     <div class="row pe-2">
@@ -68,8 +75,8 @@
         <div class="field col-12">
           <mat-form-field class="bod-fields col-12">
             <label #BONameTooltip="matTooltip"
-            matTooltip="Business Object Name , how an object/entity is addressed in business terms." for="fullName"
-            class="font-medium text-black required-label">BO name</label>
+              matTooltip="Business Object Name , how an object/entity is addressed in business terms." for="fullName"
+              class="font-medium text-black required-label">BO name</label>
             <mat-select formControlName="business_object_name">
               <mat-option *ngFor="let item of boNames" [value]="item.value">{{item.value}}</mat-option>
             </mat-select>
@@ -161,7 +168,7 @@
         <mat-form-field class="example-full-width field col-11">
           <label matTooltip="Sensitivity classification as per LCS guidleines. Eg Secret, confidential etc."
             for="fullName" class="font-medium text-black required-label">
-            Info. Sensitivity Classification 
+            Info. Sensitivity Classification
           </label>
           <input maxlength="20" type="text" id="customerId" name="customerId" class="col-12" matInput
             formControlName="information_sensitivity_classification" [matAutocomplete]="autosensitivity_classification">
@@ -422,7 +429,8 @@
 
       <div class="col-md-2 mt-3">
         <div class="field py-2">
-          <button [routerLink]="['../business']" routerLinkActive="router-link-active"  class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+          <button [routerLink]="['../business']" routerLinkActive="router-link-active"
+            class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
             Back to BOD
           </button>
         </div>

@@ -13,6 +13,7 @@ import { NewItemComponent } from '../business-obj-definition/new-item/new-item.c
 import { BusinessStructureService } from 'src/app/services/business-structure.service';
 import { NewBONameComponent } from '../business-obj-definition/new-bo-name/new-bo-name.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FilterPopUpComponent } from '../filter-pop-up/filter-pop-up.component';
 
 @Component({
   selector: 'app-business-object-structure',
@@ -47,7 +48,7 @@ export class BusinessObjectStructureComponent {
       ) : null,
       error: err => console.log(err)
     })
-    
+
   }
 
   definitionFormGroup!: FormGroup;
@@ -158,9 +159,9 @@ export class BusinessObjectStructureComponent {
     );
 
   }
-  
 
-  getComboboxData() { 
+
+  getComboboxData() {
 
     this.businessService.getBusiness_term().subscribe({
       next: res => {
@@ -169,7 +170,7 @@ export class BusinessObjectStructureComponent {
           !this.boNames.some(item => item.value === dt.business_term) ? this.boNames.push({ value: dt.business_term }) : '';
           !this.businessAttrNames.some(item => item.value === dt.business_term) ? this.businessAttrNames.push({ value: dt.business_term }) : '';
         });
-      }, 
+      },
       error: err => console.log(err)
     });
 
@@ -226,7 +227,7 @@ export class BusinessObjectStructureComponent {
       error: err => console.log(err)
     });
 
-   
+
     this.isBusinessKeys = this.isBusinessDates = this.isMandatorys = this.isActives = [
       {
         key: '1',
@@ -308,7 +309,7 @@ export class BusinessObjectStructureComponent {
       "created_updated_by",
       "created_updated_date",
       "remarks"
-    ], 
+    ],
     columnsTranslates:
       [
         "BO name",
@@ -352,7 +353,7 @@ export class BusinessObjectStructureComponent {
   }
 
   handleDelete(id: number) {
-  
+
   }
 
   initialBOD_ID = 0;
@@ -365,6 +366,7 @@ export class BusinessObjectStructureComponent {
 
         res.data.map((dt: any) => dt.created_updated_date = formatDate(dt.created_updated_date, 'yyyy-MM-dd', 'en'))
         this.dataSource = new MatTableDataSource<any>(res.data)
+        this.tableData = res.data;
         this.dataSource.paginator = this.commonPaginator;
       },
       error: err => console.log(err)
@@ -413,26 +415,26 @@ export class BusinessObjectStructureComponent {
     })
   }
 
-  handleNew(){
+  handleNew() {
     this.UpdateData = {
       project_name: this.FF['project_name'].value,
       business_object_name: this.FF['business_object_name'].value,
       business_object_id: this.FF['business_object_id'].value,
       business_attribute_id: '',
       business_attribute_name: '',
-      business_attribute_definition:  '', 
+      business_attribute_definition: '',
       information_sensitivity_classification: '',
-      information_sensitivity_type:'', 
-      information_protection_method:  '',
-      business_data_type:  '',
+      information_sensitivity_type: '',
+      information_protection_method: '',
+      business_data_type: '',
       business_attribute_length: 0,
-      business_attribute_scale: 0, 
+      business_attribute_scale: 0,
       is_business_key: '',
-      is_business_date: '', 
-      is_mandatory:  '', 
+      is_business_date: '',
+      is_mandatory: '',
       is_active: '',
-      created_updated_by:  '', 
-      created_updated_date:formatDate(new Date(), 'yyyy-MM-dd', 'en'), 
+      created_updated_by: '',
+      created_updated_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       remarks: '',
     };
     this.generateForm();
@@ -484,6 +486,90 @@ export class BusinessObjectStructureComponent {
       },
       error: err => swalError("Something went wrong"),
     });
+  }
+
+  tableData: any
+  filter_dialogRef!: MatDialogRef<FilterPopUpComponent>;
+
+  handleFilter() {
+    this.filter_dialogRef = this.dialog.open(FilterPopUpComponent,
+      {
+        disableClose: true,
+        width: '80%',
+        height: 'auto',
+        autoFocus: false,
+        data: [
+          { name: 'BO name', value: 'business_object_name' },
+          { name: 'Business attribute id', value: 'business_attribute_id' },
+          { name: 'Business attribute name', value: 'business_attribute_name' },
+          { name: 'Business attribute definition', value: 'business_attribute_definition' },
+          { name: 'Information sensitivity classification', value: 'information_sensitivity_classification' },
+          { name: 'Information sensitivity type', value: 'information_sensitivity_type' },
+          { name: 'Information protection method', value: 'information_protection_method' },
+          { name: 'Business data type', value: 'business_data_type' },
+          { name: 'Business attribute length', value: 'business_attribute_length' },
+          { name: 'Business attribute scale', value: 'business_attribute_scale' },
+          { name: 'Is business key', value: 'is_business_key' },
+          { name: 'Is business date', value: 'is_business_date' },
+          { name: 'Is mandatory', value: 'is_mandatory' },
+          { name: 'Is active', value: 'is_active' },
+          { name: 'Created updated by', value: 'created_updated_by' },
+          { name: 'Created updated date', value: 'created_updated_date' },
+          { name: 'Remarks', value: 'remarks' },
+        ]
+      });
+
+    this.filter_dialogRef.afterClosed().subscribe({
+      next: res => {
+        this.activeRow = -1;
+        this.highlightRowDataDtOwner = '';
+        if (res) {
+          this.dataSource = new MatTableDataSource<any>(this.applyFilters(this.tableData, res));
+        }
+      }
+    })
+  }
+
+  filters: any[] = [];
+  applyFilters(data: any[], filterData: any) {
+    this.filters = this.getFilterValues(filterData, data);
+    return data.filter((item) => {
+      if (!this.filters || this.filters.length == 0) {
+        return
+      }
+      return this.filters?.every((filter) => {
+        if (item.hasOwnProperty(filter.columnName)) {
+          return (
+            (item as any)[filter.columnName]?.toString().toLowerCase() ===
+            filter.value?.toString().toLowerCase()
+          );
+        }
+        return false;
+      });
+    });
+  }
+
+  getFilterValues(filterForm: any, data: any[]) {
+    this.filters = [];
+    let filterArr: any[] = [];
+    Object.keys(filterForm.controls).forEach((key: string) => {
+      if (String(filterForm.get(key)?.value).length > 0) {
+        filterArr?.push({
+          columnName: key,
+          value: filterForm.get(key)?.value,
+        });
+      }
+    });
+
+    filterArr.map((dt: any) => {
+      data.every((filter) => {
+        if (filter.hasOwnProperty(dt.columnName)) {
+          this.filters.push(dt);
+        }
+      });
+    })
+
+    return this.filters
   }
 
 }

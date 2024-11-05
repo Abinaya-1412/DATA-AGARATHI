@@ -8,9 +8,15 @@
     </header>
 </div>
 
+<div class="d-flex px-4 mt-4 justify-content-end">
+        <button type="button" role="button" class="pb-1 px-1 text-danger" (click)="handleFilter()">
+            <i class="me-1 fa-regular fa-filter"></i> Filter
+        </button>
+</div>
+
 <div class="row mt-4 px-4 pb-3">
     <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
-        style="border-radius: 6px; max-height: 400px;">
+        style="border-radius: 6px; max-height: 60vh;">
         <table mat-table [dataSource]="dataSourceBusinessObjectDefinition" id="report">
             <ng-container
                 *ngFor="let column of displayedColumnBusinessObjectDefinition.columnsTranslates; let j = index"
@@ -56,7 +62,7 @@
     </mat-paginator>
 </div>
 
-<div class="row gap-3 mb-3 mt-2 px-4 justify-content-end ">
+<div class="row gap-3 mb-3 px-4 justify-content-end ">
     <button
         class="col-2 bg-danger h-full rounded text-white font-medium d-flex align-items-center justify-content-center gap-x-2 px-4 py-2"
         type="button" (click)="update()">
