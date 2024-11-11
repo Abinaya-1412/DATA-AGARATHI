@@ -18,6 +18,7 @@ import { NewBONameComponent } from './new-bo-name/new-bo-name.component';
 import { BusinessObjectStructureComponent } from '../business-object-structure/business-object-structure.component';
 import { Router } from '@angular/router';
 import { FilterPopUpComponent } from '../filter-pop-up/filter-pop-up.component';
+import { SchemasService } from 'src/app/services/schemas.service';
 
 @Component({
   selector: 'app-business-obj-definition',
@@ -32,6 +33,7 @@ export class BusinessObjDefinitionComponent {
     private fb: FormBuilder,
     private businessService: BusinessService,
     private comboboxService: ComboboxService,
+    private schemasService: SchemasService,
     private readonly changeDetectorRef: ChangeDetectorRef,
   ) {
     this.getTableBusinessObjectDefinition(1);
@@ -245,33 +247,33 @@ export class BusinessObjDefinitionComponent {
       error: err => console.log(err)
     });
 
-    // this.comboboxService.getAsset_type().subscribe({
-    //   next: res => {
-    //     res.data.map((dt: any) => {
-    //       this.assetsTypes.push({ value: dt.asset_type_code });
-    //     })
-    //   },
-    //   error: err => console.log(err)
-    // });
+    this.schemasService.getAssetsTypes().subscribe({
+      next: res => {
+        res.map((dt: any) => {
+          this.assetsTypes.push({ key: dt.ref_code, value: dt.ref_code });
+        })
+      },
+      error: err => console.log(err)
+    });
 
-    this.assetsTypes = [
-      {
-        key: 'Master',
-        value: 'Master',
-      },
-      {
-        key: 'Reference',
-        value: 'Reference',
-      },
-      {
-        key: 'Event',
-        value: 'Event',
-      },
-      {
-        key: 'Config',
-        value: 'Config',
-      },
-    ]
+    // this.assetsTypes = [
+    //   {
+    //     key: 'Master',
+    //     value: 'Master', 
+    //   },
+    //   {
+    //     key: 'Reference',
+    //     value: 'Reference',
+    //   },
+    //   {
+    //     key: 'Event',
+    //     value: 'Event',
+    //   },
+    //   {
+    //     key: 'Config',
+    //     value: 'Config',
+    //   },
+    // ]
 
 
     this.dataOwners = [
@@ -290,45 +292,35 @@ export class BusinessObjDefinitionComponent {
 
     ]
 
-    // this.comboboxService.getSensitivity_classification().subscribe({
-    //   next: res => {
-    //     res.data.map((dt: any) => this.sensitivityClassifications.push({ value: dt.sensitivity_classification }))
+    this.schemasService.getSensitivitys().subscribe({
+      next: res => {
+        res.map((dt: any) => {
+          this.sensitivityClassifications.push({ key: dt.ref_code, value: dt.ref_code });
+        })
+      },
+      error: err => console.log(err)
+    });
+
+    this.schemasService.getReasons().subscribe({
+      next: res => {
+        res.map((dt: any) => {
+          this.sensitivityReasons.push({ key: dt.ref_code, value: dt.ref_code });
+        })
+      },
+      error: err => console.log(err)
+    });
+
+
+    // this.sensitivityReasons = [
+    //   {
+    //     key: 'PII',
+    //     value: 'PII'
     //   },
-    //   error: err => console.log(err)
-    // });
-
-    this.sensitivityClassifications = [
-      {
-        key: 'Secret',
-        value: 'Secret'
-      },
-      {
-        key: 'Confidential',
-        value: 'Confidential'
-      },
-      {
-        key: 'Public & Private',
-        value: 'Public & Private'
-      },
-    ]
-
-    // this.comboboxService.getSensitivity_reason_code().subscribe({
-    //   next: res => {
-    //     res.data.map((dt: any) => this.sensitivityReasons.push({ value: dt.sensitivity_reason_code }))
-    //   },
-    //   error: err => console.log(err)
-    // });
-
-    this.sensitivityReasons = [
-      {
-        key: 'PII',
-        value: 'PII'
-      },
-      {
-        key: 'Competitive',
-        value: 'Competitive'
-      }
-    ]
+    //   {
+    //     key: 'Competitive',
+    //     value: 'Competitive'
+    //   }
+    // ]
 
     this.refreshFrequency = [
       {
@@ -686,11 +678,11 @@ export class BusinessObjDefinitionComponent {
           { name: 'Created/Updated by', value: 'created_by' },
           { name: 'Created/Updated date', value: 'date_created' },
           { name: 'Remarks', value: 'remarks' },
-      
+
           { name: 'Business unit owner', value: 'business_unit_owner' },
           { name: 'Business function', value: 'business_function' },
           { name: 'Role', value: 'role' },
-         
+
           { name: 'Source System', value: 'source_system' },
           { name: 'Source Sys. Country Code', value: 'source_system_country_code' },
           { name: 'Req Frequency of Refresh', value: 'req_frequency_of_refresh' },
@@ -701,9 +693,9 @@ export class BusinessObjDefinitionComponent {
           { name: 'History Type', value: 'history_type' },
           { name: 'Error Treatment', value: 'error_treatment' },
           { name: 'Exception Treatment', value: 'exception_treatment' },
-      
+
           { name: 'Rule', value: 'rule' },
-      
+
           { name: 'Business term', value: 'business_term' },
           { name: 'Business term description', value: 'business_term_description' },
           { name: 'Version', value: 'version' },

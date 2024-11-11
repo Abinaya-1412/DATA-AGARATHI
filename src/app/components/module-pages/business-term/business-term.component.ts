@@ -10,7 +10,7 @@ import { swalError, swalSuccess } from 'src/app/utils/alert';
 @Component({
   selector: 'app-business-term',
   templateUrl: './business-term.component.html',
-  styleUrls: ['./business-term.component.scss']
+  styleUrls: ['./business-term.component.scss'] 
 })
 export class BusinessTermComponent implements OnInit {
   definitionFormGroup: FormGroup;
@@ -66,6 +66,10 @@ export class BusinessTermComponent implements OnInit {
     this.fileLocalUrl = URL.createObjectURL(event.target.files[0])
     this.file = event.target.files[0];
     this.FF['projectFileName'].setValue(event.target.files[0].name);
+    this.businessTermService.uploadTermFile(this.file).subscribe({
+      next: res=> this.FF['projectFilePath'].setValue(res.url),
+      error: err => console.log(err)
+    })
   }
 
   getUrl(filePath: string) {
@@ -161,7 +165,7 @@ export class BusinessTermComponent implements OnInit {
   }
 
   saveService() {
-    this.businessTermService.saveBo_term(this.definitionFormGroup.value, this.file).subscribe(
+    this.businessTermService.saveBo_term(this.definitionFormGroup.value).subscribe(
       {
         next: res => {
           console.log(res)
