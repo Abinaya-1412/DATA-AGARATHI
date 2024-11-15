@@ -6,11 +6,13 @@ import { BusinessTermService } from 'src/app/services/business-term.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { formatDate } from '@angular/common';
 import { swalError, swalSuccess } from 'src/app/utils/alert';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TermPopUpComponent } from './term-pop-up/term-pop-up.component';
 
 @Component({
   selector: 'app-business-term',
   templateUrl: './business-term.component.html',
-  styleUrls: ['./business-term.component.scss'] 
+  styleUrls: ['./business-term.component.scss']
 })
 export class BusinessTermComponent implements OnInit {
   definitionFormGroup: FormGroup;
@@ -29,6 +31,7 @@ export class BusinessTermComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private dialog: MatDialog,
     private businessTermService: BusinessTermService
   ) {
     this.definitionFormGroup = this.fb.group({
@@ -38,8 +41,7 @@ export class BusinessTermComponent implements OnInit {
       version: ['', Validators.required],
       date_created: ['', Validators.required],
       active: ['', Validators.required],
-      projectFileName: '',
-      projectFilePath: '',
+      image_url: '',
       id: 0
     });
   }
@@ -61,40 +63,57 @@ export class BusinessTermComponent implements OnInit {
   }
 
   fileLocalUrl = '';
+  projectFileName = '';
   file?: File | null = null;
+
   uploadFile(event: any) {
     this.fileLocalUrl = URL.createObjectURL(event.target.files[0])
     this.file = event.target.files[0];
-    this.FF['projectFileName'].setValue(event.target.files[0].name);
+    this.projectFileName = event.target.files[0].name;
     this.businessTermService.uploadTermFile(this.file).subscribe({
-      next: res=> this.FF['projectFilePath'].setValue(res.url),
+      next: res => this.FF['image_url'].setValue(res.url),
       error: err => console.log(err)
     })
+  }
+
+  deleteFile(){
+    this.file = null;
+    this.projectFileName = '';
+    this.fileLocalUrl = '';
+    this.FF['image_url'].setValue('');
   }
 
   getUrl(filePath: string) {
     return '';
   }
 
-  lastGeneratedID: string = 'BOT000'; 
+  lastGeneratedID: string = 'BOT000';
   generateBusinessTermID() {
 
-    this.lastGeneratedID = this.dataSource.data.length ? this.dataSource.data[this.dataSource.data.length-1].business_term_id : 'BOT000'
-    // Extract the numeric part of the ID from the last generated ID
-    const numericID = parseInt(this.lastGeneratedID.replace('BOT', ''), 10) || 0;
-  
-    // Increment the numeric part and format with leading zeros
-    const newIDNumber = numericID + 1;
-    this.lastGeneratedID = `BOT${String(newIDNumber).padStart(3, '0')}`;
-  
-    // Update the form control with the new ID
-    this.definitionFormGroup.controls['business_term_id'].setValue(this.lastGeneratedID);
+    this.businessTermService.getBo_term().subscribe({
+      next: res => {
+        this.lastGeneratedID = res.data.length ? res.data[res.data.length - 1].business_term_id : 'BOT000'
+        // Extract the numeric part of the ID from the last generated ID
+        const numericID = parseInt(this.lastGeneratedID.replace('BOT', ''), 10) || 0;
+        console.log( res)
+    
+        // Increment the numeric part and format with leading zeros
+        const newIDNumber = numericID + 1;
+        this.lastGeneratedID = `BOT${String(newIDNumber).padStart(3, '0')}`;
+    
+        // Update the form control with the new ID
+        this.definitionFormGroup.controls['business_term_id'].setValue(this.lastGeneratedID);
+      },
+      error: err => console.error('Error fetching business terms', err), 
+    });
+
+   
   }
 
   // Fetch business terms for dropdown
   fetchBusinessTerms() {
     this.businessTermService.getBo_term().subscribe(response => {
-      this.filteredOptionsBTerm.next(response.data); 
+      this.filteredOptionsBTerm.next(response.data);
     });
   }
   filterBusinessTerms(value: string) {
@@ -170,7 +189,7 @@ export class BusinessTermComponent implements OnInit {
         next: res => {
           console.log(res)
           this.generateBusinessTermID();
-          swalSuccess("Successfully saved!")
+          swalSuccess("Data inserted into business_term!")
         },
         error: err => swalError("Something went wrong!")
       }
@@ -228,33 +247,50 @@ export class BusinessTermComponent implements OnInit {
     if (!this.isActive(index)) {
       this.selectedRow = row;
       this.activeRow = index;
-      this.definitionFormGroup.patchValue({
-        business_term_id: row.business_term_id,
-        business_term: row.business_term,
-        business_term_description: row.business_term_description,
-        version: row.version,
-        date_created: row.date_created,
-        active: row.active,
-        id: row.id
-      });
+
     }
     else {
       this.activeRow = '';
       this.selectedRow = '';
-      this.definitionFormGroup.patchValue({
-        business_term_id: '',
-        business_term: '',
-        business_term_description: '',
-        version: '',
-        date_created: '',
-        active: '',
-        id: 0
-      });
       this.generateBusinessTermID();
     }
   }
 
   get FF(): { [key: string]: AbstractControl } {
     return this.definitionFormGroup.controls;
+  }
+
+  popUp_dialogRef?: MatDialogRef<TermPopUpComponent>;
+  openTermPopUp(popUpType: string) {
+    this.popUp_dialogRef = this.dialog.open(TermPopUpComponent,
+      {
+        // disableClose: true,
+        hasBackdrop: true,
+        width: '80%',
+        height: 'auto',
+        autoFocus: false,
+        data: {
+          popUpType: popUpType
+        }
+      })
+
+    this.popUp_dialogRef.afterClosed().subscribe({
+      next: res => {
+        console.log(res)
+        res ? (
+          this.selectedRow = res,
+          this.definitionFormGroup.patchValue({
+            business_term_id: res.business_term_id,
+            business_term: res.business_term,
+            business_term_description: res.business_term_description,
+            version: res.version,
+            date_created: formatDate(res.date_created, 'yyyy-MM-dd', 'en') ,
+            active: res.active,
+            id: res.id
+          })
+        )
+          : null
+      }
+    })
   }
 }   

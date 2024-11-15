@@ -62,6 +62,8 @@ import { NewBONameComponent } from './components/module-pages/business-obj-defin
 import { BusinessObjectStructureComponent } from './components/module-pages/business-object-structure/business-object-structure.component';
 import { BusinessTermComponent } from './components/module-pages/business-term/business-term.component';
 import { FilterPopUpComponent } from './components/module-pages/filter-pop-up/filter-pop-up.component';
+import { LinagePopUpComponent } from './components/module-pages/linage/linage-pop-up/linage-pop-up.component';
+import { LinageComponent } from './components/module-pages/linage/linage.component';
 
 
 @NgModule({
@@ -96,7 +98,8 @@ import { FilterPopUpComponent } from './components/module-pages/filter-pop-up/fi
     BusinessObjectStructureComponent,
     BusinessTermComponent,
     FilterPopUpComponent,
-
+    LinageComponent,
+    LinagePopUpComponent
   ],
   imports: [
     BrowserModule,
@@ -137,7 +140,8 @@ import { FilterPopUpComponent } from './components/module-pages/filter-pop-up/fi
     MatAutocompleteModule,
     ModulePagesModule,
     NgxSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+  
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },

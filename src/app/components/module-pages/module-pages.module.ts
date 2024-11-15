@@ -5,18 +5,24 @@ import { RouterModule } from '@angular/router';
 import { ViewGridComponent } from './business-obj-definition/view-grid/view-grid.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { TermPopUpComponent } from './business-term/term-pop-up/term-pop-up.component';
+import { FormsModule } from '@angular/forms';
+import { LinageComponent } from './linage/linage.component';
+import { LinagePopUpComponent } from './linage/linage-pop-up/linage-pop-up.component';
 
 @NgModule({
   declarations: [
     ModulePagesComponent,
     ViewGridComponent,
+    TermPopUpComponent,
     // NewBONameComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     MatTableModule,
-    MatPaginatorModule 
+    MatPaginatorModule ,
+    FormsModule 
   ]
 })
 export class ModulePagesModule { }

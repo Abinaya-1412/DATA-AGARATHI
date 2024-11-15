@@ -28,6 +28,7 @@ import { MetadataAttributesComponent } from './components/spa-pages/metadata-att
 import { BusinessObjectStructureComponent } from './components/module-pages/business-object-structure/business-object-structure.component';
 import { AuthGuard } from './guards/auth.guard';
 import { BusinessTermComponent } from './components/module-pages/business-term/business-term.component';
+import { LinageComponent } from './components/module-pages/linage/linage.component';
 
 const routes: Routes = [ 
   { path: '', redirectTo: 'pages/business', pathMatch: 'full' },
@@ -37,7 +38,8 @@ const routes: Routes = [
     path: 'pages', component: ModulePagesComponent, children: [
       { path: 'business', component: BusinessObjDefinitionComponent },
       { path: 'structure', component: BusinessObjectStructureComponent },
-      { path: 'businessTerm', component: BusinessTermComponent }
+      { path: 'businessTerm', component: BusinessTermComponent },
+      { path: 'lineage', component: LinageComponent }
     ],
     // canActivate: [AuthGuard] 
   },
