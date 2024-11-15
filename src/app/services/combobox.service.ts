@@ -68,4 +68,8 @@ export class ComboboxService {
   getCountry_codes() {
     return this.http.get<any>(`https://umdproject-jts6kjq65-umds-projects-76f3b139.vercel.app/api/country_codes`);
   }
+
+  getOperators(){
+    return this.http.get<any>(`https://business-mappings-fpicy16b0-umds-projects-76f3b139.vercel.app/api/operators`);
+  }
 }

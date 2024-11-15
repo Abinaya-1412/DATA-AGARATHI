@@ -5,6 +5,7 @@ import { BusinessTermService } from 'src/app/services/business-term.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { swalSuccess } from 'src/app/utils/alert';
 import { TermPopUpComponent } from '../../business-term/term-pop-up/term-pop-up.component';
+import { MappingService } from 'src/app/services/mapping.service';
 
 @Component({
   selector: 'app-linage-pop-up',
@@ -13,10 +14,9 @@ import { TermPopUpComponent } from '../../business-term/term-pop-up/term-pop-up.
 })
 export class LinagePopUpComponent {
   constructor(
-    private dialog: MatDialog,
     private dialogRef: MatDialogRef<LinagePopUpComponent>,
-    private businessService: BusinessService,
     private businessTermService: BusinessTermService,
+    private mappingService: MappingService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -26,7 +26,8 @@ export class LinagePopUpComponent {
         this.displayedColumn.columnsTranslates.push('#'))
       : null
 
-  }  
+    this.getTableData();
+  }
 
   dataSource = new MatTableDataSource<any>([]);
 
@@ -39,8 +40,12 @@ export class LinagePopUpComponent {
 
   displayedColumn = {
     columnsTranslates: ['Subject Business Term', 'Relationship', 'Operator', 'Value', 'Object Business Term'],
-    columns: ['subject_busines_term', 'relationship', 'operator', 'value', 'object_busines_term']
+    columns: ['subject_business_term', 'relationship', 'operator', 'value', 'object_business_term']
   };
+
+  getTableData() {
+
+  }
 
   onChangePage(event: any) {
     this.pageSize = event.pageSize;
@@ -67,16 +72,15 @@ export class LinagePopUpComponent {
 
   search: any;
   applyFilter() {
-    this.businessTermService.getBo_term().subscribe({
+    this.mappingService.getAll().subscribe({
       next: res => {
-        this.dataSource = new MatTableDataSource<any>(res.data)
+        this.dataSource = new MatTableDataSource<any>(res)
       },
-      error: err => console.error('Error fetching business terms', err),
+      error: err => console.log(err),
       complete: () => {
         this.dataSource.filter = this.search;
       }
-    });
-
+    })
   }
 
   handleUpdate(data: any) {
@@ -84,11 +88,14 @@ export class LinagePopUpComponent {
   }
 
   handleDelete(id: string) {
-    this.businessTermService.deleteBo_term(Number(id)).subscribe(
-     {
-      next: res => swalSuccess("Row deleted from business term"),
-      error: err => console.log(err)
-     }
+    this.mappingService.delete(id).subscribe(
+      {
+        next: res => {
+          swalSuccess("Row deleted from business term");
+          this.dataSource = new MatTableDataSource<any>([])
+        },
+        error: err => console.log(err)
+      }
     );
   }
 }

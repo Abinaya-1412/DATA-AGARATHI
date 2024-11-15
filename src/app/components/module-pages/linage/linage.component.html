@@ -1,12 +1,11 @@
 <div class="row gap-y-2 shadow-md relative align-items-center h-16" style="height: 9vh;">
-    <div class="col-sm-2 py-2">
-      <img role="button" class="col-9 logo-header" style="max-width: 200px;" routerLink="../../landing"
-        src="../../../../assets/Metadata.jpeg" alt="">
-    </div>
+  <div class="col-sm-2 py-2">
+    <img role="button" class="col-9 logo-header" style="max-width: 200px;" routerLink="../../landing"
+      src="../../../../assets/Metadata.jpeg" alt="">
   </div>
+</div>
 
-<div class=" overflow-y-auto" style="max-height: 91vh;">
-  <div class="bg-white" style="position: sticky; top:0; z-index: 999;">
+  <div class="bg-white mt-3" >
     <form [formGroup]="formGroup" class="pb-2 pt-1 px-3">
       <div class="d-flex justify-content-between">
         <h2 class="text-xl px-2 font-extrabold inline-block">
@@ -16,7 +15,7 @@
 
       <div class="row pe-2">
         <div class="col-md-3 relative d-flex">
-          <mat-form-field class="example-full-width field  col-11">
+          <mat-form-field class="example-full-width field  col-12">
             <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black ">
               Subject Business Term
             </label>
@@ -27,6 +26,11 @@
                 {{option.value}}
               </mat-option>
             </mat-autocomplete>
+
+            <small class="text-danger"
+              *ngIf="(FF['subject_business_term'].errors?.['required'] && !isFormValid) || (FF['subject_business_term'].invalid && !isFormValid)">
+              *Required field
+            </small>
           </mat-form-field>
         </div>
 
@@ -39,6 +43,10 @@
               <mat-select formControlName="relationship">
                 <mat-option *ngFor="let item of relationships" [value]="item.key">{{item.value}}</mat-option>
               </mat-select>
+              <small class="text-danger"
+                *ngIf="(FF['relationship'].errors?.['required'] && !isFormValid) || (FF['relationship'].invalid && !isFormValid)">
+                *Required field
+              </small>
             </mat-form-field>
           </div>
         </div>
@@ -52,6 +60,11 @@
               <mat-select formControlName="operator">
                 <mat-option *ngFor="let item of operators" [value]="item.key">{{item.value}}</mat-option>
               </mat-select>
+
+              <small class="text-danger"
+                *ngIf="(FF['operator'].errors?.['required'] && !isFormValid) || (FF['operator'].invalid && !isFormValid)">
+                *Required field
+              </small>
             </mat-form-field>
           </div>
         </div>
@@ -59,26 +72,31 @@
         <div class="col-md-2">
           <div class="field">
             <label for="Value" class="font-medium text-black required-label">Value</label>
-            <input type="text" name="value" id="value">
+            <input type="text" formControlName="value" name="value" id="value">
+            <small class="text-danger"
+              *ngIf="(FF['value'].errors?.['required'] && !isFormValid) || (FF['value'].invalid && !isFormValid)">
+              *Required field
+            </small>
           </div>
         </div>
 
         <div class="col-md-3 d-flex relative">
-          <mat-form-field class="example-full-width field col-11">
-            <label matTooltip="" for="fullName" class="font-medium text-black required-label">Object Business
-              Term</label>
-            <input maxlength="10" type="text" id="customerId" name="customerId" class="col-12" matInput
+          <mat-form-field class="example-full-width field col-12">
+            <label matTooltip="" for="fullName" class="font-medium text-black required-label">
+              Object Business Term
+            </label>
+            <input type="text" id="object_business_term" name="object_business_term" class="col-12" matInput
               formControlName="object_business_term" [matAutocomplete]="autoasset_type">
             <mat-autocomplete #autoasset_type="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptionsSubTerm | async " [value]="option.value">
+              <mat-option *ngFor="let option of filteredOptionsObjTerm | async " [value]="option.value">
                 {{option.value}}
               </mat-option>
             </mat-autocomplete>
-            <!--   
-              <small class="error_text"
-                *ngIf="(FF['business_object_asset_type'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['business_object_asset_type'].invalid && !isBusinessObjectDefinitionFormValid)">
-                *Required field
-              </small> -->
+
+            <small class="text-danger"
+              *ngIf="(FF['object_business_term'].errors?.['required'] && !isFormValid) || (FF['object_business_term'].invalid && !isFormValid)">
+              *Required field
+            </small>
           </mat-form-field>
         </div>
 
@@ -90,11 +108,11 @@
         <div class="col-md-1 mt-3">
           <div class="field py-2">
             <button (click)="onSubmit()" type="submit" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
-              {{selectedRow ? 'Save'  : "Add"}}
+              {{selectedRow ? 'Save' : "Add"}}
             </button>
           </div>
         </div>
-  
+
         <div class="col-md-1 mt-3">
           <div class="field py-2">
             <button (click)="openTermPopUp('view')" type="submit"
@@ -103,7 +121,7 @@
             </button>
           </div>
         </div>
-  
+
         <div class="col-md-1 mt-3">
           <div class="field py-2">
             <button (click)="openTermPopUp('update')" type="submit"
@@ -112,7 +130,7 @@
             </button>
           </div>
         </div>
-  
+
         <div class="col-md-1 mt-3">
           <div class="field py-2">
             <button (click)="openTermPopUp('delete')" type="submit"
@@ -126,6 +144,3 @@
 
     </form>
   </div>
-
-
-</div>
