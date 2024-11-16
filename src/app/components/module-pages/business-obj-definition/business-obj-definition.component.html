@@ -1,12 +1,12 @@
 <div class="row gap-y-2 shadow-md relative align-items-center h-16" style="height: 9vh;">
-  <div class="col-sm-2 py-2">
-    <img role="button" class="col-7 logo-header" style="max-width: 200px;" routerLink="../../landing" src="../../../../assets/Metadata.jpeg"
+  <div class="col-sm-2">
+    <img role="button" class="col-8 logo-header" style="max-width: 200px;" routerLink="../../landing" src="../../../../assets/Metadata.jpeg"
       alt="">
   </div>
 </div>
 
-<div class="mt-3 overflow-y-auto" style="max-height: 91vh;">
-  <div class="border-b border-dashed bg-white border-gray-400" style="position: sticky; top:0; z-index: 999;">
+<div class="overflow-y-auto" style="max-height: 91vh;">
+  <div class="border-b mt-3 border-dashed bg-white border-gray-400" style="position: sticky; top:0; z-index: 999;">
     <form [formGroup]="definitionFormGroup" class="pb-2 pt-1 px-3">
       <div class="d-flex justify-content-between">
         <h2 class="text-xl px-2 font-extrabold inline-block">
@@ -18,9 +18,9 @@
             <i class="me-1 fa-regular fa-filter"></i> Filter
           </button>
 
-          <button type="button" role="button" class="ms-4 pb-1 px-1 text-danger" (click)="showGrid()">
+          <!-- <button type="button" role="button" class="ms-4 pb-1 px-1 text-danger" (click)="showGrid()">
             <i class="me-1 fa-regular fa-table-cells"></i> Show grid
-          </button>
+          </button> -->
 
           <button type="button" role="button" class="ms-4 pb-1 px-1 text-danger" (click)="addBOS()">
             <i class="me-1 fa-regular fa-square-plus"></i> Add BOS
@@ -248,7 +248,7 @@
           </button>
         </div>
 
-        <div class="col-md-5 row pe-0  align-items-center">
+        <!-- <div class="col-md-5 row pe-0 bg-danger align-items-center">
           <div class="col-md-3 mt-3">
             <div class="field py-2">
               <button (click)="handleCreateNewBO()" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
@@ -264,7 +264,45 @@
               </button>
             </div>
           </div>
+        </div> -->
+      
+        <div class="row col-md-7">
+          <div class="col-md-2 mt-3">
+            <div class="field py-2">
+              <button (click)="handleSave()" type="submit" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+                {{UpdateDataBusinessObjectDefinition ? 'Save'  : "Add"}}
+              </button>
+            </div>
+          </div>
+    
+          <div class="col-md-2 mt-3">
+            <div class="field py-2">
+              <button (click)="showGrid('view')" type="submit"
+                class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+                View
+              </button>
+            </div>
+          </div>
+    
+          <div class="col-md-2 mt-3">
+            <div class="field py-2">
+              <button (click)="showGrid('update')" type="submit"
+                class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+                Update
+              </button>
+            </div>
+          </div>
+    
+          <div class="col-md-2 mt-3">
+            <div class="field py-2">
+              <button (click)="showGrid('delete')" type="submit"
+                class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
+      
       </div>
     </form>
   </div>

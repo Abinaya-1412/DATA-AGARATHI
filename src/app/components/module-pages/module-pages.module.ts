@@ -9,12 +9,14 @@ import { TermPopUpComponent } from './business-term/term-pop-up/term-pop-up.comp
 import { FormsModule } from '@angular/forms';
 import { LinageComponent } from './linage/linage.component';
 import { LinagePopUpComponent } from './linage/linage-pop-up/linage-pop-up.component';
+import { BusinessObjectStructurePopUpComponent } from './business-object-structure/business-object-structure-pop-up/business-object-structure-pop-up.component';
 
 @NgModule({
   declarations: [
     ModulePagesComponent,
     ViewGridComponent,
     TermPopUpComponent,
+    BusinessObjectStructurePopUpComponent,
     // NewBONameComponent
   ],
   imports: [

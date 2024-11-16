@@ -7,14 +7,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class BusinessStructureService {
   constructor(private http: HttpClient, private router: Router,) { }
-  api = "https://umdproject-iqsre0gjn-umds-projects-76f3b139.vercel.app/api"
+  api = "https://umdproject-iqsre0gjn-umds-projects-76f3b139.vercel.app/api";
  
   saveBo_structure(data: any) {
     return this.http.post<any>(this.api + `/bo_structure`, data); 
   }
 
-  deleteBo_structure(id: number) {
-    return this.http.delete<any>(this.api + `/bo_structure/` + id);
+  deleteBo_structure(id: any, b_attr_id:any) {
+    const body = {
+      business_object_id: id,
+      business_attribute_id: b_attr_id,
+    };
+  
+    return this.http.request<any>('delete', `${this.api}/bo_structure`, { body });
+  
   }
 
   updateBo_structure(data: any) {

@@ -25,6 +25,4 @@ export class MappingService {
     return this.http.put<any>(this.api + `/${id}`, data);
   }
 
-
-
 }

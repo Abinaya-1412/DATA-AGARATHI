@@ -14,6 +14,7 @@ import { BusinessStructureService } from 'src/app/services/business-structure.se
 import { NewBONameComponent } from '../business-obj-definition/new-bo-name/new-bo-name.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterPopUpComponent } from '../filter-pop-up/filter-pop-up.component';
+import { BusinessObjectStructurePopUpComponent } from './business-object-structure-pop-up/business-object-structure-pop-up.component';
 
 @Component({
   selector: 'app-business-object-structure',
@@ -40,7 +41,6 @@ export class BusinessObjectStructureComponent {
 
     this.activatedRoute.paramMap.subscribe({
       next: (res: any) => res.params ? (
-
         this.FF['business_object_id'].setValue(res.params.bo_id),
         this.FF['business_object_name'].setValue(res.params.bo_name),
         this.FF['project_name'].setValue(res.params.project_name),
@@ -165,7 +165,6 @@ export class BusinessObjectStructureComponent {
 
     this.businessService.getBusiness_term().subscribe({
       next: res => {
-        console.log(res.data.length)
         res.data.map((dt: any) => {
           !this.boNames.some(item => item.value === dt.business_term) ? this.boNames.push({ value: dt.business_term }) : '';
           !this.businessAttrNames.some(item => item.value === dt.business_term) ? this.businessAttrNames.push({ value: dt.business_term }) : '';
@@ -284,54 +283,6 @@ export class BusinessObjectStructureComponent {
   activeRow: any = -1;
   highlightRowDataDtOwner: any;
 
-  pageEvent!: PageEvent;
-  length?: number;
-  pageSize!: number;
-  pageSizeOptions: number[] = [20, 30, 40];
-  @ViewChild('commonPagDtOwner') commonPaginator!: MatPaginator;
-
-  displayedColumn: any = {
-    columns: [
-      "business_object_name",
-      "business_attribute_id",
-      "business_attribute_name",
-      "business_attribute_definition",
-      "information_sensitivity_classification",
-      "information_sensitivity_type",
-      "information_protection_method",
-      "business_data_type",
-      "business_attribute_length",
-      "business_attribute_scale",
-      "is_business_key",
-      "is_business_date",
-      "is_mandatory",
-      "is_active",
-      "created_updated_by",
-      "created_updated_date",
-      "remarks"
-    ],
-    columnsTranslates:
-      [
-        "BO name",
-        "Business attribute id",
-        "Business attribute name",
-        "Business attribute definition",
-        "Information sensitivity classification",
-        "Information sensitivitytype",
-        "Information protection method",
-        "Business data type",
-        "Business attribute length",
-        "Business attribute scale",
-        "Is business key",
-        "Is business date",
-        "Is mandatory",
-        "Is active",
-        "Created updated by",
-        "Created updated date",
-        "Remarks"
-      ]
-  };
-
   isActive = (index: number) => { return this.activeRow === index };
 
   highlight(index: number, id: number, row: any): void {
@@ -352,10 +303,6 @@ export class BusinessObjectStructureComponent {
   onChangePage(event: PageEvent) {
   }
 
-  handleDelete(id: number) {
-
-  }
-
   initialBOD_ID = 0;
   getTable() {
     this.businessStructureService.getBo_structure().subscribe({
@@ -363,11 +310,6 @@ export class BusinessObjectStructureComponent {
         let BOD_ID = String(Number(res.data[res.data.length - 1]?.business_attribute_id.substring(3)) + 1);
         let BOD_last_value = res.data.length ? (BOD_ID.length == 1 ? 'BOS000' : (BOD_ID.length == 2 ? 'BOS00' : (BOD_ID.length == 3 ? 'BOS00' : 'BOS0'))) + BOD_ID : "BOS0001";
         this.FF['business_attribute_id'].setValue(BOD_last_value)
-
-        res.data.map((dt: any) => dt.created_updated_date = formatDate(dt.created_updated_date, 'yyyy-MM-dd', 'en'))
-        this.dataSource = new MatTableDataSource<any>(res.data)
-        this.tableData = res.data;
-        this.dataSource.paginator = this.commonPaginator;
       },
       error: err => console.log(err)
     })
@@ -441,6 +383,33 @@ export class BusinessObjectStructureComponent {
     this.getTable();
   }
 
+  popUp_dialogRef?: MatDialogRef<BusinessObjectStructurePopUpComponent>;
+  selectedRow: any;
+  openTermPopUp(popUpType: string) {
+    this.popUp_dialogRef = this.dialog.open(BusinessObjectStructurePopUpComponent,
+      {
+        // disableClose: true,
+        hasBackdrop: true,
+        width: '80%',
+        height: 'auto',
+        autoFocus: false,
+        data: {
+          popUpType: popUpType
+        }
+      })
+
+    this.popUp_dialogRef.afterClosed().subscribe({
+      next: res => {
+        res ? (
+          this.selectedRow = res,
+          this.UpdateData = res,
+          this.generateForm()
+        )
+          : null
+      }
+    })
+  }
+
   isFormValid = true;
   handleSaveForm() {
     if (this.definitionFormGroup.valid) {
@@ -448,8 +417,7 @@ export class BusinessObjectStructureComponent {
 
       this.FF['business_object_id'].value != this.FF['business_attribute_definition'].value ?
         (
-          !this.UpdateData ? this.saveForm() : this.updateForm(),
-          this.dataSource.paginator = this.commonPaginator
+          !this.UpdateData ? this.saveForm() : this.updateForm()
         )
         : swalInfo("BO id and Business attribute definition can't be the same!")
 

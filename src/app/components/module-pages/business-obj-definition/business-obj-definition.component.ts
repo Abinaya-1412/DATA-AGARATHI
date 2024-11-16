@@ -1330,7 +1330,8 @@ export class BusinessObjDefinitionComponent {
       swalInfo('You need Project name, Business object name, Business object ID to add Busines Object Structure');
   }
 
-  showGrid() {
+  // selectedRow: any;
+  showGrid(type: string) {
     this.viewGrid_dialogRef = this.dialog.open(ViewGridComponent,
       {
         disableClose: true,
@@ -1338,6 +1339,7 @@ export class BusinessObjDefinitionComponent {
         width: '90%',
         height: 'auto',
         autoFocus: false,
+        data: type
       })
 
     this.viewGrid_dialogRef.afterClosed().subscribe({

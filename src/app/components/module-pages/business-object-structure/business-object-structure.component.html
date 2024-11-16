@@ -1,6 +1,6 @@
 <div class="row gap-y-2 shadow-md relative align-items-center h-16" style="height: 9vh;">
-  <div class="col-sm-2 py-2">
-    <img role="button" class="col-7 logo-header" style="max-width: 200px;" routerLink="../../landing"
+  <div class="col-sm-2">
+    <img role="button" class="col-9 logo-header" style="max-width: 200px;" routerLink="../../landing"
       src="../../../../assets/Metadata.jpeg" alt="">
   </div>
 </div>
@@ -13,12 +13,11 @@
         Business Object Structure
       </h2>
 
-      <div class="col-md-2 text-end">
+      <!-- <div class="col-md-2 text-end">
         <button type="button" role="button" class="pb-1 px-3 text-danger" (click)="handleFilter()">
           <i class="me-1 fa-regular fa-filter"></i> Filter
         </button>
-      </div>
-
+      </div> -->
     </div>
 
     <div class="row pe-2">
@@ -426,28 +425,57 @@
           +
         </button>
       </div>
-
-      <div class="col-md-2 mt-3">
-        <div class="field py-2">
-          <button [routerLink]="['../business']" routerLinkActive="router-link-active"
-            class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
-            Back to BOD
-          </button>
-        </div>
-      </div>
-
-      <div class="col-md-2 mt-3">
-        <div class="field py-2">
-          <button (click)="handleSaveForm()" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
-            Save
-          </button>
-        </div>
-      </div>
     </div>
   </form>
 </div>
 
-<div class="px-3">
+<div class="row justify-content-end">
+  <div class="col-md-2 mt-3">
+    <div class="field py-2">
+      <button [routerLink]="['../business']" routerLinkActive="router-link-active"
+        class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+        Back to BOD
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-1 mt-3">
+    <div class="field py-2">
+      <button (click)="handleSaveForm()" type="submit" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+        {{selectedRow ? 'Save' : "Add"}}
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-1 mt-3">
+    <div class="field py-2">
+      <button (click)="openTermPopUp('view')" type="submit"
+        class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+        View
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-1 mt-3">
+    <div class="field py-2">
+      <button (click)="openTermPopUp('update')" type="submit"
+        class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+        Update
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-1 mt-3">
+    <div class="field py-2">
+      <button (click)="openTermPopUp('delete')" type="submit"
+        class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="px-3">
   <div class="row mt-2 px-2">
     <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
       style="border-radius: 6px; max-height: 255px;">
@@ -489,4 +517,4 @@
       [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)" showFirstLastButtons>
     </mat-paginator>
   </div>
-</div>
+</div> -->

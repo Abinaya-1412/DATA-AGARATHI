@@ -1,0 +1,64 @@
+<div>
+  <header class="dialogHeader " cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    Business object definition
+
+    <button class="text-danger" (click)="onCloseDialog('')">
+      X
+    </button>
+  </header>
+</div>
+
+<div class="d-flex justify-content-end">
+  <div class="col-md-2 text-end">
+    <button type="button" role="button" class="pb-1 px-3 text-danger" (click)="handleFilter()">
+      <i class="me-1 fa-regular fa-filter"></i> Filter
+    </button>
+  </div>
+
+</div>
+
+<div class="row my-2 px-3">
+  <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+    style="border-radius: 6px; max-height: 255px;">
+    <table mat-table [dataSource]="dataSource" id="report">
+      <ng-container *ngFor="let column of displayedColumn.columnsTranslates; let j = index" [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+            {{column}}
+          </div>
+        </th>
+
+        <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+          <span *ngIf="column != '#'">
+            {{element[displayedColumn.columns[j].replace(' ', '')]}}
+          </span>
+
+          <span class="inline-block col-12 text-center" *ngIf="column =='#'">
+            <button *ngIf="data.popUpType == 'update'" type="button" (click)="handleUpdate(element)"
+              class="rounded font-semibold px-1 py-2 text-danger ">
+              <i class="fa-regular fa-pen-to-square"></i>
+            </button>
+            <button *ngIf="data.popUpType == 'delete'" type="button" (click)="handleDelete(element.business_object_id, element.business_attribute_id)"
+              class="rounded font-semibold px-1 py-2 text-danger ">
+              <i class="fa-regular fa-trash"></i>
+            </button>
+          </span> 
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumn.columnsTranslates; sticky: true"></tr>
+      <tr *matNoDataRow>
+        <th colspan="9" class="text-center">
+          <span>No rows found</span>
+        </th>
+      </tr>
+      <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumn.columnsTranslates;" class="route"
+        [attr.data-index]="i" [ngClass]="{'selected-all': isActive(i)}" (dblclick)="highlight(i, row.Id, row);">
+      </tr>
+    </table>
+  </div>
+
+  <mat-paginator class="mat-paginator-sticky" #commonPagDtOwner [pageSizeOptions]="[10, 15, 20]" [length]="length"
+    [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)" showFirstLastButtons>
+  </mat-paginator>
+</div>

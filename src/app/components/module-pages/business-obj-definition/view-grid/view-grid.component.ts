@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BusinessService } from 'src/app/services/business.service';
@@ -19,7 +19,14 @@ export class ViewGridComponent {
     private dialogRef: MatDialogRef<ViewGridComponent>,
     private businessService: BusinessService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    data == 'update' || data == 'delete' ?
+      (this.displayedColumnBusinessObjectDefinition.columns.push('#'),
+        this.displayedColumnBusinessObjectDefinition.columnsTranslates.push('#'))
+      : null
+
+  }
 
   displayedColumnBusinessObjectDefinition: any = {
     columns: [
@@ -29,7 +36,6 @@ export class ViewGridComponent {
       "business_object_asset_type",
       "business_object_sensitivity_classification",
       "business_object_sensitivity_reason",
-      '#',
     ],
     columnsTranslates: [
       "BO ID",
@@ -38,7 +44,7 @@ export class ViewGridComponent {
       "BO Asset Type",
       "BO Sensitivity Calssification",
       "BO Sensitivity Reason",
-      '#']
+      ]
   };
 
   dataSourceBusinessObjectDefinition: MatTableDataSource<any> = new MatTableDataSource<any>([]);
@@ -103,12 +109,16 @@ export class ViewGridComponent {
     })
   }
 
-  onCloseDialog(index: number) {
-    index ? this.dialogRef.close(this.highlightRowDataBusinessObjectDefinition) : this.dialogRef.close();
+  onCloseDialog(data: any) {
+    data ? this.dialogRef.close(data) : this.dialogRef.close();
   }
 
-  update() {
-    this.onCloseDialog(1);
+  // update() {
+  //   this.onCloseDialog(1);
+  // }
+
+  handleUpdate(data: any) {
+    this.onCloseDialog(data)
   }
 
   tableData: any
