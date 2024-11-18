@@ -31,4 +31,8 @@ export class BusinessTermService {
     return this.http.get<any>(this.api + `/business_term`);
   }
 
+  getBo_termForId() {
+    return this.http.get<any>(`https://business-term-j3mbpuwrg-umds-projects-76f3b139.vercel.app/api/business-terms`);
+  }
+
 }

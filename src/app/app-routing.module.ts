@@ -31,7 +31,7 @@ import { BusinessTermComponent } from './components/module-pages/business-term/b
 import { LinageComponent } from './components/module-pages/linage/linage.component';
 
 const routes: Routes = [ 
-  { path: '', redirectTo: 'pages/business', pathMatch: 'full' },
+  { path: '', redirectTo: 'landing', pathMatch: 'full' },
   { path: 'landing', component: LandingComponent },
   
   {

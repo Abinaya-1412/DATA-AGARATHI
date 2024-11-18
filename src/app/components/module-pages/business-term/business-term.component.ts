@@ -76,7 +76,7 @@ export class BusinessTermComponent implements OnInit {
     })
   }
 
-  deleteFile(){
+  deleteFile() {
     this.file = null;
     this.projectFileName = '';
     this.fileLocalUrl = '';
@@ -90,24 +90,22 @@ export class BusinessTermComponent implements OnInit {
   lastGeneratedID: string = 'BOT000';
   generateBusinessTermID() {
 
-    this.businessTermService.getBo_term().subscribe({
+    this.businessTermService.getBo_termForId().subscribe({
       next: res => {
-        this.lastGeneratedID = res.data.length ? res.data[res.data.length - 1].business_term_id : 'BOT000'
+        this.lastGeneratedID = res.length ? res[res.length - 1].business_term_id : 'BOT000'
         // Extract the numeric part of the ID from the last generated ID
         const numericID = parseInt(this.lastGeneratedID.replace('BOT', ''), 10) || 0;
-        console.log( res)
-    
         // Increment the numeric part and format with leading zeros
         const newIDNumber = numericID + 1;
         this.lastGeneratedID = `BOT${String(newIDNumber).padStart(3, '0')}`;
-    
+
         // Update the form control with the new ID
         this.definitionFormGroup.controls['business_term_id'].setValue(this.lastGeneratedID);
       },
-      error: err => console.error('Error fetching business terms', err), 
+      error: err => console.error('Error fetching business terms', err),
     });
 
-   
+
   }
 
   // Fetch business terms for dropdown
@@ -187,9 +185,18 @@ export class BusinessTermComponent implements OnInit {
     this.businessTermService.saveBo_term(this.definitionFormGroup.value).subscribe(
       {
         next: res => {
-          console.log(res)
+          swalSuccess("Data inserted into business_term!"),
+            this.definitionFormGroup.patchValue({
+              business_term_id: '',
+              business_term: '',
+              business_term_description: '', // Make description read-only
+              version: '',
+              date_created: '',
+              active: '',
+              image_url: '',
+              id: 0
+            });
           this.generateBusinessTermID();
-          swalSuccess("Data inserted into business_term!")
         },
         error: err => swalError("Something went wrong!")
       }
@@ -284,8 +291,9 @@ export class BusinessTermComponent implements OnInit {
             business_term: res.business_term,
             business_term_description: res.business_term_description,
             version: res.version,
-            date_created: formatDate(res.date_created, 'yyyy-MM-dd', 'en') ,
+            date_created: formatDate(res.date_created, 'yyyy-MM-dd', 'en'),
             active: res.active,
+            image_url: res.image_url,
             id: res.id
           })
         )
