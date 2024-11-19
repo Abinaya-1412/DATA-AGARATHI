@@ -72,4 +72,20 @@ export class ComboboxService {
   getOperators(){
     return this.http.get<any>(`https://business-mappings-fpicy16b0-umds-projects-76f3b139.vercel.app/api/operators`);
   }
+  // Ref Code Schemes Methods
+  getRefCodes() {
+    return this.http.get<any>(`https://refcodes-1mvaooi8y-umds-projects-76f3b139.vercel.app/api/refcodes`);
+  }
+
+  saveRefCode(data: { ref_code: string; ref_code_description: string }) {
+    return this.http.post<any>(`https://refcodes-1mvaooi8y-umds-projects-76f3b139.vercel.app/api/refcodes`, data);
+  }
+
+  updateRefCode(ref_code: string, data: { ref_code_description: string }) {
+    return this.http.put<any>(`https://refcodes-1mvaooi8y-umds-projects-76f3b139.vercel.app/api/refcodes/${ref_code}`, data);
+  }
+
+  deleteRefCode(ref_code: string) {
+    return this.http.delete<any>(`https://refcodes-1mvaooi8y-umds-projects-76f3b139.vercel.app/api/refcodes/${ref_code}`);
+  }
 }
