@@ -1,10 +1,9 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ComboboxService } from 'src/app/services/combobox.service';
-import { swalSuccess } from 'src/app/utils/alert';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,222 +12,113 @@ import Swal from 'sweetalert2';
   styleUrls: ['./new-item.component.scss']
 })
 export class NewItemComponent {
+  formGroup!: FormGroup;
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
+  displayedColumns = ['refcode', 'description', '#'];
+  pageSizeOptions: number[] = [20, 30, 40];
+
+  @ViewChild('paginator') paginator!: MatPaginator;
+
   constructor(
     private dialogRef: MatDialogRef<NewItemComponent>,
     private fb: FormBuilder,
-    private dialog: MatDialog,
     private comboboxService: ComboboxService,
-    @Inject(MAT_DIALOG_DATA) private data: any,
-  ) { }
-
-  formGroup!: FormGroup;
-  UpdateData: any;
-
-  highlightRowDataAltBusiness: any;
-  activeRowAltBusiness: any = -1;
-
-  dataSourceAltBusiness: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-  displayedColumnsAltBusiness: any = {
-    columns: ['name', 'description', '#'],
-    columnsTranslates: ['Code or Name ', 'Description', '#']
-  };
-
-  pageEvent!: PageEvent;
-  lengthDtOwner?: number;
-  lengthSrcSystem?: number;
-  lengthBussnRule?: number;
-  lengthAltBusiness?: number;
-  pageSize!: number;
-  pageSizeOptions: number[] = [20, 30, 40];
-  @ViewChild('commonPagAltBusiness') commonPaginatorAltBusiness!: MatPaginator;
-
-  generateForm() {
-    this.formGroup = this.fb.group({
-      name: [this.UpdateData ? this.UpdateData.name : '', [Validators.required]],
-      description: [this.UpdateData ? this.UpdateData.description : '', [Validators.required]]
-    })
-  }
+    @Inject(MAT_DIALOG_DATA) private data: any
+  ) {}
 
   ngOnInit() {
-    this.generateForm();
-    console.log(this.data.inputName)
-
-    this.getTableData();
+    this.initForm();
+    this.fetchDataByRefcode();
   }
 
-  getTableData() {
+  // Dynamic title based on inputName
+  get dynamicTitle(): string {
+    const titlesMap: { [key: string]: string } = {
+      'business_object_asset_type': 'Asset Type',
+      'business_object_sensitivity_classification': 'Sensitivity Classification',
+      'business_object_sensitivity_reason': 'Sensitivity Reason',
+      'business_object_name': 'BO Name',
+      'scope_of_data_domain': 'Scope of Data Domain',
+      'project_name': 'Project Name',
+      'created_by': 'Created/Updated By',
+      'remarks': 'Remarks',
+      'business_unit_owner': 'Business Unit Owner',
+      'business_function': 'Business Function',
+      'role': 'Role',
+      'source_system': 'Source System',
+      'source_system_country_code': 'Source Sys. Country Code',
+      'req_frequency_of_refresh': 'Req Frequency of Refresh',
+      'data_capture_mode': 'Data Capture Mode',
+      'sourcing_mode': 'Sourcing Mode',
+      'history_type': 'History Type',
+      'error_treatment': 'Error Treatment',
+      'exception_treatment': 'Exception Treatment',
+      'rule': 'Rule',
+      'business_term': 'Business Term'
+    };
+  
+    // Check if the inputName exists in the map, and prepend "New" to the value
+    return titlesMap[this.data.inputName] 
+      ? `New ${titlesMap[this.data.inputName]}` 
+      : 'New Item';
+  }
+  
 
-    if (this.data.inputName == 'business_object_asset_type') {
-      this.comboboxService.getAsset_type().subscribe({
-        next: res => {
-          res.data.map((dt: any) => {
-            this.dataSourceAltBusiness.data.push({ name: dt.asset_type_code, description: dt.asset_type_description })
-          })
-          this.dataSourceAltBusiness.paginator = this.commonPaginatorAltBusiness;
-        },
-        error: err => console.log(err)
-      });
-    }
-
-    else if (this.data.inputName == 'business_object_sensitivity_classification') {
-      this.comboboxService.getSensitivity_classification().subscribe({
-        next: res => {
-          res.data.map((dt: any) => {
-            this.dataSourceAltBusiness.data.push({ name: dt.sensitivity_classification, description: dt.sensitivity_classification_description })
-          })
-          this.dataSourceAltBusiness.paginator = this.commonPaginatorAltBusiness;
-        },
-        error: err => console.log(err)
-      });
-    }
-
-    else if (this.data.inputName == 'business_object_sensitivity_reason') {
-      this.comboboxService.getSensitivity_reason_code().subscribe({
-        next: res => {
-          res.data.map((dt: any) => {
-            this.dataSourceAltBusiness.data.push({ name: dt.sensitivity_reason_code, description: dt.sensitivity_reason_description })
-          });
-          this.dataSourceAltBusiness.paginator = this.commonPaginatorAltBusiness;
-        },
-        error: err => console.log(err)
-      });
-    }
-
+  initForm() {
+    // Initialize form group with correct field names
+    this.formGroup = this.fb.group({
+      ref_code: [this.data.refcode || '', Validators.required],  // ref_code instead of refcode
+      ref_code_description: [this.data.description || '', Validators.required]  // ref_code_description instead of description
+    });
   }
 
-  isActive = (index: number) => { return this.activeRowAltBusiness === index };
-
-  highlight(tableIndex: number, index: number, id: number, row: any): void {
-    if (!this.isActive(index)) {
-      row != this.highlightRowDataAltBusiness ? this.highlightRowDataAltBusiness = row : this.highlightRowDataAltBusiness = '';
-      this.activeRowAltBusiness = index;
-      this.UpdateData = row;
-      this.generateForm();
-    }
-    else {
-      this.UpdateData = '';
-      this.generateForm();
-      this.activeRowAltBusiness = -1;
-      this.highlightRowDataAltBusiness = '';
-    }
-  }
-
-  handleDeleteAlt(id: number) {
-    Swal.fire({
-      text: 'Do you want to delete data?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#266AB8',
-      cancelButtonColor: 'red',
-      confirmButtonText: 'Yes, delete',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // this.businessService.deleteBusiness_(id).subscribe({
-        //   next: res => {
-        //     swalSuccess('Deleted successfully!');
-        //     this.getTableBusiness();
-        //     this.UpdateDataAlternate = '';
-        //     this.generateForm();
-        //     this.activeRowAltBusiness = -1;
-        //     this.highlightRowDataAltBusiness = '';
-        //   },
-        //   error: err => console.log(err)
-        // });
-      }
-    })
-  }
-
-  onChangePageAltBusiness(event: PageEvent) {
+  fetchDataByRefcode() {
+    this.comboboxService.getRefCodes().subscribe({
+      next: (res: any) => {
+        this.dataSource.data = res.data;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err: any) => console.error('Error fetching data:', err)
+    });
   }
 
   handleSave() {
-    if (this.data.inputName == 'business_object_asset_type') {
-      let model = {
-        asset_type_code: this.formGroup.value.name,
-        asset_type_description: this.formGroup.value.description
-      }
-
-      !this.highlightRowDataAltBusiness ? this.saveAssetType(model) : this.updateAssetType(model)
+    const model = this.formGroup.value;
+    if (this.formGroup.invalid) {
+      Swal.fire('Error', 'Please fill in all required fields.', 'error');
+      return; // Prevent saving if form is invalid
     }
 
-    else if (this.data.inputName == 'business_object_sensitivity_classification') {
-      let model = {
-        sensitivity_classification: this.formGroup.value.name,
-        sensitivity_classification_description: this.formGroup.value.description
-      }
+    // Map the model to match API expectations
+    const apiModel = {
+      ref_code: model.ref_code,  // ref_code for the API
+      ref_code_description: model.ref_code_description  // ref_code_description for the API
+    };
 
-      !this.highlightRowDataAltBusiness ? this.saveSensitivity_classification(model) : this.updateSensitivity_classification(model)
+    // Check if we are updating or saving a new record
+    if (!this.data.update) {
+      this.comboboxService.saveRefCode(apiModel).subscribe({
+        next: (res: any) => {
+          Swal.fire('Success', 'Record saved!', 'success');
+          this.onCloseDialog();
+        },
+        error: (err: any) => {
+          console.error('Error saving record:', err);
+          Swal.fire('Error', 'Failed to save record. Please try again later.', 'error');
+        }
+      });
+    } else {
+      this.comboboxService.updateRefCode(this.data.ref_code, apiModel).subscribe({
+        next: (res: any) => {
+          Swal.fire('Success', 'Record updated!', 'success');
+          this.onCloseDialog();
+        },
+        error: (err: any) => {
+          console.error('Error updating record:', err);
+          Swal.fire('Error', 'Failed to update record. Please try again later.', 'error');
+        }
+      });
     }
-
-    else if (this.data.inputName == 'business_object_sensitivity_reason') {
-      let model = {
-        sensitivity_reason_code: this.formGroup.value.name,
-        sensitivity_reason_description: this.formGroup.value.description
-      }
-
-      !this.highlightRowDataAltBusiness ? this.saveSensitivity_reason_code(model) : this.updateSensitivity_reason_code(model)
-    }
-  }
-
-  saveAssetType(model: any) {
-    this.comboboxService.saveAsset_type(model).subscribe({
-      next: res => {
-        swalSuccess('Successfully save!');
-        this.onCloseDialog();
-      },
-      error: err => console.log(err)
-    })
-  }
-
-  updateAssetType(model: any) {
-    this.comboboxService.updateAsset_type(this.highlightRowDataAltBusiness.id, model).subscribe({
-      next: res => {
-        swalSuccess('Successfully update!');
-        this.onCloseDialog();
-      },
-      error: err => console.log(err)
-    })
-  }
-
-  saveSensitivity_classification(model: any) {
-    this.comboboxService.saveSensitivity_classification(model).subscribe({
-      next: res => {
-        swalSuccess('Successfully save!');
-        this.onCloseDialog();
-      },
-      error: err => console.log(err)
-    })
-  }
-
-  updateSensitivity_classification(model: any) {
-    this.comboboxService.updateSensitivity_classification(this.highlightRowDataAltBusiness.id, model).subscribe({
-      next: res => {
-        swalSuccess('Successfully update!');
-        this.onCloseDialog();
-      },
-      error: err => console.log(err)
-    })
-  }
-
-  saveSensitivity_reason_code(model: any) {
-    this.comboboxService.saveSensitivity_reason_code(model).subscribe({
-      next: res => {
-        swalSuccess('Successfully save!');
-        this.onCloseDialog();
-      },
-      error: err => console.log(err)
-    })
-  }
-
-  updateSensitivity_reason_code(model: any) {
-    this.comboboxService.updateSensitivity_reason_code(this.highlightRowDataAltBusiness.id, model).subscribe({
-      next: res => {
-        swalSuccess('Successfully update!');
-        this.onCloseDialog();
-      },
-      error: err => console.log(err)
-    })
   }
 
   onCloseDialog() {
