@@ -16,8 +16,22 @@ export class NewItemComponent {
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   displayedColumns = ['refcode', 'description', '#'];
   pageSizeOptions: number[] = [20, 30, 40];
+  dynamicInputName: string = ''; // Variable to hold the dynamic input name
 
   @ViewChild('paginator') paginator!: MatPaginator;
+
+  // Map input names to their corresponding scheme codes
+  schemeCodeMapping: { [key: string]: string } = {
+    business_object_asset_type: 'AssetType',
+    data_capture_mode: 'DataCaptureModes',
+    history_type: 'HistoryTypes',
+    business_object_sensitivity_reason: 'Reason',
+    req_frequency_of_refresh: 'Refresh',
+    business_object_sensitivity_classification: 'Sensitivity',
+    sourcing_mode: 'SourcingMode',
+    error_treatment: 'TreatmentTypes',
+    exception_treatment: 'TreatmentTypes',
+  };
 
   constructor(
     private dialogRef: MatDialogRef<NewItemComponent>,
@@ -27,6 +41,7 @@ export class NewItemComponent {
   ) {}
 
   ngOnInit() {
+    this.dynamicInputName = this.data.inputName; // Initialize dynamicInputName
     this.initForm();
     this.fetchDataByRefcode();
   }
@@ -34,41 +49,27 @@ export class NewItemComponent {
   // Dynamic title based on inputName
   get dynamicTitle(): string {
     const titlesMap: { [key: string]: string } = {
-      'business_object_asset_type': 'Asset Type',
-      'business_object_sensitivity_classification': 'Sensitivity Classification',
-      'business_object_sensitivity_reason': 'Sensitivity Reason',
-      'business_object_name': 'BO Name',
-      'scope_of_data_domain': 'Scope of Data Domain',
-      'project_name': 'Project Name',
-      'created_by': 'Created/Updated By',
-      'remarks': 'Remarks',
-      'business_unit_owner': 'Business Unit Owner',
-      'business_function': 'Business Function',
-      'role': 'Role',
-      'source_system': 'Source System',
-      'source_system_country_code': 'Source Sys. Country Code',
-      'req_frequency_of_refresh': 'Req Frequency of Refresh',
-      'data_capture_mode': 'Data Capture Mode',
-      'sourcing_mode': 'Sourcing Mode',
-      'history_type': 'History Type',
-      'error_treatment': 'Error Treatment',
-      'exception_treatment': 'Exception Treatment',
-      'rule': 'Rule',
-      'business_term': 'Business Term'
+      business_object_asset_type: 'Asset Type',
+      data_capture_mode: 'Data Capture Mode',
+      history_type: 'History Type',
+      business_object_sensitivity_reason: 'Sensitivity Reason',
+      req_frequency_of_refresh: 'Frequency of Refresh',
+      business_object_sensitivity_classification: 'Sensitivity Classification',
+      sourcing_mode: 'Sourcing Mode',
+      error_treatment: 'Error Treatment',
+      exception_treatment: 'Exception Treatment',
     };
-  
-    // Check if the inputName exists in the map, and prepend "New" to the value
-    return titlesMap[this.data.inputName] 
-      ? `New ${titlesMap[this.data.inputName]}` 
+
+    return titlesMap[this.dynamicInputName]
+      ? `New ${titlesMap[this.dynamicInputName]}`
       : 'New Item';
   }
-  
 
   initForm() {
-    // Initialize form group with correct field names
+    // Dynamically set form control names based on inputName
     this.formGroup = this.fb.group({
-      ref_code: [this.data.refcode || '', Validators.required],  // ref_code instead of refcode
-      ref_code_description: [this.data.description || '', Validators.required]  // ref_code_description instead of description
+      ref_code: ['', Validators.required],
+      ref_code_description: ['', Validators.required],
     });
   }
 
@@ -78,47 +79,67 @@ export class NewItemComponent {
         this.dataSource.data = res.data;
         this.dataSource.paginator = this.paginator;
       },
-      error: (err: any) => console.error('Error fetching data:', err)
+      error: (err: any) => console.error('Error fetching data:', err),
+    });
+  }
+
+  handleIconClick() {
+    // Save the record dynamically when the icon is clicked
+    const { ref_code, ref_code_description } = this.formGroup.value;
+
+    if (!ref_code || !ref_code_description) {
+      Swal.fire('Error', 'Please fill in the Ref Code and Description.', 'error');
+      return;
+    }
+
+    // Fetch the scheme code dynamically based on inputName
+    const scheme_code = this.schemeCodeMapping[this.dynamicInputName];
+
+    const dataToSave = {
+      ref_code, // Changed from refCode to ref_code
+      ref_code_description, // Changed from description to ref_code_description
+      scheme_code, // Changed from schemeCode to scheme_code
+    };
+
+    // Call the save API
+    this.comboboxService.saveRefCode(dataToSave).subscribe({
+      next: (res: any) => {
+        Swal.fire('Success', 'Record saved successfully!', 'success');
+        this.fetchDataByRefcode(); // Refresh the data table
+      },
+      error: (err: any) => {
+        console.error('Error saving record:', err);
+        Swal.fire('Error', 'Failed to save the record.', 'error');
+      },
     });
   }
 
   handleSave() {
     const model = this.formGroup.value;
+
     if (this.formGroup.invalid) {
       Swal.fire('Error', 'Please fill in all required fields.', 'error');
-      return; // Prevent saving if form is invalid
+      return;
     }
 
-    // Map the model to match API expectations
-    const apiModel = {
-      ref_code: model.ref_code,  // ref_code for the API
-      ref_code_description: model.ref_code_description  // ref_code_description for the API
+    // Map the data dynamically
+    const scheme_code = this.schemeCodeMapping[this.dynamicInputName];
+    const dataToSave = {
+      ref_code: model.ref_code, // Changed from refCode to ref_code
+      ref_code_description: model.ref_code_description, // Changed from description to ref_code_description
+      scheme_code, // Changed from schemeCode to scheme_code
     };
 
-    // Check if we are updating or saving a new record
-    if (!this.data.update) {
-      this.comboboxService.saveRefCode(apiModel).subscribe({
-        next: (res: any) => {
-          Swal.fire('Success', 'Record saved!', 'success');
-          this.onCloseDialog();
-        },
-        error: (err: any) => {
-          console.error('Error saving record:', err);
-          Swal.fire('Error', 'Failed to save record. Please try again later.', 'error');
-        }
-      });
-    } else {
-      this.comboboxService.updateRefCode(this.data.ref_code, apiModel).subscribe({
-        next: (res: any) => {
-          Swal.fire('Success', 'Record updated!', 'success');
-          this.onCloseDialog();
-        },
-        error: (err: any) => {
-          console.error('Error updating record:', err);
-          Swal.fire('Error', 'Failed to update record. Please try again later.', 'error');
-        }
-      });
-    }
+    this.comboboxService.saveRefCode(dataToSave).subscribe({
+      next: (res: any) => {
+        Swal.fire('Success', 'Record saved successfully!', 'success');
+        this.onCloseDialog();
+      },
+      error: (err: any) => {
+        console.error('Error saving record:', err);
+        Swal.fire('Error', 'Failed to save the record. Please try again.', 'error');
+      },
+    });
   }
 
   onCloseDialog() {
