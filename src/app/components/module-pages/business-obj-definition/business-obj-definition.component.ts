@@ -166,6 +166,26 @@ export class BusinessObjDefinitionComponent {
   }
 
   getComboboxData() {
+    this.assetsTypes = [];
+    this.dataOwners = [];
+    this.sensitivityClassifications = [];
+    this.sensitivityReasons = [];
+    this.impDetailsData = [];
+    this.businessRules = [];
+    this.ruleData = [];
+    this.termData = [];
+        this.boNames = [];
+        this.businessTerms = [];
+        this.boOwnerData = [];
+        this.businessUnitOwners = [];
+        this.businessFunctions = [];
+        this.projectNames = [];
+        this.scopeDataDomains = [];
+        this.remarks = [];
+        this.createdByList = [];
+        this.countryCodes = [];
+        this.sourceSystems = [];
+
     this.businessService.getImpDetails().subscribe({
       next: res => {
         this.impDetailsData = res.data;
@@ -191,6 +211,7 @@ export class BusinessObjDefinitionComponent {
 
     this.businessService.getBusiness_term().subscribe({
       next: res => {
+        
         this.termData = res.data
         res.data.map((dt: any) => {
           !this.boNames.some(item => item.value === dt.business_term) ? this.boNames.push({ value: dt.business_term, desc: dt.business_term_description }) : '';
@@ -274,7 +295,7 @@ export class BusinessObjDefinitionComponent {
     //     value: 'Config',
     //   },
     // ]
-
+   
 
     this.dataOwners = [
       {
@@ -322,6 +343,7 @@ export class BusinessObjDefinitionComponent {
     //   }
     // ]
 
+    this.refreshFrequency = [];
     this.refreshFrequency = [
       {
         key: 'Daily',
@@ -337,6 +359,7 @@ export class BusinessObjDefinitionComponent {
       }
     ]
 
+    this.dataCaptureModes = [];
     this.dataCaptureModes = [
       {
         key: 'Manual',
@@ -348,6 +371,7 @@ export class BusinessObjDefinitionComponent {
       },
     ]
 
+    this.sourcingModes = [];
     this.sourcingModes = [
       {
         key: 'Batch',
@@ -363,6 +387,7 @@ export class BusinessObjDefinitionComponent {
       }
     ]
 
+    this.historyTypes = [];
     this.historyTypes = [
       {
         key: 'SnapShot',

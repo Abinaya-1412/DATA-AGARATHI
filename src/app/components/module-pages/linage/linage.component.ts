@@ -126,7 +126,9 @@ export class LinageComponent {
   saveService() {
     this.mappingService.save(this.formGroup.value).subscribe({
       next: res => {
-        res.message ? swalSuccess(res.message) : swalError(res.error)
+        res.message ? swalSuccess(res.message) : swalError(res.error);
+        this.UpdateData = '';
+        this.generateForm();
       },
       error: err => swalError("Duplicate entry or something went wrong in database!")
     })
@@ -135,7 +137,9 @@ export class LinageComponent {
   updateService() {
     this.mappingService.update(this.FF['subject_business_term'].value,this.formGroup.value).subscribe({
       next: res => {
-        res.message ? swalSuccess(res.message) : swalError(res.error)
+        res.message ? swalSuccess(res.message) : swalError(res.error);
+        this.UpdateData = '';
+        this.generateForm();
       },
       error: err => swalError("Duplicate entry or something went wrong in database!")
     })

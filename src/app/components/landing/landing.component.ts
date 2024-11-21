@@ -258,7 +258,7 @@ isNewDataOwnerRoles: boolean = false;
       // Fetch Asset Types
       this.cdService.getAssetTypes().subscribe(
         data => {
-          console.log('Fetched Asset Types:', data); // Debug log
+          // console.log('Fetched Asset Types:', data); // Debug log
           this.assetTypes = data;
           this.assetTypesDataSource.data = this.assetTypes;
     
@@ -273,7 +273,7 @@ isNewDataOwnerRoles: boolean = false;
     // Fetch Sensitivity Classifications
     this.cdService.getSensitivityClassifications().subscribe(
       data => {
-        console.log('Fetched Sensitivity Classifications:', data); // Debug log
+        // console.log('Fetched Sensitivity Classifications:', data); // Debug log
         this.sensitivityClassifications = data;
         this.sensitivityClassificationsDataSource.data = this.sensitivityClassifications;
 
@@ -287,7 +287,7 @@ isNewDataOwnerRoles: boolean = false;
     // Fetch Sensitivity Reason Codes
     this.cdService.getSensitivityReasonCodes().subscribe(
       data => {
-        console.log('Fetched sensitivityReasonCodes :', data);
+        // console.log('Fetched sensitivityReasonCodes :', data);
         this.sensitivityReasonCodes = data;
         this.sensitivityReasonCodesDataSource.data = this.sensitivityReasonCodes;
 
@@ -301,7 +301,7 @@ isNewDataOwnerRoles: boolean = false;
     // Fetch Data Owner Roles
     this.cdService.getDataOwnerRoles().subscribe(
       data => {
-        console.log('Fetched DataOwnerRole:', data);
+        // console.log('Fetched DataOwnerRole:', data);
         this.dataOwnerRoless = data;
         this.dataOwnerRolesDataSource.data = this.dataOwnerRoless;
         
@@ -376,7 +376,7 @@ private filterDataOwnerRoless(value: string): DataOwnerRoles[] {
 // Check if new Sensitivity Classification
 checkIfNewSensitivityClassification(code: string): void {
   // Log the code for debugging purposes
-  console.log('Sensitivity Classification code:', code);
+  // console.log('Sensitivity Classification code:', code);
 
   if (!code || code.trim() === '') {
     // Only trigger warning if code is actually missing or empty
@@ -595,7 +595,7 @@ private checkIfNewDataOwnerRole(code: string): void {
    
     onPageChange(event: PageEvent) {
       // Handle page change if you need to perform any additional logic
-      console.log('Page changed:', event);
+      // console.log('Page changed:', event);
     }
  toggleDropdown(dropdown: string) {
     if (this.openDropdown === dropdown) {
@@ -776,7 +776,7 @@ private checkIfNewDataOwnerRole(code: string): void {
 } else {
   // Optionally, mark all fields as touched to trigger validation messages
   form.form.markAllAsTouched();
-  console.log('Login form is invalid');
+  // console.log('Login form is invalid');
 }
 }
 
@@ -824,7 +824,7 @@ onConfigureDataClick(modalType: string) {
       return;
     }
     // Handle forget password logic
-    console.log("Forgot Password for:", email);
+    // console.log("Forgot Password for:", email);
     // You can integrate a service to handle password reset here
     alert('Password reset link has been sent to your email.');
     this.showLogin();
@@ -875,7 +875,7 @@ onConfigureDataClick(modalType: string) {
     if (form.valid) {
       this.signupService.signup(this.signUpData).subscribe(
         (response) => {
-          console.log('Signup successful:', response);
+          // console.log('Signup successful:', response);
           this.signupError = ''; 
           this.closeModal(form);
 
@@ -907,7 +907,7 @@ onConfigureDataClick(modalType: string) {
     } else {
       // Optionally, mark all fields as touched to trigger validation messages
       form.form.markAllAsTouched();
-      console.log('Sign up form is invalid');
+      // console.log('Sign up form is invalid');
     }
   }
   // Reset form based on modal asset type
