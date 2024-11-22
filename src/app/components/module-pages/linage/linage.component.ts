@@ -64,7 +64,7 @@ export class LinageComponent {
   terms: any[] = [];
   relationships: any[] = [
     {
-      key: 'Is Sames As',
+      key: 'Is Same As',
       value: 'Is Sames As',
     },
     {
@@ -76,7 +76,7 @@ export class LinageComponent {
       value: 'Is a Grouping of',
     },
     {
-      key: 'Is derived from ',
+      key: 'Is derived from',
       value: 'Is derived from ',
     },
   ];
@@ -105,6 +105,10 @@ export class LinageComponent {
         res.map((dt: any) => this.operators.push({ key: dt.operator, value: dt.operator }))
       }
     })
+  }
+
+  setRelationship(){
+    
   }
 
   ngAfterViewChecked(): void {
@@ -144,7 +148,7 @@ export class LinageComponent {
       error: err => swalError("Duplicate entry or something went wrong in database!")
     })
   }
-
+ 
   popUp_dialogRef?: MatDialogRef<LinagePopUpComponent>;
   openTermPopUp(popUpType: string) {
     this.popUp_dialogRef = this.dialog.open(LinagePopUpComponent,

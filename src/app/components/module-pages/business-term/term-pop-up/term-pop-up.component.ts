@@ -27,12 +27,12 @@ export class TermPopUpComponent {
         this.displayedColumn.columnsTranslates.push('#'))
       : null
 
-  }  
+  }
 
   dataSource = new MatTableDataSource<any>([]);
-
+  @ViewChild('commonPagDtOwner') commonPaginator!: MatPaginator;
   pageSizeOptions = [10, 15, 20];
-  length = 100;
+  length:any;
   pageSize = 10;
 
   highlightRowDataBusinessObjectDefinition: any;
@@ -74,7 +74,8 @@ export class TermPopUpComponent {
   applyFilter() {
     this.businessTermService.getBo_term().subscribe({
       next: res => {
-        this.dataSource = new MatTableDataSource<any>(res.data)
+        this.dataSource = new MatTableDataSource<any>(res.data);
+        this.dataSource.paginator = this.commonPaginator;
       },
       error: err => console.error('Error fetching business terms', err),
       complete: () => {
@@ -90,11 +91,14 @@ export class TermPopUpComponent {
 
   handleDelete(id: string) {
     this.businessTermService.deleteBo_term(Number(id)).subscribe(
-     {
-      next: res => swalSuccess("Row deleted from business term"),
-      error: err => console.log(err)
-     }
+      {
+        next: res => {
+          swalSuccess("Row deleted from business term");
+          this.applyFilter();
+        },
+        error: err => console.log(err)
+      }
     );
   }
 
-}
+} 

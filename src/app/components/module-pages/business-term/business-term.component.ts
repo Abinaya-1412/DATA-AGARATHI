@@ -38,9 +38,9 @@ export class BusinessTermComponent implements OnInit {
       business_term_id: ['', Validators.required],
       business_term: ['', Validators.required],
       business_term_description: ['', Validators.required], // Make description read-only
-      version: ['', Validators.required],
+      version: [0, Validators.required],
       date_created: ['', Validators.required],
-      active: ['', Validators.required],
+      active: [0, Validators.required],
       image_url: '',
       id: 0
     });
@@ -104,8 +104,6 @@ export class BusinessTermComponent implements OnInit {
       },
       error: err => console.error('Error fetching business terms', err),
     });
-
-
   }
 
   // Fetch business terms for dropdown
@@ -197,8 +195,11 @@ export class BusinessTermComponent implements OnInit {
               id: 0
             });
           this.generateBusinessTermID();
+          this.file = null;
+          this.fileLocalUrl = '';
+          this.FF['image_url'].setValue('')
         },
-        error: err => swalError("Something went wrong!")
+        error: err => swalError("Something went wrong in database!")
       }
     );
   }
@@ -214,13 +215,21 @@ export class BusinessTermComponent implements OnInit {
     this.businessTermService.updateBo_term(updatedData).subscribe({
       next: () => {
         swalSuccess('Business term updated successfully!');
-        this.fetchBusinessTermData();
-        this.definitionFormGroup.reset();
-        this.selectedRow = null;
-        // this.generateBusinessTermID();
-
-        this.definitionFormGroup.controls['date_created'].setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
-
+        // this.definitionFormGroup.controls['date_created'].setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
+        this.definitionFormGroup.patchValue({
+          business_term_id: '',
+          business_term: '',
+          business_term_description: '', // Make description read-only
+          version: '',
+          date_created: '',
+          active: '',
+          image_url: '',
+          id: 0
+        });
+      this.generateBusinessTermID();
+      this.file = null;
+      this.fileLocalUrl = '';
+      this.FF['image_url'].setValue('')
 
       },
       error: (error) => {

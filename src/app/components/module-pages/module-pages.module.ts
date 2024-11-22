@@ -10,6 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { LinageComponent } from './linage/linage.component';
 import { LinagePopUpComponent } from './linage/linage-pop-up/linage-pop-up.component';
 import { BusinessObjectStructurePopUpComponent } from './business-object-structure/business-object-structure-pop-up/business-object-structure-pop-up.component';
+import { DataOwnerComponent } from './business-obj-definition/data-owner/data-owner.component';
+import { ImpleDataComponent } from './business-obj-definition/imple-data/imple-data.component';
+import { BusinessRuleComponent } from './business-obj-definition/business-rule/business-rule.component';
+import { BusinessTermComponent } from './business-obj-definition/business-term/business-term.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +21,10 @@ import { BusinessObjectStructurePopUpComponent } from './business-object-structu
     ViewGridComponent,
     TermPopUpComponent,
     BusinessObjectStructurePopUpComponent,
+    DataOwnerComponent,
+    ImpleDataComponent,
+    BusinessRuleComponent,
+    BusinessTermComponent,
     // NewBONameComponent
   ],
   imports: [

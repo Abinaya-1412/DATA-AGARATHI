@@ -61,7 +61,6 @@ export class ViewGridComponent {
   activeBusinessObjectDefinition: any = -1;
 
   ngOnInit() {
-    this.getTableBusinessObjectDefinition();
   }
 
   isActiveBusinessObjectDefinition = (index: number) => { return this.activeBusinessObjectDefinition === index };
@@ -90,7 +89,8 @@ export class ViewGridComponent {
         this.businessService.deleteBusinessObjectDefinition(id).subscribe({
           next: res => {
             swalSuccess("Saved successfully.");
-            this.getTableBusinessObjectDefinition();
+            // this.getTableBusinessObjectDefinition();
+            this.applyFilter();
           },
           error: err => console.log(err)
         });
@@ -98,16 +98,16 @@ export class ViewGridComponent {
     })
   }
 
-  getTableBusinessObjectDefinition() {
-    this.businessService.getBusinessObjectDefinition().subscribe({
-      next: res => {
-        this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(res.data);
-        this.tableData = res.data;
-        this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition;
-      },
-      error: err => console.log(err)
-    })
-  }
+  // getTableBusinessObjectDefinition() {
+  //   this.businessService.getBusinessObjectDefinition().subscribe({
+  //     next: res => {
+  //       this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(res.data);
+  //       this.tableData = res.data;
+  //       this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition;
+  //     },
+  //     error: err => console.log(err)
+  //   })
+  // }
 
   onCloseDialog(data: any) {
     data ? this.dialogRef.close(data) : this.dialogRef.close();
@@ -124,99 +124,114 @@ export class ViewGridComponent {
   tableData: any
   filter_dialogRef!: MatDialogRef<FilterPopUpComponent>;
 
-  handleFilter() {
-    this.filter_dialogRef = this.dialog.open(FilterPopUpComponent,
-      {
-        disableClose: true,
-        width: '80%',
-        height: 'auto',
-        autoFocus: false,
-        data: [
-          { name: 'Project name', value: 'project_name' },
-          { name: 'BO name', value: 'business_object_name' },
-          { name: 'BO description', value: 'business_object_description' },
-          { name: 'Scope of data domain', value: 'scope_of_data_domain' },
-          { name: 'BO asset type', value: 'business_object_asset_type' },
-          { name: 'BO sensitivity classification', value: 'business_object_sensitivity_classification' },
-          { name: 'BO sensitivity reason', value: 'business_object_sensitivity_reason' },
-          { name: 'Created/Updated by', value: 'created_by' },
-          { name: 'Created/Updated date', value: 'date_created' },
-          { name: 'Remarks', value: 'remarks' },
+  // handleFilter() {
+  //   this.filter_dialogRef = this.dialog.open(FilterPopUpComponent,
+  //     {
+  //       disableClose: true,
+  //       width: '80%',
+  //       height: 'auto',
+  //       autoFocus: false,
+  //       data: [
+  //         { name: 'Project name', value: 'project_name' },
+  //         { name: 'BO name', value: 'business_object_name' },
+  //         { name: 'BO description', value: 'business_object_description' },
+  //         { name: 'Scope of data domain', value: 'scope_of_data_domain' },
+  //         { name: 'BO asset type', value: 'business_object_asset_type' },
+  //         { name: 'BO sensitivity classification', value: 'business_object_sensitivity_classification' },
+  //         { name: 'BO sensitivity reason', value: 'business_object_sensitivity_reason' },
+  //         { name: 'Created/Updated by', value: 'created_by' },
+  //         { name: 'Created/Updated date', value: 'date_created' },
+  //         { name: 'Remarks', value: 'remarks' },
 
-          { name: 'Business unit owner', value: 'business_unit_owner' },
-          { name: 'Business function', value: 'business_function' },
-          { name: 'Role', value: 'role' },
+  //         { name: 'Business unit owner', value: 'business_unit_owner' },
+  //         { name: 'Business function', value: 'business_function' },
+  //         { name: 'Role', value: 'role' },
 
-          { name: 'Source System', value: 'source_system' },
-          { name: 'Source Sys. Country Code', value: 'source_system_country_code' },
-          { name: 'Req Frequency of Refresh', value: 'req_frequency_of_refresh' },
-          { name: 'Active', value: 'active' },
-          { name: 'Data Capture Mode', value: 'data_capture_mode' },
-          { name: 'Data Capture Mode', value: 'sourcing_mode' },
-          { name: 'Track History', value: 'track_history' },
-          { name: 'History Type', value: 'history_type' },
-          { name: 'Error Treatment', value: 'error_treatment' },
-          { name: 'Exception Treatment', value: 'exception_treatment' },
+  //         { name: 'Source System', value: 'source_system' },
+  //         { name: 'Source Sys. Country Code', value: 'source_system_country_code' },
+  //         { name: 'Req Frequency of Refresh', value: 'req_frequency_of_refresh' },
+  //         { name: 'Active', value: 'active' },
+  //         { name: 'Data Capture Mode', value: 'data_capture_mode' },
+  //         { name: 'Data Capture Mode', value: 'sourcing_mode' },
+  //         { name: 'Track History', value: 'track_history' },
+  //         { name: 'History Type', value: 'history_type' },
+  //         { name: 'Error Treatment', value: 'error_treatment' },
+  //         { name: 'Exception Treatment', value: 'exception_treatment' },
 
-          { name: 'Rule', value: 'rule' },
+  //         { name: 'Rule', value: 'rule' },
 
-          { name: 'Business term', value: 'business_term' },
-          { name: 'Business term description', value: 'business_term_description' },
-          { name: 'Version', value: 'version' },
-        ]
-      });
+  //         { name: 'Business term', value: 'business_term' },
+  //         { name: 'Business term description', value: 'business_term_description' },
+  //         { name: 'Version', value: 'version' },
+  //       ]
+  //     });
 
-    this.filter_dialogRef.afterClosed().subscribe({
+  //   this.filter_dialogRef.afterClosed().subscribe({
+  //     next: res => {
+  //       this.activeBusinessObjectDefinition = -1;
+  //       this.highlightRowDataBusinessObjectDefinition = '';
+  //       if (res) {
+  //         this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(this.applyFilters(this.tableData, res));
+  //       }
+  //     }
+  //   })
+  // }
+
+  // filters: any[] = [];
+  // applyFilters(data: any[], filterData: any) {
+  //   this.filters = this.getFilterValues(filterData, data);
+  //   return data.filter((item) => {
+  //     if (!this.filters || this.filters.length == 0) {
+  //       return
+  //     }
+  //     return this.filters?.every((filter) => {
+  //       if (item.hasOwnProperty(filter.columnName)) {
+  //         return (
+  //           (item as any)[filter.columnName]?.toString().toLowerCase() ===
+  //           filter.value?.toString().toLowerCase()
+  //         );
+  //       }
+  //       return false;
+  //     });
+  //   });
+  // }
+
+  // getFilterValues(filterForm: any, data: any[]) {
+  //   this.filters = [];
+  //   let filterArr: any[] = [];
+  //   Object.keys(filterForm.controls).forEach((key: string) => {
+  //     if (String(filterForm.get(key)?.value).length > 0) {
+  //       filterArr?.push({
+  //         columnName: key,
+  //         value: filterForm.get(key)?.value,
+  //       });
+  //     }
+  //   });
+
+  //   filterArr.map((dt: any) => {
+  //     data.every((filter) => {
+  //       if (filter.hasOwnProperty(dt.columnName)) {
+  //         this.filters.push(dt);
+  //       }
+  //     });
+  //   })
+
+  //   return this.filters
+  // }
+
+  search: any;
+  applyFilter() {
+    this.businessService.getBusinessObjectDefinition().subscribe({
       next: res => {
-        this.activeBusinessObjectDefinition = -1;
-        this.highlightRowDataBusinessObjectDefinition = '';
-        if (res) {
-          this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(this.applyFilters(this.tableData, res));
-        }
-      }
-    })
-  }
-
-  filters: any[] = [];
-  applyFilters(data: any[], filterData: any) {
-    this.filters = this.getFilterValues(filterData, data);
-    return data.filter((item) => {
-      if (!this.filters || this.filters.length == 0) {
-        return
-      }
-      return this.filters?.every((filter) => {
-        if (item.hasOwnProperty(filter.columnName)) {
-          return (
-            (item as any)[filter.columnName]?.toString().toLowerCase() ===
-            filter.value?.toString().toLowerCase()
-          );
-        }
-        return false;
-      });
-    });
-  }
-
-  getFilterValues(filterForm: any, data: any[]) {
-    this.filters = [];
-    let filterArr: any[] = [];
-    Object.keys(filterForm.controls).forEach((key: string) => {
-      if (String(filterForm.get(key)?.value).length > 0) {
-        filterArr?.push({
-          columnName: key,
-          value: filterForm.get(key)?.value,
-        });
+        this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(res.data);
+        this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition;
+      },
+      error: err => console.error('Error fetching business terms', err),
+      complete: () => {
+        this.dataSourceBusinessObjectDefinition.filter = this.search;
       }
     });
 
-    filterArr.map((dt: any) => {
-      data.every((filter) => {
-        if (filter.hasOwnProperty(dt.columnName)) {
-          this.filters.push(dt);
-        }
-      });
-    })
-
-    return this.filters
   }
 
 }

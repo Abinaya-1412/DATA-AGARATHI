@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BusinessTermService } from 'src/app/services/business-term.service';
@@ -6,6 +6,7 @@ import { BusinessService } from 'src/app/services/business.service';
 import { swalSuccess } from 'src/app/utils/alert';
 import { TermPopUpComponent } from '../../business-term/term-pop-up/term-pop-up.component';
 import { MappingService } from 'src/app/services/mapping.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-linage-pop-up',
@@ -30,7 +31,8 @@ export class LinagePopUpComponent {
   }
 
   dataSource = new MatTableDataSource<any>([]);
-
+  @ViewChild('commonPagDtOwner') commonPaginator!: MatPaginator;
+  
   pageSizeOptions = [10, 15, 20];
   length = 100;
   pageSize = 10;
@@ -74,7 +76,8 @@ export class LinagePopUpComponent {
   applyFilter() {
     this.mappingService.getAll().subscribe({
       next: res => {
-        this.dataSource = new MatTableDataSource<any>(res)
+        this.dataSource = new MatTableDataSource<any>(res);
+        this.dataSource.paginator = this.commonPaginator;
       },
       error: err => console.log(err),
       complete: () => {
@@ -92,7 +95,7 @@ export class LinagePopUpComponent {
       {
         next: res => {
           swalSuccess("Row deleted from business term");
-          this.dataSource = new MatTableDataSource<any>([])
+          this.applyFilter();
         },
         error: err => console.log(err)
       }
