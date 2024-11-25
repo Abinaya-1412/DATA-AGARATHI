@@ -59,31 +59,54 @@
 
         <div class="col-md-3 d-flex relative">
           <mat-form-field class="example-full-width field col-11">
-            <label #BONameTooltip="matTooltip"
-              matTooltip="Business Object Name , how an object/entity is addressed in business terms." for="fullName"
-              class="font-medium text-black required-label">BO name</label>
-            <input (keyup)="boNameChange()" onkeypress='return event.charCode != 45' type="text" id="customerId"
-              name="customerId" class="col-12" matInput formControlName="business_object_name"
-              [matAutocomplete]="autoObjName">
+            <label
+              matTooltip="Business Object Name, how an object/entity is addressed in business terms."
+              [matTooltipDisabled]="isTyping"
+              for="fullName"
+              class="font-medium text-black required-label"
+            >
+              BO name
+            </label>
+            <input
+              (keyup)="boNameChange()"
+              (input)="onTyping(true)"
+              (blur)="onTyping(false)"
+              onkeypress="return event.charCode != 45"
+              type="text"
+              id="customerId"
+              name="customerId"
+              class="col-12"
+              matInput
+              formControlName="business_object_name"
+              [matAutocomplete]="autoObjName"
+            />
             <mat-autocomplete #autoObjName="matAutocomplete">
-              <mat-option (click)="setDescription()" *ngFor="let option of filteredOptionsObjName | async "
-                [value]="option.value">
-                {{option.value}}
+              <mat-option
+                (click)="setDescription()"
+                *ngFor="let option of filteredOptionsObjName | async"
+                [value]="option.value"
+              >
+                {{ option.value }}
               </mat-option>
             </mat-autocomplete>
-
-            <small class="error_text"
-              *ngIf="(FF['business_object_name'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['business_object_name'].invalid && !isBusinessObjectDefinitionFormValid)">
+        
+            <small
+              class="error_text"
+              *ngIf="(FF['business_object_name'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['business_object_name'].invalid && !isBusinessObjectDefinitionFormValid)"
+            >
               *Required field
             </small>
           </mat-form-field>
-
-          <button type="button" (click)="addBONameList()"
-            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
+        
+          <button
+            type="button"
+            (click)="addBONameList()"
+            class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn"
+          >
             +
           </button>
         </div>
-
+        
         <div class="col-md-3">
           <div class="field">
             <label matTooltip="Brief description about the object" for="fullName"
