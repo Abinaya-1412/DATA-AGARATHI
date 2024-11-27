@@ -107,10 +107,6 @@ export class LinageComponent {
     })
   }
 
-  setRelationship(){
-    
-  }
-
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
   }
