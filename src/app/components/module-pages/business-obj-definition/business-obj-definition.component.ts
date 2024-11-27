@@ -31,6 +31,13 @@ import { BusinessTermService } from 'src/app/services/business-term.service';
   styleUrls: ['./business-obj-definition.component.scss']
 })
 export class BusinessObjDefinitionComponent {
+  // Add this property to track typing state
+isTyping: boolean = false;
+
+// Add this method to handle typing events
+onTyping(typing: boolean) {
+  this.isTyping = typing;
+}
 
   constructor(
     private router: Router,
