@@ -40,7 +40,7 @@
             matTooltip="Flag to indicate whether the Object is active or not. If the Object is currently being used or will be used, it will be 'Y'. If this Object is no longer valid it would be 'N'."
             for="active" class="font-medium text-black required-label">Relationship</label>
           <mat-form-field class="col-12">
-            <mat-select (selectionChange)="setRelationship()" formControlName="relationship">
+            <mat-select formControlName="relationship">
               <mat-option *ngFor="let item of relationships" [value]="item.key">{{item.value}}</mat-option>
             </mat-select>
             <small class="text-danger"

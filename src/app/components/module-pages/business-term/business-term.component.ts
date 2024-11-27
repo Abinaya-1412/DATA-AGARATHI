@@ -183,7 +183,7 @@ export class BusinessTermComponent implements OnInit {
     this.businessTermService.saveBo_term(this.definitionFormGroup.value).subscribe(
       {
         next: res => {
-          swalSuccess("Data inserted into business_term!"),
+          swalSuccess("Data inserted into Business term!"),
             this.definitionFormGroup.patchValue({
               business_term_id: '',
               business_term: '',
@@ -234,7 +234,7 @@ export class BusinessTermComponent implements OnInit {
       },
       error: (error) => {
         console.error('Update failed', error);
-        swalError('Failed to update the business term.');
+        swalError('Failed to update the Business term.');
       }
     });
   }
