@@ -31,14 +31,7 @@ import { BusinessTermService } from 'src/app/services/business-term.service';
   styleUrls: ['./business-obj-definition.component.scss']
 })
 export class BusinessObjDefinitionComponent {
-  // Add this property to track typing state
-isTyping: boolean = false;
-
-// Add this method to handle typing events
-onTyping(typing: boolean) {
-  this.isTyping = typing;
-}
-
+  
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -274,6 +267,7 @@ onTyping(typing: boolean) {
           !this.scopeDataDomains.some(item => item.value === dt.scope_of_data_domain) ? (dt.scope_of_data_domain ? this.scopeDataDomains.push({ value: dt.scope_of_data_domain }) : '') : '';
           !this.remarks.some(item => item.value === dt.remarks) ? (dt.remarks ? this.remarks.push({ value: dt.remarks }) : '') : '';
           !this.createdByList.some(item => item.value === dt.created_by) ? (dt.created_by ? this.createdByList.push({ value: dt.created_by }) : '') : '';
+          !this.boNames.some(item => item.value === dt.business_object_name) ? (dt.business_object_name ? this.boNames.push({ value: dt.business_object_name }) : '') : '';
         })
       },
       error: err => console.log(err)
@@ -645,16 +639,19 @@ onTyping(typing: boolean) {
   @ViewChild("BONameTooltip") BONameTooltip!: MatTooltip;
 
   boNameChange() {
+    // Hide the tooltip when typing
+    this.BONameTooltip.disabled = true;
+    this.BONameTooltip.hide();
+  
+    // Subscribe to filteredOptionsObjName and show tooltip if there are results
     this.filteredOptionsObjName?.subscribe(res => {
-      res.length ?
-        (
-          this.BONameTooltip.disabled = false,
-          this.BONameTooltip.show()
-        )
-        : ''
+      if (res.length) {
+        this.BONameTooltip.disabled = false;
+        this.BONameTooltip.show();
+      }
     });
-
   }
+  
 
   setDescription() {
     this.FF['business_object_description'].setValue(this.boNames.filter((dt: any) => dt.value == this.FF['business_object_name'].value)[0].desc);
