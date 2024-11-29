@@ -22,12 +22,11 @@ export class LinagePopUpComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
-    data.popUpType == 'update' || data.popUpType == 'delete' ?
-      (this.displayedColumn.columns.push('#'),
-        this.displayedColumn.columnsTranslates.push('#'))
-      : null
+    // data.popUpType == 'update' || data.popUpType == 'delete' ?
+    //   (this.displayedColumn.columns.push('#'),
+    //     this.displayedColumn.columnsTranslates.push('#'))
+    //   : null
 
-    this.getTableData();
   }
 
   dataSource = new MatTableDataSource<any>([]);
@@ -45,10 +44,6 @@ export class LinagePopUpComponent {
     columns: ['subject_business_term', 'relationship', 'operator', 'value', 'object_business_term']
   };
 
-  getTableData() {
-
-  }
-
   onChangePage(event: any) {
     this.pageSize = event.pageSize;
   }
@@ -61,6 +56,7 @@ export class LinagePopUpComponent {
     if (!this.isActive(index)) {
       this.selectedRow = row;
       this.activeRow = index;
+      this.onCloseDialog(row);
     }
     else {
       this.activeRow = '';
@@ -95,7 +91,7 @@ export class LinagePopUpComponent {
       {
         next: res => {
           swalSuccess("Row deleted from business term");
-          this.applyFilter();
+          this.applyFilter(); 
         },
         error: err => console.log(err)
       }

@@ -383,6 +383,26 @@ export class BusinessObjectStructureComponent {
     this.getTable();
   }
 
+  handleUpdate() {
+    if (this.FF['business_object_id'].value && this.FF['business_attribute_id'].value) {
+      this.updateForm();
+    }
+  }
+
+  handleDelete() {
+    if (this.FF['business_object_id'].value && this.FF['business_attribute_id'].value) {
+      this.businessStructureService.deleteBo_structure(this.FF['business_object_id'].value, this.FF['business_attribute_id'].value).subscribe(
+        {
+          next: res => {
+            swalSuccess("Row deleted from business object structure");
+            this.handleNew();
+          },
+          error: err => console.log(err),
+        }
+      );
+    }
+  }
+
   popUp_dialogRef?: MatDialogRef<BusinessObjectStructurePopUpComponent>;
   selectedRow: any;
   openTermPopUp(popUpType: string) {
@@ -400,9 +420,9 @@ export class BusinessObjectStructureComponent {
 
     this.popUp_dialogRef.afterClosed().subscribe({
       next: res => {
-        res ? (
-          this.selectedRow = res,
-          this.UpdateData = res,
+        res.data ? (
+          this.selectedRow = res.data,
+          this.UpdateData = res.data,
           this.generateForm()
         )
           : null
@@ -442,7 +462,7 @@ export class BusinessObjectStructureComponent {
         this.activeRow = -1;
         this.highlightRowDataDtOwner = '';
       },
-      error: err => swalError("Something went wrong"),
+      error: err => swalError("Something went wrong in database"),
     })
   }
 
@@ -452,7 +472,7 @@ export class BusinessObjectStructureComponent {
         swalSuccess("Saved successfully.");
         this.handleNew();
       },
-      error: err => swalError("Something went wrong"),
+      error: err => swalError("Something went wrong in database"),
     });
   }
 

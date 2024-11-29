@@ -161,13 +161,31 @@ export class LinageComponent {
     this.popUp_dialogRef.afterClosed().subscribe({
       next: res => {
         res ? (
-          this.selectedRow = res,
+          this.selectedRow = res, 
           this.UpdateData = res,
           this.generateForm()
         )
           : null
       }
     })
+  }
+
+
+  handleDelete() {
+    if (this.selectedRow) {
+      this.mappingService.delete(this.FF['subject_business_term'].value).subscribe(
+        {
+          next: res => {
+            swalSuccess("Row deleted from business term");
+            this.UpdateData = '';
+            this.generateForm();
+          },
+          error: err => console.log(err)
+        }
+      );
+
+    
+    }
   }
 
 }

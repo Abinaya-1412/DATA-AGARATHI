@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BusinessTermService } from 'src/app/services/business-term.service';
@@ -8,6 +8,7 @@ import { TermPopUpComponent } from '../../business-term/term-pop-up/term-pop-up.
 import { FilterPopUpComponent } from '../../filter-pop-up/filter-pop-up.component';
 import { BusinessStructureService } from 'src/app/services/business-structure.service';
 import { formatDate } from '@angular/common';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-business-object-structure-pop-up',
@@ -24,25 +25,10 @@ export class BusinessObjectStructurePopUpComponent {
     private readonly changeDetectorRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-
-    data.popUpType == 'update' || data.popUpType == 'delete' ?
-      (this.displayedColumn.columns.push('#'),
-        this.displayedColumn.columnsTranslates.push('#'))
-      : null
-
-    this.getTableData();
-
-  }
-
-  getTableData() {
-    this.businessStructureService.getBo_structure().subscribe({
-      next: res => {
-        res.data.map((dt: any) => dt.created_updated_date = formatDate(dt.created_updated_date, 'yyyy-MM-dd', 'en'))
-        this.dataSource = new MatTableDataSource<any>(res.data);
-        this.tableData = res.data;
-      },
-      error: err => console.error('Error fetching business terms', err),
-    });
+    // data.popUpType == 'update' || data.popUpType == 'delete' ?
+    //   (this.displayedColumn.columns.push('#'),
+    //     this.displayedColumn.columnsTranslates.push('#'))
+    //   : null
   }
 
   dataSource = new MatTableDataSource<any>([]);
@@ -108,6 +94,7 @@ export class BusinessObjectStructurePopUpComponent {
     if (!this.isActive(index)) {
       this.selectedRow = row;
       this.activeRow = index;
+      this.onCloseDialog(row)
     }
     else {
       this.activeRow = '';
@@ -116,104 +103,54 @@ export class BusinessObjectStructurePopUpComponent {
   }
 
   onCloseDialog(data: any) {
-    this.dialogRef.close(data);
+    let model = {
+      data: data,
+      type: this.data.popUpType
+    }
+    this.dialogRef.close(model);
   }
 
   tableData: any
-  filter_dialogRef!: MatDialogRef<FilterPopUpComponent>;
-  handleFilter() {
-    this.filter_dialogRef = this.dialog.open(FilterPopUpComponent,
-      {
-        disableClose: true,
-        width: '80%',
-        height: 'auto',
-        autoFocus: false,
-        data: [
-          { name: 'BO name', value: 'business_object_name' },
-          { name: 'Business attribute id', value: 'business_attribute_id' },
-          { name: 'Business attribute name', value: 'business_attribute_name' },
-          { name: 'Business attribute definition', value: 'business_attribute_definition' },
-          { name: 'Information sensitivity classification', value: 'information_sensitivity_classification' },
-          { name: 'Information sensitivity type', value: 'information_sensitivity_type' },
-          { name: 'Information protection method', value: 'information_protection_method' },
-          { name: 'Business data type', value: 'business_data_type' },
-          { name: 'Business attribute length', value: 'business_attribute_length' },
-          { name: 'Business attribute scale', value: 'business_attribute_scale' },
-          { name: 'Is business key', value: 'is_business_key' },
-          { name: 'Is business date', value: 'is_business_date' },
-          { name: 'Is mandatory', value: 'is_mandatory' },
-          { name: 'Is active', value: 'is_active' },
-          { name: 'Created updated by', value: 'created_updated_by' },
-          { name: 'Created updated date', value: 'created_updated_date' },
-          { name: 'Remarks', value: 'remarks' },
-        ]
-      });
-
-    this.filter_dialogRef.afterClosed().subscribe({
-      next: res => {
-        if (res) {
-          this.dataSource = new MatTableDataSource<any>(this.applyFilters(this.tableData, res));
-        }
-      }
-    })
-  }
-
-  filters: any[] = [];
-  applyFilters(data: any[], filterData: any) {
-    this.filters = this.getFilterValues(filterData, data);
-    return data.filter((item) => {
-      if (!this.filters || this.filters.length == 0) {
-        return
-      }
-      return this.filters?.every((filter) => {
-        if (item.hasOwnProperty(filter.columnName)) {
-          return (
-            (item as any)[filter.columnName]?.toString().toLowerCase() ===
-            filter.value?.toString().toLowerCase()
-          );
-        }
-        return false;
-      });
-    });
-  }
-
-  getFilterValues(filterForm: any, data: any[]) {
-    this.filters = [];
-    let filterArr: any[] = [];
-    Object.keys(filterForm.controls).forEach((key: string) => {
-      if (String(filterForm.get(key)?.value).length > 0) {
-        filterArr?.push({
-          columnName: key,
-          value: filterForm.get(key)?.value,
-        });
-      }
-    });
-
-    filterArr.map((dt: any) => {
-      data.every((filter) => {
-        if (filter.hasOwnProperty(dt.columnName)) {
-          this.filters.push(dt);
-        }
-      });
-    })
-
-    return this.filters
-  }
-
   handleUpdate(data: any) {
-    this.onCloseDialog(data)
+    
   }
 
-  handleDelete(bo_id: any, b_attr_id: any) {
-    this.businessStructureService.deleteBo_structure(bo_id, b_attr_id).subscribe(
-      {
-        next: res => swalSuccess("Row deleted from business object structure"),
-        error: err => console.log(err),
-        complete: () => {
-          this.getTableData();
-        },
+  handleDelete(row: any) {
+    // this.businessStructureService.deleteBo_structure(bo_id, b_attr_id).subscribe(
+    //   {
+    //     next: res => swalSuccess("Row deleted from business object structure"),
+    //     error: err => console.log(err),
+    //   }
+    // );
+    this.onCloseDialog(row);
+  }
+
+  search: any;
+  @ViewChild('commonPagDtOwner') commonPaginator!: MatPaginator;
+  applyFilter() {
+    // this.businessTermService.getBo_term().subscribe({
+    //   next: res => {
+    //     this.dataSource = new MatTableDataSource<any>(res.data);
+    //     this.dataSource.paginator = this.commonPaginator;
+    //   },
+    //   error: err => console.error('Error fetching business terms', err),
+    //   complete: () => {
+    //     this.dataSource.filter = this.search;
+    //   }
+    // });
+
+    this.businessStructureService.getBo_structure().subscribe({
+      next: res => {
+        this.dataSource = new MatTableDataSource<any>(res.data);
+        this.tableData = res.data;
+        this.dataSource.paginator = this.commonPaginator;
+      },
+      error: err => console.error('Error fetching business terms', err),
+      complete: () => {
+        this.dataSource.filter = this.search;
       }
-    );
+    });
+
   }
 
 }

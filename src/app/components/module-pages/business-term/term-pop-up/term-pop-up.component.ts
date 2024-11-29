@@ -22,11 +22,11 @@ export class TermPopUpComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
-    data.popUpType == 'update' || data.popUpType == 'delete' ?
-      (this.displayedColumn.columns.push('#'),
-        this.displayedColumn.columnsTranslates.push('#'))
-      : null
-
+    // data.popUpType == 'update' || data.popUpType == 'delete' ?
+    //   (this.displayedColumn.columns.push('#'),
+    //     this.displayedColumn.columnsTranslates.push('#'))
+    //   : null
+ 
   }
 
   dataSource = new MatTableDataSource<any>([]);
@@ -55,6 +55,7 @@ export class TermPopUpComponent {
     if (!this.isActive(index)) {
       this.selectedRow = row;
       this.activeRow = index;
+      this.onCloseDialog(row)
     }
     else {
       this.activeRow = '';

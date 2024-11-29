@@ -8,13 +8,28 @@
   </header>
 </div>
 
-<div class="d-flex justify-content-end">
+<!-- <div class="d-flex justify-content-end">
   <div class="col-md-2 text-end">
     <button type="button" role="button" class="pb-1 px-3 text-danger" (click)="handleFilter()">
       <i class="me-1 fa-regular fa-filter"></i> Filter
     </button>
   </div>
+</div> -->
 
+<div class="row mt-2">
+  <div class="col-md-11">
+    <div class="field">
+      <input type="text" [(ngModel)]="search" name="search" id="search">
+    </div>
+  </div>
+
+  <div class="col-md-1">
+    <div class="field">
+        <button (click)="applyFilter()" class="col-12 py-1 rounded-lg bg-danger text-white">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+  </div>
 </div>
 
 <div class="row my-2 px-3">
@@ -31,14 +46,14 @@
         <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
           <span *ngIf="column != '#'">
             {{element[displayedColumn.columns[j].replace(' ', '')]}}
-          </span>
+          </span> 
 
           <span class="inline-block col-12 text-center" *ngIf="column =='#'">
             <button *ngIf="data.popUpType == 'update'" type="button" (click)="handleUpdate(element)"
               class="rounded font-semibold px-1 py-2 text-danger ">
               <i class="fa-regular fa-pen-to-square"></i>
             </button>
-            <button *ngIf="data.popUpType == 'delete'" type="button" (click)="handleDelete(element.business_object_id, element.business_attribute_id)"
+            <button *ngIf="data.popUpType == 'delete'" type="button" (click)="handleDelete(element)"
               class="rounded font-semibold px-1 py-2 text-danger ">
               <i class="fa-regular fa-trash"></i>
             </button>

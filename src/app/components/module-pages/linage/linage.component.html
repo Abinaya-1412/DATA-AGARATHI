@@ -147,16 +147,16 @@
 
       <div class="col-md-1 mt-3">
         <div class="field py-2">
-          <button (click)="openTermPopUp('update')" type="submit"
+          <button [disabled]="!UpdateData" (click)="updateService()" type="submit"
             class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
             Update
-          </button>
+          </button> 
         </div>
       </div>
 
       <div class="col-md-1 mt-3">
         <div class="field py-2">
-          <button (click)="openTermPopUp('delete')" type="submit"
+          <button [disabled]="!UpdateData" (click)="handleDelete()" type="submit"
             class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
             Delete
           </button>

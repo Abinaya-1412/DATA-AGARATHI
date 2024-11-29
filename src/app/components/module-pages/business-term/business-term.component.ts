@@ -197,7 +197,8 @@ export class BusinessTermComponent implements OnInit {
           this.generateBusinessTermID();
           this.file = null;
           this.fileLocalUrl = '';
-          this.FF['image_url'].setValue('')
+          this.FF['image_url'].setValue('');
+          this.projectFileName = '';
         },
         error: err => swalError("Something went wrong in database!")
       }
@@ -205,50 +206,72 @@ export class BusinessTermComponent implements OnInit {
   }
 
   updateService() {
-    const updatedData = {
-      data: this.definitionFormGroup.value,
-      conditions: {
-        business_term_id: this.selectedRow.business_term_id
-      }
-    };
+    if (this.selectedRow) {
+      const updatedData = {
+        data: this.definitionFormGroup.value,
+        conditions: {
+          business_term_id: this.selectedRow.business_term_id
+        }
+      };
 
-    this.businessTermService.updateBo_term(updatedData).subscribe({
-      next: () => {
-        swalSuccess('Business term updated successfully!');
-        // this.definitionFormGroup.controls['date_created'].setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
-        this.definitionFormGroup.patchValue({
-          business_term_id: '',
-          business_term: '',
-          business_term_description: '', // Make description read-only
-          version: '',
-          date_created: '',
-          active: '',
-          image_url: '',
-          id: 0
-        });
-      this.generateBusinessTermID();
-      this.file = null;
-      this.fileLocalUrl = '';
-      this.FF['image_url'].setValue('')
+      this.businessTermService.updateBo_term(updatedData).subscribe({
+        next: () => {
+          swalSuccess('Business term updated successfully!');
+          // this.definitionFormGroup.controls['date_created'].setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
+          this.definitionFormGroup.patchValue({
+            business_term_id: '',
+            business_term: '',
+            business_term_description: '', // Make description read-only
+            version: '',
+            date_created: '',
+            active: '',
+            image_url: '',
+            id: 0
+          });
+          this.generateBusinessTermID();
+          this.file = null;
+          this.fileLocalUrl = '';
+          this.selectedRow = '';
+          this.FF['image_url'].setValue('');
+          this.projectFileName = '';
 
-      },
-      error: (error) => {
-        console.error('Update failed', error);
-        swalError('Failed to update the Business term.');
-      }
-    });
+        },
+        error: (error) => {
+          console.error('Update failed', error);
+          swalError('Failed to update the Business term.');
+        }
+      });
+    }
   }
 
-  handleDelete(id: string) {
-    this.businessTermService.deleteBo_term(Number(id)).subscribe(
-      (response) => {
-        console.log('Business term deleted', response);
-        // this.fetchBusinessTermData();
-      },
-      (error) => {
-        console.error('Error deleting business term', error);
-      }
-    );
+  handleDelete() {
+    if (this.selectedRow) {
+      this.businessTermService.deleteBo_term(Number(this.FF['id'].value)).subscribe(
+        (response) => {
+          swalSuccess('Business term deleted successfully!');
+          this.definitionFormGroup.patchValue({
+            business_term_id: '',
+            business_term: '',
+            business_term_description: '', // Make description read-only
+            version: '',
+            date_created: '',
+            active: '',
+            image_url: '',
+            id: 0
+          });
+          this.generateBusinessTermID();
+          this.file = null;
+          this.fileLocalUrl = '';
+          this.selectedRow = '';
+          this.FF['image_url'].setValue('');
+          this.projectFileName = '';
+          // this.fetchBusinessTermData();
+        },
+        (error) => {
+          console.error('Error deleting business term', error);
+        }
+      );
+    }
   }
 
   onChangePage(event: any) {
@@ -310,4 +333,5 @@ export class BusinessTermComponent implements OnInit {
       }
     })
   }
+
 }   
