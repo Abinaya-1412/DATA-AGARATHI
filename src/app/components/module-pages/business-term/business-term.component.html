@@ -51,7 +51,7 @@
                 <mat-option *ngFor="let option of filteredOptionsBTerm | async" [value]="option.business_term">
                   {{ option.business_term }}
                 </mat-option>
-              </mat-autocomplete> 
+              </mat-autocomplete>
 
               <small class="error_text"
                 *ngIf="(FF['business_term'].errors?.['required'] && !isFormValid) || (FF['business_term'].invalid && !isFormValid)">
@@ -66,26 +66,24 @@
 
 
           <div class="col-md-12">
-            <mat-form-field class="example-full-width field col-12">
+            <div class="field">
               <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black ">
                 Business Term Description
               </label>
-              <input type="text" id="businessTermDesc" name="businessTermDesc" class="col-12" matInput
-                formControlName="business_term_description" [matAutocomplete]="autoBTDesc">
-              <mat-autocomplete #autoBTDesc="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptionsBTDesc | async" [value]="option.value">
-                  {{option.value}}
-                </mat-option>
-              </mat-autocomplete> 
+              <!-- <input type="text" id="businessTermDesc" name="businessTermDesc" class="col-12" 
+                formControlName="business_term_description"> -->
+              <textarea style="min-height: 100px;" formControlName="business_term_description" name="businessTermDesc"
+                id="businessTermDesc"></textarea>
+
               <small class="error_text"
                 *ngIf="(FF['business_term_description'].errors?.['required'] && !isFormValid) || (FF['business_term_description'].invalid && !isFormValid)">
                 *Required field
               </small>
-            </mat-form-field>
+            </div>
           </div>
 
 
-          <div class="col-md-4">
+          <div class="col-md-12">
             <mat-form-field class="example-full-width field col-12">
               <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black">
                 Version</label>
@@ -97,7 +95,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-12">
             <div class="field">
               <label matTooltip="Date when the project was created" for="date_created" class="font-medium text-black">
                 Date Created</label>
@@ -109,7 +107,7 @@
             </div>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-12">
             <mat-form-field class="example-full-width field col-12">
               <label matTooltip="Is the business term active?" for="active" class="font-medium text-black">
                 Active</label>
@@ -123,8 +121,6 @@
             </mat-form-field>
           </div>
 
-
-
           <!-- <div class="col-md-2 mt-3">
             <div class="field py-2">
               <button (click)="onSubmit()" type="submit"
@@ -137,8 +133,8 @@
       </div>
 
       <div class="col-md-6">
-        <div class="row">
-          <div class="col-md-12 d-flex align-items-center">
+        <div class="h-full">
+          <div class="d-flex align-items-center">
             <div class="field" style="width: -webkit-fill-available;">
               <label for="complexName" class="font-medium text-black">Business term file</label>
               <div class="relative">
@@ -153,7 +149,7 @@
             <i role="button" (click)="deleteFile()" class="mt-4 ms-2 text-danger fa-solid fa-trash"></i>
           </div>
 
-          <div *ngIf="fileLocalUrl || FF['image_url'].value" class="col-md-12 mt-2" style="height: 200px; width: 100%;">
+          <div *ngIf="fileLocalUrl || FF['image_url'].value" class="mt-2" style="height: 335px; width: 100%;">
             <img class="rounded-xl object-cover w-full h-full"
               [src]="fileLocalUrl? fileLocalUrl : FF['image_url'].value" alt="Business term image">
           </div>
@@ -165,7 +161,7 @@
       <div class="col-md-1 mt-3">
         <div class="field py-2">
           <button (click)="onSubmit()" type="submit" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
-            {{selectedRow ? 'Save'  : "Add"}}
+            {{selectedRow ? 'Save' : "Add"}}
           </button>
         </div>
       </div>
