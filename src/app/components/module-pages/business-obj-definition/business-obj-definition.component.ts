@@ -57,7 +57,8 @@ export class BusinessObjDefinitionComponent {
     this.keyUpBusinessAlternateRule();
 
   }
-
+  selectedRow: any = null; 
+  activeRow: any; // Define the activeRow property
   objectTypes: any[] = [];
   paymentPurposeTypeIds: any[] = [];
   paymentMethodIds: any[] = [];
@@ -1313,6 +1314,7 @@ export class BusinessObjDefinitionComponent {
   businessTerms: any[] = [];
 
   businessTerm_dialogRef?: MatDialogRef<BusinessTermComponent>;
+  selectRow(row: any) { this.selectedRow = row; }
   showBusinessTerm(type: string) {
     this.businessTerm_dialogRef = this.dialog.open(BusinessTermComponent,
       {
