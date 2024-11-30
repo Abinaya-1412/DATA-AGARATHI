@@ -267,7 +267,7 @@
 
           <div class="col-md-2 mt-3">
             <div class="field py-2">
-              <button (click)="showGrid('update')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showDataOwner('update')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
@@ -276,7 +276,7 @@
 
           <div class="col-md-2 mt-3">
             <div class="field py-2">
-              <button (click)="showGrid('delete')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showDataOwner('delete')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
@@ -377,7 +377,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="showDataOwner('update')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showDataOwner('update')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
@@ -386,7 +386,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="showDataOwner('delete')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showDataOwner('delete')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
@@ -715,7 +715,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="showImpDetails('update')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showImpDetails('update')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
@@ -724,7 +724,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="showImpDetails('delete')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showImpDetails('delete')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
@@ -792,7 +792,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="showBussnRule('update')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showBussnRule('update')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
@@ -801,7 +801,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="showBussnRule('delete')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showBussnRule('delete')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
@@ -884,21 +884,22 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="showBusinessTerm('update')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showBusinessTerm('update')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
             </div>
           </div>
-
+          
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="showBusinessTerm('delete')" type="submit"
+              <button [disabled]="!selectedRow" (click)="showBusinessTerm('delete')" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
             </div>
           </div>
+          
 
         </div>
       </form>
