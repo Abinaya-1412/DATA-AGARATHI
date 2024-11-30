@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BusinessService } from 'src/app/services/business.service';
+import { BusinessTermService } from 'src/app/services/business-term.service';
 import { swalSuccess } from 'src/app/utils/alert';
 import Swal from 'sweetalert2';
-import { FilterPopUpComponent } from '../../filter-pop-up/filter-pop-up.component';
+import { FilterPopUpComponent } from '../../filter-pop-up/filter-pop-up.component'; // Import the FilterPopUpComponent
 
 @Component({
   selector: 'app-view-grid',
@@ -14,18 +15,21 @@ import { FilterPopUpComponent } from '../../filter-pop-up/filter-pop-up.componen
 })
 export class ViewGridComponent {
 
+  // Flag to track changes in data
+  hasChanges = false;
+
   constructor(
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<ViewGridComponent>,
     private businessService: BusinessService,
+    private businessTermService: BusinessTermService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    data == 'update' || data == 'delete' ?
+    data === 'update' || data === 'delete' ? 
       (this.displayedColumnBusinessObjectDefinition.columns.push('#'),
-        this.displayedColumnBusinessObjectDefinition.columnsTranslates.push('#'))
-      : null
-
+       this.displayedColumnBusinessObjectDefinition.columnsTranslates.push('#')) 
+      : null;
   }
 
   displayedColumnBusinessObjectDefinition: any = {
@@ -42,36 +46,36 @@ export class ViewGridComponent {
       "BO name",
       "BO description",
       "BO Asset Type",
-      "BO Sensitivity Calssification",
+      "BO Sensitivity Classification",
       "BO Sensitivity Reason",
-      ]
+    ]
   };
 
   dataSourceBusinessObjectDefinition: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   @ViewChild('commonPagBusinessObjectDefinition') commonPagBusinessObjectDefinition!: MatPaginator;
   pageEvent!: PageEvent;
   lengthDtOwner?: number;
-  lengthSrcSystem?: number;
-  lengthBussnRule?: number;
-  lengthAltBusiness?: number;
-  pageSize!: number;
-  pageSizeOptions: number[] = [20, 30, 40];
-
+  pageSizeOptions: number[] = [10, 15, 20];
+  pageSize = 10; // Added pageSize property
+  search: string = ''; // Added for search functionality
   highlightRowDataBusinessObjectDefinition: any;
   activeBusinessObjectDefinition: any = -1;
 
   ngOnInit() {
+    this.applyFilter();  // Call applyFilter on initialization to fetch and display data
   }
 
-  isActiveBusinessObjectDefinition = (index: number) => { return this.activeBusinessObjectDefinition === index };
+  isActiveBusinessObjectDefinition = (index: number) => this.activeBusinessObjectDefinition === index;
+
   highlightBusinessObjectDefinition(index: number, id: number, row: any): void {
     if (!this.isActiveBusinessObjectDefinition(index)) {
-      row != this.highlightRowDataBusinessObjectDefinition ? this.highlightRowDataBusinessObjectDefinition = row : this.highlightRowDataBusinessObjectDefinition = '';
+      this.highlightRowDataBusinessObjectDefinition = row;
       this.activeBusinessObjectDefinition = index;
-    }
-    else {
+      this.onDataChange(); // Mark that changes were made
+    } else {
       this.activeBusinessObjectDefinition = -1;
       this.highlightRowDataBusinessObjectDefinition = '';
+      this.resetChanges(); // Reset changes when no row is selected
     }
   }
 
@@ -88,150 +92,65 @@ export class ViewGridComponent {
       if (result.isConfirmed) {
         this.businessService.deleteBusinessObjectDefinition(id).subscribe({
           next: res => {
-            swalSuccess("Saved successfully.");
-            // this.getTableBusinessObjectDefinition();
-            this.applyFilter();
+            swalSuccess("Deleted successfully.");
+            this.applyFilter();  // Refresh the data after deletion
           },
           error: err => console.log(err)
         });
       }
-    })
+    });
   }
-
-  // getTableBusinessObjectDefinition() {
-  //   this.businessService.getBusinessObjectDefinition().subscribe({
-  //     next: res => {
-  //       this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(res.data);
-  //       this.tableData = res.data;
-  //       this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition;
-  //     },
-  //     error: err => console.log(err)
-  //   })
-  // }
-
-  onCloseDialog(data: any) {
-    data ? this.dialogRef.close(data) : this.dialogRef.close();
-  }
-
-  // update() {
-  //   this.onCloseDialog(1);
-  // }
 
   handleUpdate(data: any) {
-    this.onCloseDialog(data)
+    if (this.hasChanges) {
+      this.onCloseDialog(data);
+    } else {
+      Swal.fire('No changes detected', 'Please make a change before updating.', 'info');
+    }
   }
 
-  tableData: any
-  filter_dialogRef!: MatDialogRef<FilterPopUpComponent>;
+  onCloseDialog(data: any = null) {
+    this.dialogRef.close(data);
+  }
 
-  // handleFilter() {
-  //   this.filter_dialogRef = this.dialog.open(FilterPopUpComponent,
-  //     {
-  //       disableClose: true,
-  //       width: '80%',
-  //       height: 'auto',
-  //       autoFocus: false,
-  //       data: [
-  //         { name: 'Project name', value: 'project_name' },
-  //         { name: 'BO name', value: 'business_object_name' },
-  //         { name: 'BO description', value: 'business_object_description' },
-  //         { name: 'Scope of data domain', value: 'scope_of_data_domain' },
-  //         { name: 'BO asset type', value: 'business_object_asset_type' },
-  //         { name: 'BO sensitivity classification', value: 'business_object_sensitivity_classification' },
-  //         { name: 'BO sensitivity reason', value: 'business_object_sensitivity_reason' },
-  //         { name: 'Created/Updated by', value: 'created_by' },
-  //         { name: 'Created/Updated date', value: 'date_created' },
-  //         { name: 'Remarks', value: 'remarks' },
-
-  //         { name: 'Business unit owner', value: 'business_unit_owner' },
-  //         { name: 'Business function', value: 'business_function' },
-  //         { name: 'Role', value: 'role' },
-
-  //         { name: 'Source System', value: 'source_system' },
-  //         { name: 'Source Sys. Country Code', value: 'source_system_country_code' },
-  //         { name: 'Req Frequency of Refresh', value: 'req_frequency_of_refresh' },
-  //         { name: 'Active', value: 'active' },
-  //         { name: 'Data Capture Mode', value: 'data_capture_mode' },
-  //         { name: 'Data Capture Mode', value: 'sourcing_mode' },
-  //         { name: 'Track History', value: 'track_history' },
-  //         { name: 'History Type', value: 'history_type' },
-  //         { name: 'Error Treatment', value: 'error_treatment' },
-  //         { name: 'Exception Treatment', value: 'exception_treatment' },
-
-  //         { name: 'Rule', value: 'rule' },
-
-  //         { name: 'Business term', value: 'business_term' },
-  //         { name: 'Business term description', value: 'business_term_description' },
-  //         { name: 'Version', value: 'version' },
-  //       ]
-  //     });
-
-  //   this.filter_dialogRef.afterClosed().subscribe({
-  //     next: res => {
-  //       this.activeBusinessObjectDefinition = -1;
-  //       this.highlightRowDataBusinessObjectDefinition = '';
-  //       if (res) {
-  //         this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(this.applyFilters(this.tableData, res));
-  //       }
-  //     }
-  //   })
-  // }
-
-  // filters: any[] = [];
-  // applyFilters(data: any[], filterData: any) {
-  //   this.filters = this.getFilterValues(filterData, data);
-  //   return data.filter((item) => {
-  //     if (!this.filters || this.filters.length == 0) {
-  //       return
-  //     }
-  //     return this.filters?.every((filter) => {
-  //       if (item.hasOwnProperty(filter.columnName)) {
-  //         return (
-  //           (item as any)[filter.columnName]?.toString().toLowerCase() ===
-  //           filter.value?.toString().toLowerCase()
-  //         );
-  //       }
-  //       return false;
-  //     });
-  //   });
-  // }
-
-  // getFilterValues(filterForm: any, data: any[]) {
-  //   this.filters = [];
-  //   let filterArr: any[] = [];
-  //   Object.keys(filterForm.controls).forEach((key: string) => {
-  //     if (String(filterForm.get(key)?.value).length > 0) {
-  //       filterArr?.push({
-  //         columnName: key,
-  //         value: filterForm.get(key)?.value,
-  //       });
-  //     }
-  //   });
-
-  //   filterArr.map((dt: any) => {
-  //     data.every((filter) => {
-  //       if (filter.hasOwnProperty(dt.columnName)) {
-  //         this.filters.push(dt);
-  //       }
-  //     });
-  //   })
-
-  //   return this.filters
-  // }
-
-  search: any;
   applyFilter() {
     this.businessService.getBusinessObjectDefinition().subscribe({
       next: res => {
         this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(res.data);
         this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition;
+        this.dataSourceBusinessObjectDefinition.filter = this.search.trim().toLowerCase();
       },
-      error: err => console.error('Error fetching business terms', err),
-      complete: () => {
-        this.dataSourceBusinessObjectDefinition.filter = this.search;
-      }
+      error: err => console.error('Error fetching business terms', err)
     });
-
   }
 
+  // Method to open the FilterPopUpComponent in a dialog
+  openFilterDialog(): void {
+    const dialogRef = this.dialog.open(FilterPopUpComponent, {
+      width: '400px',  // You can adjust the dialog width
+      data: {} // You can pass any necessary data to the FilterPopUpComponent
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle filter results and update the table data if necessary
+        this.applyFilter();  // Adjust the filtering logic here
+      }
+    });
+  }
+
+  // Method to track changes (assuming you're tracking edits in a form or table)
+  onDataChange() {
+    this.hasChanges = true; // Mark that changes were made
+  }
+
+  // Reset the changes if needed (like canceling edits)
+  resetChanges() {
+    this.hasChanges = false;
+  }
+
+  // Pagination change handler
+  onChangePage(event: PageEvent) {
+    this.pageSize = event.pageSize;
+  }
 }
