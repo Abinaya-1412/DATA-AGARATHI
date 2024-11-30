@@ -1,95 +1,71 @@
 <div>
     <header class="dialogHeader " cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
-        Business object definition
-
-        <button class="text-danger" (click)="onCloseDialog('')">
-            X
-        </button>
+      Business object definition
+  
+      <button class="text-danger" (click)="onCloseDialog('')">
+        X
+      </button>
     </header>
-</div>
-<!-- 
-<div class="d-flex px-4 mt-4 justify-content-end">
-    <button type="button" role="button" class="pb-1 px-1 text-danger" (click)="handleFilter()">
-        <i class="me-1 fa-regular fa-filter"></i> Filter
-    </button>
-</div> -->
-
-<div class="row mt-2">
+  </div>
+  
+  <div class="row mt-2"> 
     <div class="col-md-11">
-        <div class="field">
-            <input type="text" [(ngModel)]="search" name="search" id="search">
-        </div>
+      <div class="field">
+        <input type="text" [(ngModel)]="search" name="search" id="search">
+      </div>
     </div>
-
+  
     <div class="col-md-1">
-        <div class="field">
-            <button (click)="applyFilter()" class="col-12 py-1 rounded-lg bg-danger text-white">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
+      <div class="field">
+          <button (click)="applyFilter()" class="col-12 py-1 rounded-lg bg-danger text-white">
+              <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+      </div>
     </div>
-</div>
-
-<div class="row mt-4 px-4 pb-3">
-    <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
-        style="border-radius: 6px; max-height: 60vh;">
+  </div>
+  
+    <div class="row my-2 px-3">
+      <div class="overflow-auto line-container operation-wait-con maxHeight-table tabCont border smallRow p-0"
+        style="border-radius: 6px; max-height: 560px;">
         <table mat-table [dataSource]="dataSourceBusinessObjectDefinition" id="report">
-            <ng-container
-                *ngFor="let column of displayedColumnBusinessObjectDefinition.columnsTranslates; let j = index"
-                [matColumnDef]="column">
-                <th mat-header-cell *matHeaderCellDef>
-                    <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
-                        {{column}}
-                    </div>
-                </th>
-
-                <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
-                    <!-- <span *ngIf="column != '#'">
-                        {{element[displayedColumnBusinessObjectDefinition.columns[j].replace(' ', '')]}}
-                    </span>
-
-                    <span *ngIf="column =='#'">
-                        <button type="button" (click)="handleDeleteBusinessObjectDefinition(element.id)"
-                            class="rounded font-semibold col-12 py-2 text-danger ">
-                            <i class="fa-regular fa-trash"></i>
-                        </button>
-                    </span> -->
-
-                    <span *ngIf="column != '#'">
-                        {{element[displayedColumnBusinessObjectDefinition.columns[j].replace(' ', '')]}}
-                    </span>
-
-                    <span class="inline-block col-12 text-center" *ngIf="column =='#'">
-                        <button *ngIf="data == 'update'" type="button" (click)="handleUpdate(element)"
-                            class="rounded font-semibold px-1 py-2 text-danger ">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </button>
-                        <button *ngIf="data == 'delete'" type="button"
-                            (click)="handleDeleteBusinessObjectDefinition(element.id)"
-                            class="rounded font-semibold px-1 py-2 text-danger ">
-                            <i class="fa-regular fa-trash"></i>
-                        </button>
-                    </span>
-                </td>
-            </ng-container>
-
-            <tr mat-header-row
-                *matHeaderRowDef="displayedColumnBusinessObjectDefinition.columnsTranslates; sticky: true">
-            </tr>
-            <tr *matNoDataRow>
-                <th colspan="9" class="text-center">
-                    <span>No rows found</span>
-                </th>
-            </tr>
-            <tr mat-row
-                *matRowDef="let row;let i = index; columns: displayedColumnBusinessObjectDefinition.columnsTranslates;"
-                class="route" [attr.data-index]="i" [ngClass]="{'selected-all': isActiveBusinessObjectDefinition(i)}"
-                (dblclick)="highlightBusinessObjectDefinition(i, row.Id, row);">
-            </tr>
+          <ng-container *ngFor="let column of displayedColumnBusinessObjectDefinition.columnsTranslates; let j = index" 
+                        [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef>
+              <div class="headerColumnNames" [ngClass]="{'justify-content-center': column == '#'}">
+                {{column}}
+              </div>
+            </th>
+  
+            <td mat-cell *matCellDef="let element; let rowIndex = index" class="hower-td">
+              <span *ngIf="column != '#'">
+                {{element[displayedColumnBusinessObjectDefinition.columns[j].replace(' ', '')]}}
+              </span>
+  
+              <span class="inline-block col-12 text-center" *ngIf="column == '#'">
+                <button *ngIf="data === 'update'" type="button" (click)="handleUpdate(element)"
+                        class="rounded font-semibold px-1 py-2 text-danger"
+                        [disabled]="!hasChanges || !isActiveBusinessObjectDefinition(rowIndex)">
+                  <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <button *ngIf="data === 'delete'" type="button"
+                        (click)="handleDeleteBusinessObjectDefinition(element.id)"
+                        class="rounded font-semibold px-1 py-2 text-danger"
+                        [disabled]="!isActiveBusinessObjectDefinition(rowIndex)">
+                  <i class="fa-regular fa-trash"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumnBusinessObjectDefinition.columnsTranslates; sticky: true"></tr>
+          <tr *matNoDataRow>
+            <th colspan="9" class="text-center">
+              <span>No rows found</span>
+            </th>
+          </tr>
+          <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumnBusinessObjectDefinition.columnsTranslates;"
+              class="route" [attr.data-index]="i"
+              [ngClass]="{'selected-all': isActiveBusinessObjectDefinition(i)}"
+              (dblclick)="highlightBusinessObjectDefinition(i, row.Id, row);">
+          </tr>
         </table>
-    </div>
-
-    <mat-paginator class="mat-paginator-sticky" #commonPagBusinessObjectDefinition [pageSizeOptions]="[10, 15, 20]"
-        [length]="lengthDtOwner" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
-    </mat-paginator>
-</div>
