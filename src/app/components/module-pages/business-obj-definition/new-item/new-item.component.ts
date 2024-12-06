@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,12 +11,13 @@ import Swal from 'sweetalert2';
   templateUrl: './new-item.component.html',
   styleUrls: ['./new-item.component.scss']
 })
-export class NewItemComponent {
+export class NewItemComponent implements OnInit {
   formGroup!: FormGroup;
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   displayedColumns = ['refcode', 'description', '#'];
   pageSizeOptions: number[] = [20, 30, 40];
   dynamicInputName: string = ''; // Variable to hold the dynamic input name
+  dropdownOptions: any[] = []; // Array to hold dropdown options
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
@@ -78,6 +79,7 @@ export class NewItemComponent {
       next: (res: any) => {
         this.dataSource.data = res.data;
         this.dataSource.paginator = this.paginator;
+        this.dropdownOptions = res.data; // Update dropdown options
       },
       error: (err: any) => console.error('Error fetching data:', err),
     });
@@ -105,7 +107,7 @@ export class NewItemComponent {
     this.comboboxService.saveRefCode(dataToSave).subscribe({
       next: (res: any) => {
         Swal.fire('Success', 'Record saved successfully!', 'success');
-        this.fetchDataByRefcode(); // Refresh the data table
+        this.fetchDataByRefcode(); // Refresh the data table and dropdown list
       },
       error: (err: any) => {
         console.error('Error saving record:', err);
@@ -133,6 +135,7 @@ export class NewItemComponent {
     this.comboboxService.saveRefCode(dataToSave).subscribe({
       next: (res: any) => {
         Swal.fire('Success', 'Record saved successfully!', 'success');
+        this.fetchDataByRefcode(); // Refresh the data table and dropdown list
         this.onCloseDialog();
       },
       error: (err: any) => {

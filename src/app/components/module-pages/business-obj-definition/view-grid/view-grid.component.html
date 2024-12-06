@@ -41,7 +41,7 @@
                 {{element[displayedColumnBusinessObjectDefinition.columns[j].replace(' ', '')]}}
               </span>
   
-              <span class="inline-block col-12 text-center" *ngIf="column == '#'">
+              <!-- <span class="inline-block col-12 text-center" *ngIf="column == '#'">
                 <button *ngIf="data === 'update'" type="button" (click)="handleUpdate(element)"
                         class="rounded font-semibold px-1 py-2 text-danger"
                         [disabled]="!hasChanges || !isActiveBusinessObjectDefinition(rowIndex)">
@@ -53,7 +53,7 @@
                         [disabled]="!isActiveBusinessObjectDefinition(rowIndex)">
                   <i class="fa-regular fa-trash"></i>
                 </button>
-              </span>
+              </span> -->
             </td>
           </ng-container>
   

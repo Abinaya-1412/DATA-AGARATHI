@@ -21,6 +21,7 @@ import { BusinessObjectStructurePopUpComponent } from './business-object-structu
   templateUrl: './business-object-structure.component.html',
   styleUrls: ['./business-object-structure.component.scss']
 })
+
 export class BusinessObjectStructureComponent {
 
   constructor(
@@ -466,15 +467,15 @@ export class BusinessObjectStructureComponent {
     })
   }
 
-  saveForm() {
-    this.businessStructureService.saveBo_structure(this.definitionFormGroup.value).subscribe({
-      next: res => {
-        swalSuccess("Saved successfully.");
-        this.handleNew();
-      },
-      error: err => swalError("Something went wrong in database"),
-    });
-  }
+saveForm() {
+  this.businessStructureService.saveBo_structure(this.definitionFormGroup.value).subscribe({
+    next: res => {
+      swalSuccess("Saved successfully.");
+      this.handleNew();
+    },
+    error: err => swalError("Something went wrong in the database"),
+  });
+}
 
   tableData: any
   filter_dialogRef!: MatDialogRef<FilterPopUpComponent>;

@@ -48,6 +48,7 @@ export class BusinessRuleComponent {
     if (!this.isActiveBusinessObjectDefinition(index)) {
       row != this.highlightRowDataBusinessObjectDefinition ? this.highlightRowDataBusinessObjectDefinition = row : this.highlightRowDataBusinessObjectDefinition = '';
       this.activeBusinessObjectDefinition = index;
+      this.onCloseDialog(row);
     }
     else {
       this.activeBusinessObjectDefinition = -1;
@@ -78,16 +79,12 @@ export class BusinessRuleComponent {
     })
   }
 
-  handleUpdate(data: any) {
-    this.onCloseDialog(data)
-  }
-
   search: any;
   applyFilter() {
     this.businessService.getBo_rulesTable(this.data.business_id).subscribe({
       next: res => {
         res.data.length ?  (this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(res.data),
-        this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition) : swalInfo("Have no data for this business object!"), this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>([])
+        this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition) : (swalInfo("Have no data for this business object!"), this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>([]))
       },
       error: err => console.error('Error fetching business terms', err),
       complete: () => {
@@ -97,6 +94,6 @@ export class BusinessRuleComponent {
   }
 
   onCloseDialog(data: any) {
-    data ? this.dialogRef.close(data) : this.dialogRef.close();
+     this.dialogRef.close(data ? data: '');
   }
 }

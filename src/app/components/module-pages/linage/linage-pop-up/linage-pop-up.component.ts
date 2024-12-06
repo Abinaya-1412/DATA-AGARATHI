@@ -31,7 +31,7 @@ export class LinagePopUpComponent {
 
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild('commonPagDtOwner') commonPaginator!: MatPaginator;
-  
+
   pageSizeOptions = [10, 15, 20];
   length = 100;
   pageSize = 10;
@@ -72,7 +72,7 @@ export class LinagePopUpComponent {
   applyFilter() {
     this.mappingService.getAll().subscribe({
       next: res => {
-        this.dataSource = new MatTableDataSource<any>(res);
+        this.dataSource = new MatTableDataSource<any>(res.data);
         this.dataSource.paginator = this.commonPaginator;
       },
       error: err => console.log(err),
@@ -91,7 +91,7 @@ export class LinagePopUpComponent {
       {
         next: res => {
           swalSuccess("Row deleted from business term");
-          this.applyFilter(); 
+          this.applyFilter();
         },
         error: err => console.log(err)
       }

@@ -32,7 +32,7 @@
         <div class="col-md-3 relative d-flex">
           <mat-form-field class="example-full-width field  col-11">
             <label matTooltip="Name of the Project" for="fullName" class="font-medium text-black ">
-              Project name {{FF['business_object_id'].value}}
+              Project name
             </label>
             <input type="text" id="customerId" name="customerId" class="col-12" matInput formControlName="project_name"
               [matAutocomplete]="autoClient">
@@ -76,7 +76,7 @@
           </mat-form-field>
         </div>
 
-        
+
         <div class="col-md-3">
           <div class="field">
             <label matTooltip="Brief description about the object" for="fullName"
@@ -104,7 +104,7 @@
                 {{option.value}}
               </mat-option>
             </mat-autocomplete>
-        
+
             <small class="error_text"
               *ngIf="(FF['scope_of_data_domain'].errors?.['required'] && !isBusinessObjectDefinitionFormValid) || (FF['scope_of_data_domain'].invalid && !isBusinessObjectDefinitionFormValid)">
               *Required field
@@ -249,7 +249,7 @@
         <div class="row col-md-7">
           <div class="col-md-2 mt-3">
             <div class="field py-2">
-              <button (click)="handleSave()" type="submit"
+              <button (click)="handleSaveBusinessObjectDefinition()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 {{UpdateDataBusinessObjectDefinition ? 'Save' : "Add"}}
               </button>
@@ -267,8 +267,8 @@
 
           <div class="col-md-2 mt-3">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showDataOwner('update')" type="submit"
-                class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
+              <button [disabled]="!UpdateDataBusinessObjectDefinition" (click)="updateBusinessObjectDefinition()"
+                type="submit" class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
             </div>
@@ -276,7 +276,8 @@
 
           <div class="col-md-2 mt-3">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showDataOwner('delete')" type="submit"
+              <button [disabled]="!UpdateDataBusinessObjectDefinition"
+                (click)="handleDeleteBusinessObjectDefinition(FF['id'].value)" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
@@ -359,9 +360,9 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="handleAddOwner()" type="submit"
+              <button [disabled]="UpdateDataDtOwner" (click)="handleAddOwner()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
-                {{ UpdateDataDtOwner ? 'Save' : 'Add' }}
+                Add
               </button>
             </div>
           </div>
@@ -377,7 +378,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showDataOwner('update')" type="submit"
+              <button [disabled]="!UpdateDataDtOwner" (click)="updateDataOwner()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
@@ -386,7 +387,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showDataOwner('delete')" type="submit"
+              <button [disabled]="!UpdateDataDtOwner" (click)="handleDeleteOwner(OF['id'].value)" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
@@ -574,7 +575,7 @@
               </small>
             </mat-form-field>
 
-            <button type="button" (click)="addListValue('exception_treatment')"
+            <button type="button" (click)="addListValue('data_capture_mode')"
               class="bg-danger h-fit absolute right-1 bottom-0 top-3 my-auto add-btn ">
               +
             </button>
@@ -697,9 +698,9 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="handleAddImpDetails()" type="submit"
+              <button [disabled]="UpdateDataSrsSystem" (click)="handleAddImpDetails()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
-                {{ UpdateDataSrsSystem ? 'Save' : 'Add' }}
+                Add
               </button>
             </div>
           </div>
@@ -715,7 +716,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showImpDetails('update')" type="submit"
+              <button [disabled]="!UpdateDataSrsSystem" (click)="updateImpDetails()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
@@ -724,7 +725,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showImpDetails('delete')" type="submit"
+              <button [disabled]="!UpdateDataSrsSystem" (click)="deleteImpDetails()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
@@ -774,9 +775,9 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="handleAddBussRule()" type="submit"
+              <button [disabled]="UpdateDataBussnRule" (click)="handleAddBussRule()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
-                {{ UpdateDataBussnRule ? 'Save' : 'Add' }}
+                Add
               </button>
             </div>
           </div>
@@ -792,7 +793,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showBussnRule('update')" type="submit"
+              <button [disabled]="!UpdateDataBussnRule" (click)="updateBusinessRule()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
@@ -801,7 +802,7 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showBussnRule('delete')" type="submit"
+              <button [disabled]="!UpdateDataBussnRule" (click)="deleteBusinessRule()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
@@ -857,18 +858,12 @@
         </div>
 
         <div class="row pb-2 pe-2 justify-content-end">
-          <!-- <div class="col-md-2 text-end pt-3">
-            <button type="button" (click)="handleAddAltTerm()"
-              class="rounded font-semibold col-12 py-1 text-white bg-danger">
-              {{ highlightRowDataAltBusiness ? 'Save' : 'Add' }}
-            </button>
-          </div> -->
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button (click)="handleAddAltTerm()" type="submit"
+              <button [disabled]="UpdateDataAlternateTerm" (click)="handleAddAltTerm()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
-                {{ UpdateDataAlternateTerm ? 'Save' : 'Add' }}
+                Add
               </button>
             </div>
           </div>
@@ -884,22 +879,21 @@
 
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showBusinessTerm('update')" type="submit"
+              <button [disabled]="!UpdateDataAlternateTerm" (click)="updateAltTerm()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Update
               </button>
             </div>
           </div>
-          
+
           <div class="col-md-2 mt-2">
             <div class="field py-2">
-              <button [disabled]="!selectedRow" (click)="showBusinessTerm('delete')" type="submit"
+              <button [disabled]="!UpdateDataAlternateTerm" (click)="deleteAltTerm()" type="submit"
                 class="col-12 font-medium bg-danger text-white py-1 rounded-lg">
                 Delete
               </button>
             </div>
           </div>
-          
 
         </div>
       </form>

@@ -48,6 +48,7 @@ export class BusinessTermComponent {
     if (!this.isActiveBusinessObjectDefinition(index)) {
       row != this.highlightRowDataBusinessObjectDefinition ? this.highlightRowDataBusinessObjectDefinition = row : this.highlightRowDataBusinessObjectDefinition = '';
       this.activeBusinessObjectDefinition = index;
+      this.onCloseDialog(row)
     }
     else {
       this.activeBusinessObjectDefinition = -1;
@@ -66,28 +67,28 @@ export class BusinessTermComponent {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.businessService.deleteBusiness_term(id).subscribe({
-          next: res => {
-            swalSuccess('Deleted successfully!');
-            this.applyFilter();
-            // this.getTableBusinessObjectDefinition();
-          },
-          error: err => console.log(err)
-        });
+        // this.businessService.deleteBusiness_term(id).subscribe({
+        //   next: res => {
+        //     swalSuccess('Deleted successfully!');
+        //     this.applyFilter();
+        //     // this.getTableBusinessObjectDefinition();
+        //   },
+        //   error: err => console.log(err)
+        // });
       }
     })
   }
 
-  handleUpdate(data: any) {
-    this.onCloseDialog(data)
-  }
+  // handleUpdate(data: any) {
+  //   this.onCloseDialog(data)
+  // }
 
   search: any;
   applyFilter() {
     this.businessService.getTermRelatedTable(this.data.business_id).subscribe({
       next: res => {
         res.data.length ?  (this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(res.data),
-        this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition) : swalInfo("Have no data for this business object!"), this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>([])
+        this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition) : (swalInfo("Have no data for this business object!"), this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>([]))
       },
       error: err => console.error('Error fetching business terms', err),
       complete: () => {
@@ -97,6 +98,6 @@ export class BusinessTermComponent {
   }
 
   onCloseDialog(data: any) {
-    data ? this.dialogRef.close(data) : this.dialogRef.close();
+    this.dialogRef.close(data ? data : '');
   }
 }

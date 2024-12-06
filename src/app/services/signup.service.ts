@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SignupService {
-  private apiUrl = '  https://landingpage-ic9garoz9-umds-projects-76f3b139.vercel.app/api/users';
+  private apiUrl = 'https://imd-backend-signup.vercel.app/api/users';
 
   constructor(private _http: HttpClient) { }
 

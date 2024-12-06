@@ -7,8 +7,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class ComboboxService {
 
-  constructor(private http: HttpClient, private router: Router,) { }
-  api = "https://umdproject-2wpwcyy2y-umds-projects-76f3b139.vercel.app/api"
+  constructor(private http: HttpClient, private router: Router) { }
+  api = "https://imd-backend-code.vercel.app/api";
+  
   // saveBo_owner(data: any) {
   //   return this.http.post<any>(this.api + `/asset_type`, data);
   // }
@@ -17,31 +18,31 @@ export class ComboboxService {
   //   return this.http.get<any>(this.api + `/asset_type`);
   // }
 
-  getAsset_type() { 
+  getAsset_type() {
     return this.http.get<any>(this.api + `/asset_type`);
   }
 
-  saveAsset_type(data:any) { 
+  saveAsset_type(data:any) {
     return this.http.post<any>(this.api + `/asset_type`, data);
   }
 
-  updateAsset_type(id:number, data: any){
+  updateAsset_type(id:number, data: any) {
     return this.http.post<any>(this.api + `/asset_type`, data);
   }
-  deleteAsset_type(asset_type_code: string) {  // Use string for asset_type_code
-    return this.http.delete<any>(`${this.api}/asset_type/${asset_type_code}`);  // Pass asset_type_code in URL
+
+  deleteAsset_type(asset_type_code: string) {  
+    return this.http.delete<any>(`${this.api}/asset_type/${asset_type_code}`);  
   }
-  
-  
+
   getSensitivity_classification() {
     return this.http.get<any>(this.api + `/sensitivity_classification`);
   }
 
-  saveSensitivity_classification(data:any) { 
+  saveSensitivity_classification(data:any) {
     return this.http.post<any>(this.api + `/sensitivity_classification`, data);
   }
 
-  updateSensitivity_classification(id:number, data: any){
+  updateSensitivity_classification(id:number, data: any) {
     return this.http.post<any>(this.api + `/sensitivity_classification`, data);
   }
 
@@ -49,44 +50,61 @@ export class ComboboxService {
     return this.http.get<any>(this.api + `/sensitivity_reason_code`);
   }
 
-  saveSensitivity_reason_code(data:any) { 
+  saveSensitivity_reason_code(data:any) {
     return this.http.post<any>(this.api + `/sensitivity_reason_code`, data);
   }
 
-  updateSensitivity_reason_code(id:number, data: any){
+  updateSensitivity_reason_code(id:number, data: any) {
     return this.http.post<any>(this.api + `/sensitivity_reason_code`, data);
   }
- 
+
   getData_owner_roles() {
     return this.http.get<any>(this.api + `/data_owner_roles`);
   }
-  
+
   getSource_systems() {
-    return this.http.get<any>(`https://umdproject-jts6kjq65-umds-projects-76f3b139.vercel.app/api/source_systems`);
+    return this.http.get<any>(`https://imd-backend-code.vercel.app/api/source_systems`);
   }
 
   getCountry_codes() {
-    return this.http.get<any>(`https://umdproject-jts6kjq65-umds-projects-76f3b139.vercel.app/api/country_codes`);
+    return this.http.get<any>(`https://imd-backend-code.vercel.app/api/country_codes`);
   }
 
-  getOperators(){
-    return this.http.get<any>(`https://business-mappings-fpicy16b0-umds-projects-76f3b139.vercel.app/api/operators`);
+  getOperators() {
+    return this.http.get<any>(`https://imd-backend-code.vercel.app/api/operators`);
   }
-  // Ref Code Schemes Methods
+
   // Ref Code Schemes Methods
   getRefCodes() {
-    return this.http.get<any>(`https://refcodes-1mvaooi8y-umds-projects-76f3b139.vercel.app/api/refcodes`);
+    return this.http.get<any>(`https://imd-backend-code.vercel.app/api/ref_codes`);
   }
 
   saveRefCode(data: { ref_code: string; ref_code_description: string }) {
-    return this.http.post<any>(`https://refcodes-1mvaooi8y-umds-projects-76f3b139.vercel.app/api/refcodes`, data);
+    return this.http.post<any>(`https://imd-backend-code.vercel.app/api/ref_codes`, data);
   }
 
   updateRefCode(ref_code: string, data: { ref_code_description: string }) {
-    return this.http.put<any>(`https://refcodes-1mvaooi8y-umds-projects-76f3b139.vercel.app/api/refcodes/${ref_code}`, data);
+    return this.http.put<any>(`https://imd-backend-code.vercel.app/api/ref_codes/${ref_code}`, data);
   }
 
   deleteRefCode(ref_code: string) {
-    return this.http.delete<any>(`https://refcodes-1mvaooi8y-umds-projects-76f3b139.vercel.app/api/refcodes/${ref_code}`);
+    return this.http.delete<any>(`https://imd-backend-code.vercel.app/api/ref_codes/${ref_code}`);
+  }
+
+  // BO Implementation Methods
+  getBoImplementations() { 
+    return this.http.get<any>(`${this.api}/bo_implementation`); 
+  }
+
+  saveBoImplementation(data: any) { 
+    return this.http.post<any>(`${this.api}/bo_implementation`, data); 
+  }
+
+  updateBoImplementation(id: number, data: any) { 
+    return this.http.put<any>(`${this.api}/bo_implementation/${id}`, data); 
+  }
+
+  deleteBoImplementation(id: number) { 
+    return this.http.delete<any>(`${this.api}/bo_implementation/${id}`); 
   }
 }

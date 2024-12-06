@@ -11,6 +11,7 @@ import { filterAutocomplete } from 'src/app/utils/autocomplete';
 import { LinagePopUpComponent } from './linage-pop-up/linage-pop-up.component';
 import { MappingService } from 'src/app/services/mapping.service';
 import { swalError, swalSuccess } from 'src/app/utils/alert';
+import {BusinessTermService} from "../../../services/business-term.service";
 
 @Component({
   selector: 'app-linage',
@@ -28,6 +29,7 @@ export class LinageComponent {
     private businessService: BusinessService,
     private comboboxService: ComboboxService,
     private schemasService: SchemasService,
+    private businessTermService: BusinessTermService,
     private mappingService: MappingService,
     private readonly changeDetectorRef: ChangeDetectorRef,
   ) {
@@ -37,7 +39,7 @@ export class LinageComponent {
   }
 
   autocompleteFill() {
-    this.businessService.getBusiness_term().subscribe({
+    this.businessTermService.getBo_term().subscribe({
       next: res => {
 
         res.data.map((dt: any) => {
@@ -102,7 +104,7 @@ export class LinageComponent {
   ngOnInit() {
     this.comboboxService.getOperators().subscribe({
       next: res => {
-        res.map((dt: any) => this.operators.push({ key: dt.operator, value: dt.operator }))
+        res.data.map((dt: any) => this.operators.push({ key: dt.operator, value: dt.operator }))
       }
     })
   }
@@ -144,7 +146,7 @@ export class LinageComponent {
       error: err => swalError("Duplicate entry or something went wrong in database!")
     })
   }
- 
+
   popUp_dialogRef?: MatDialogRef<LinagePopUpComponent>;
   openTermPopUp(popUpType: string) {
     this.popUp_dialogRef = this.dialog.open(LinagePopUpComponent,
@@ -161,7 +163,7 @@ export class LinageComponent {
     this.popUp_dialogRef.afterClosed().subscribe({
       next: res => {
         res ? (
-          this.selectedRow = res, 
+          this.selectedRow = res,
           this.UpdateData = res,
           this.generateForm()
         )
@@ -184,7 +186,7 @@ export class LinageComponent {
         }
       );
 
-    
+
     }
   }
 

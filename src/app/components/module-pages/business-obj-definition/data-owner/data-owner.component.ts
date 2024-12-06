@@ -62,6 +62,7 @@ export class DataOwnerComponent {
     if (!this.isActiveBusinessObjectDefinition(index)) {
       row != this.highlightRowDataBusinessObjectDefinition ? this.highlightRowDataBusinessObjectDefinition = row : this.highlightRowDataBusinessObjectDefinition = '';
       this.activeBusinessObjectDefinition = index;
+      this.onCloseDialog(row)
     }
     else {
       this.activeBusinessObjectDefinition = -1;
@@ -69,49 +70,22 @@ export class DataOwnerComponent {
     }
   }
 
-  handleDeleteBusinessObjectDefinition(id: number) {
-    Swal.fire({
-      text: 'Do you want to delete data?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#266AB8',
-      cancelButtonColor: 'red',
-      confirmButtonText: 'Yes, delete',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.businessService.deleteBo_owner(id).subscribe({
-          next: res => {
-            swalSuccess('Deleted successfully!');
-            this.applyFilter();
-          },
-          error: err => console.log(err)
-        });
-      }
-    })
-  }
-
-  handleUpdate(data: any) {
-    this.onCloseDialog(data)
-  }
-
   search: any;
   applyFilter() {
     this.businessService.getBo_ownerRelatedTable(this.data.business_id).subscribe({
       next: res => {
         res.data.length ? (this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>(res.data),
-          this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition) : swalInfo("Have no data for this business object!"), this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>([])
+          this.dataSourceBusinessObjectDefinition.paginator = this.commonPagBusinessObjectDefinition) : (swalInfo("Have no data for this business object!"), this.dataSourceBusinessObjectDefinition = new MatTableDataSource<any>([]))
       },
       error: err => console.error('Error fetching business terms', err),
       complete: () => {
         this.dataSourceBusinessObjectDefinition.filter = this.search;
       }
     });
-
   }
 
 
   onCloseDialog(data: any) {
-    data ? this.dialogRef.close(data) : this.dialogRef.close();
+    this.dialogRef.close(data ? data : '');
   }
 }

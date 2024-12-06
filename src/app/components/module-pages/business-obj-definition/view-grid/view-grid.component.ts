@@ -71,11 +71,12 @@ export class ViewGridComponent {
     if (!this.isActiveBusinessObjectDefinition(index)) {
       this.highlightRowDataBusinessObjectDefinition = row;
       this.activeBusinessObjectDefinition = index;
-      this.onDataChange(); // Mark that changes were made
+      // this.onDataChange(); // Mark that changes were made
+      this.onCloseDialog(row);
     } else {
       this.activeBusinessObjectDefinition = -1;
       this.highlightRowDataBusinessObjectDefinition = '';
-      this.resetChanges(); // Reset changes when no row is selected
+      // this.resetChanges(); // Reset changes when no row is selected
     }
   }
 
@@ -101,16 +102,16 @@ export class ViewGridComponent {
     });
   }
 
-  handleUpdate(data: any) {
-    if (this.hasChanges) {
-      this.onCloseDialog(data);
-    } else {
-      Swal.fire('No changes detected', 'Please make a change before updating.', 'info');
-    }
-  }
+  // handleUpdate(data: any) {
+  //   if (this.hasChanges) {
+  //     this.onCloseDialog(data);
+  //   } else {
+  //     Swal.fire('No changes detected', 'Please make a change before updating.', 'info');
+  //   }
+  // }
 
-  onCloseDialog(data: any = null) {
-    this.dialogRef.close(data);
+  onCloseDialog(data: any) {
+     this.dialogRef.close(data ? data : '');
   }
 
   applyFilter() {

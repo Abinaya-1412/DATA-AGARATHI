@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class SchemasService {
   constructor(private http: HttpClient, private router: Router) { }
 
-  api = "https://refcodeapi-phomr0098-umds-projects-76f3b139.vercel.app/api/ref_code_view/filter?scheme_code=";
+  api = "https://imd-backend-refcodeview.vercel.app/api/ref_code_view/filter?scheme_code=";
 
   getAssetsTypes() {
     return this.http.get<any>(this.api + `AssetType`);
@@ -20,5 +20,17 @@ export class SchemasService {
 
   getSensitivitys() {
     return this.http.get<any>(this.api + `Sensitivity`);
+  }
+  getRefreshFrequency() {
+    return this.http.get<any>(this.api + `Refresh`); 
+  }
+  getDataCaptureModes() {
+    return this.http.get<any>(this.api + `DataCaptureModes`); 
+  }
+  getHistoryTypes(){
+    return this.http.get<any>(this.api + `HistoryTypes`); 
+  }
+  getSourcingModes(){
+    return this.http.get<any>(this.api + `SourcingMode`); 
   }
 }

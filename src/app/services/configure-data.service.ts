@@ -57,7 +57,7 @@ interface ApiResponse<T> {
 export class ConfigureDataService {
  
 
-  private baseUrl = 'https://umdproject-2wpwcyy2y-umds-projects-76f3b139.vercel.app/api';
+  private baseUrl = 'https://imd-backend-code.vercel.app/api';
 
   private httpOptions = {
     headers: new HttpHeaders({

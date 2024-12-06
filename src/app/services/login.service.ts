@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = '  https://landingpage-ic9garoz9-umds-projects-76f3b139.vercel.app/api/users';
+  private apiUrl = 'https://imd-backend-signup.vercel.app/api/users';
   constructor(private router: Router, private http: HttpClient) {}
 
   // login API call
