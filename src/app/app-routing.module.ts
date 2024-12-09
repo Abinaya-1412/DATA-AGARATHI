@@ -29,6 +29,8 @@ import { BusinessObjectStructureComponent } from './components/module-pages/busi
 import { AuthGuard } from './guards/auth.guard';
 import { BusinessTermComponent } from './components/module-pages/business-term/business-term.component';
 import { LinageComponent } from './components/module-pages/linage/linage.component';
+import { ImportDataComponent } from './components/module-pages/import-data/import-data.component';
+
 
 const routes: Routes = [ 
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -39,7 +41,8 @@ const routes: Routes = [
       { path: 'business', component: BusinessObjDefinitionComponent },
       { path: 'structure', component: BusinessObjectStructureComponent },
       { path: 'businessTerm', component: BusinessTermComponent },
-      { path: 'mapping', component: LinageComponent }
+      { path: 'mapping', component: LinageComponent },
+      { path: 'import-data', component: ImportDataComponent }
     ],
     // canActivate: [AuthGuard] 
   },

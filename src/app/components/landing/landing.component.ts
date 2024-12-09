@@ -1,4 +1,3 @@
-
 import { AfterViewInit, ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { ParticlesConfig } from './particles-config';
@@ -22,6 +21,7 @@ declare var particlesJS: any;
 })
 
 export class LandingComponent implements OnInit, AfterViewInit {
+
   signupError: string = '';
   loginError: string = '';
   emailErrorMessage: string = ''; 
@@ -749,7 +749,7 @@ private checkIfNewDataOwnerRole(code: string): void {
            // Open the modal saved before login
         if (this.redirectModalType) {
           this.openModal(this.redirectModalType);
-          this.redirectModalType = null; // Clear after opening
+          this.redirectModalType = null; 
         }
 
         // Navigate to the redirect URL if set
@@ -809,6 +809,25 @@ private checkIfNewDataOwnerRole(code: string): void {
         this.router.navigate(['/pages/businessTerm']);
       }
 }
+onBusinessMappingsClick(){
+  if (!this.loginService.isLoggedIn()) {
+    this.redirectUrl = '/pages/mapping';
+    // Open the login modal
+    this.openLoginModal();
+  } else {
+    this.router.navigate(['/pages/mapping']);
+  }
+}
+onimportdataClick() {
+  if (!this.loginService.isLoggedIn()) {
+    this.redirectUrl = '/pages/importData'; // Ensure this matches the routing path
+    this.openLoginModal(); // Open login modal if not logged in
+  } else {
+    this.router.navigate(['/pages/importData']); // Navigate to the ImportDataComponent
+  }
+}
+
+
 onConfigureDataClick(modalType: string) {
   if (!this.loginService.isLoggedIn()) {
     this.redirectModalType  = modalType;

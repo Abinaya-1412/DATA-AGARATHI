@@ -14,6 +14,7 @@ import { DataOwnerComponent } from './business-obj-definition/data-owner/data-ow
 import { ImpleDataComponent } from './business-obj-definition/imple-data/imple-data.component';
 import { BusinessRuleComponent } from './business-obj-definition/business-rule/business-rule.component';
 import { BusinessTermComponent } from './business-obj-definition/business-term/business-term.component';
+import { ImportDataComponent } from './import-data/import-data.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { BusinessTermComponent } from './business-obj-definition/business-term/b
     ImpleDataComponent,
     BusinessRuleComponent,
     BusinessTermComponent,
+    ImportDataComponent,
     // NewBONameComponent
   ],
   imports: [

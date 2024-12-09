@@ -58,6 +58,9 @@
 
                   <span class="cursor-pointer" (click)="onBusinessStructureClick()">Business Object Structure</span>
                 </li>
+                <li class="w-fit px-4 py-2 cursor-pointer">
+                  <span class="cursor-pointer" (click)="onBusinessMappingsClick()">Business Mappings</span>
+                </li>
               </ul>
             </li>
             <li class="w-fit px-4 py-2 cursor-pointer" (click)="scroll(operationalMetadata)">
@@ -89,9 +92,15 @@
                 </li>
                 <li class="w-fit px-4 py-2 cursor-pointer">
                   <a (click)="onConfigureDataClick('dataOwnerRoles')"
+
                     class="cursor-pointer text-[#e1193e] no-underline">Data Owner Roles</a>
                 </li>
               </ul>
+            </li>
+            <!-- import data menu -->
+            <li class="w-fit px-4 py-2 cursor-pointer">
+              <a (click)="onimportdataClick()"
+                class="cursor-pointer text-[#e1193e] no-underline">Import Data</a>
             </li>
           </ul>
         </li>
