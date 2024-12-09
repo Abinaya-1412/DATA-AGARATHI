@@ -33,4 +33,7 @@ export class SchemasService {
   getSourcingModes(){
     return this.http.get<any>(this.api + `SourcingMode`); 
   }
+  getTreatmentTypes(){
+    return this.http.get<any>(this.api + `TreatmentTypes`); 
+  }
 }

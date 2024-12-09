@@ -109,6 +109,9 @@ export class BusinessObjDefinitionComponent {
       value: 'Continue'
     },
   ];
+  
+
+  
 
   clients: any[] = [
     {
@@ -301,6 +304,15 @@ export class BusinessObjDefinitionComponent {
       },
       error: err => console.log(err)
     });
+    this.schemasService.getTreatmentTypes().subscribe({
+      next: res => {
+        res.map((dt: any) => {
+          this.treatmentTypes.push({ key: dt.ref_code, value: dt.ref_code });
+        });
+      },
+      error: err => console.log(err)
+    });
+    
     
     
     this.dataOwners = [
